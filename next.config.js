@@ -1,7 +1,14 @@
 /** @type {import("next").NextConfig} */
-module.exports = {
+
+const withBundleAnalyzer = require("@next/bundle-analyzer")( // eslint-disable-line @typescript-eslint/no-var-requires
+   { enabled: process.env.ANALYZE === "true" })
+
+module.exports = withBundleAnalyzer({
    reactStrictMode: true,
-   webpack: (config, { dev, isServer }) => { // eslint-disable-line @typescript-eslint/explicit-function-return-type
+   webpack: (config, { // eslint-disable-line @typescript-eslint/explicit-function-return-type
+      dev,
+      isServer
+   }) => {
       if (!dev && !isServer) {
          Object.assign(config.resolve.alias, {
             react: "preact/compat",
@@ -11,4 +18,4 @@ module.exports = {
       }
       return config
    }
-}
+})
