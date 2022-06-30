@@ -2,7 +2,6 @@ import React from "react"
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt"
-import { Typography } from "@mui/material"
 import Avatar from "@mui/material/Avatar"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"

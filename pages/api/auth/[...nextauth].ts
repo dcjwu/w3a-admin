@@ -33,8 +33,8 @@ export default NextAuth({
    pages: { signIn: "/auth/login", error: "auth/login" },
    session: { strategy: "jwt" },
    callbacks: {
-      async redirect({ url, baseUrl }) {
-         return baseUrl
+      async redirect(data) {
+         return data.baseUrl
       },
       async session({ session }): Promise<Session> {
          return session
