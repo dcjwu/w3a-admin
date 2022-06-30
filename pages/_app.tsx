@@ -9,8 +9,14 @@ const MyApp = ({
 
    return <>
       <Head>
-         <meta content="initial-scale=1, width=device-width" name="viewport"/>
-         <title>Web3App.agency</title>
+         <title>Web3App Agency | High Quality Blockchain Development</title>
+         <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+               name="viewport"/>
+         <meta charSet="utf-8"/>
+         <meta content="en" httpEquiv="content-language"/>
+         <meta content="Web3App Agency is a custom software development company that delivers top-level solutions"
+               name="description"/>
+         <link href="/favicon.ico" rel="icon"/>
       </Head>
       <SessionProvider session={pageProps.session}>
          <Component {...pageProps} />
