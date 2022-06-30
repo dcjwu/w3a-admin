@@ -1,5 +1,6 @@
 import React from "react"
 
+import { Box, Container } from "@mui/material"
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
 import { NextPage } from "next"
@@ -13,9 +14,7 @@ const LockOutlinedIcon = dynamic(() => import("@mui/icons-material/LockOutlined"
 const ThumbDownOffAltIcon = dynamic(() => import("@mui/icons-material/ThumbDownOffAlt"))
 const TextField = dynamic(() => import("@mui/material/TextField"))
 const Avatar = dynamic(() => import("@mui/material/Avatar"))
-const Box = dynamic(() => import("@mui/material/Box"))
 const Button = dynamic(() => import("@mui/material/Button"))
-const Container = dynamic(() => import("@mui/material/Container"))
 
 const Login: NextPage = (): JSX.Element => {
 
