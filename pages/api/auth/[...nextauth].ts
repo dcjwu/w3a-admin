@@ -1,17 +1,17 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { PrismaClient, User } from "@prisma/client"
+import { User } from "@prisma/client"
 import NextAuth, { Session } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-const bcrypt = require("bcrypt") // eslint-disable-line @typescript-eslint/no-var-requires
+import { prisma } from "@lib/prisma"
 
-const prisma = new PrismaClient()
+const bcrypt = require("bcrypt") // eslint-disable-line @typescript-eslint/no-var-requires
 
 export default NextAuth({
    adapter: PrismaAdapter(prisma),
    providers: [
       CredentialsProvider({
-         name: "Email and password",
+         name: "emailAndPassword",
          credentials: {
             email: { label: "Email", type: "email", "placeholder": "email@email.com" },
             password: { label: "Password", type: "password" }
@@ -30,11 +30,12 @@ export default NextAuth({
          }
       })
    ],
+   pages: { signIn: "/auth/login", error: "auth/login" },
    session: { strategy: "jwt" },
    callbacks: {
-      // async redirect({ url, baseUrl }) {
-      //    return baseUrl
-      // },
+      async redirect(data) {
+         return data.baseUrl
+      },
       async session({ session }): Promise<Session> {
          return session
       },
