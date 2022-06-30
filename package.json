@@ -1,12 +1,20 @@
 {
   "name": "website_web3app_v2",
-  "version": "0.1.0",
+  "author": "AK & IA",
+  "version": "1.0.0",
   "private": true,
+  "homepage": "https://github.com/dcjwu/website-web3appAgencyV2",
+  "engines": {
+    "node": ">=16.14.0",
+    "yarn": ">=1.22.18",
+    "npm": "please-use-yarn"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -28,6 +36,7 @@
     "@types/react-dom": "18.0.5",
     "eslint": "8.18.0",
     "eslint-config-next": "12.2.0",
+    "husky": "^8.0.1",
     "prisma": "^4.0.0",
     "ts-node": "^10.8.1",
     "typescript": "4.7.4"
