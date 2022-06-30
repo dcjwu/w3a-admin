@@ -1,8 +1,8 @@
 import React from "react"
 
-import { Box, Container } from "@mui/material"
+import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
-import { ThemeProvider } from "@mui/material/styles"
+import { ThemeProviderProps } from "@mui/system" // eslint-disable-line import/named
 import { NextPage } from "next"
 import { signIn } from "next-auth/react"
 import dynamic from "next/dynamic"
@@ -15,6 +15,8 @@ const ThumbDownOffAltIcon = dynamic(() => import("@mui/icons-material/ThumbDownO
 const TextField = dynamic(() => import("@mui/material/TextField"))
 const Avatar = dynamic(() => import("@mui/material/Avatar"))
 const Button = dynamic(() => import("@mui/material/Button"))
+const Container = dynamic(() => import("@mui/material/Container"))
+const ThemeProvider = dynamic<ThemeProviderProps>(() => import("@mui/material/styles").then(module => module.ThemeProvider))
 
 const Login: NextPage = (): JSX.Element => {
 
@@ -31,7 +33,7 @@ const Login: NextPage = (): JSX.Element => {
 
    return (
       <ThemeProvider theme={theme}>
-         <Container component="main" maxWidth="xs">
+         <Container maxWidth="xs">
             <CssBaseline/>
             <Box sx={{
                marginTop: 8,
