@@ -16,6 +16,15 @@
     "incremental": true,
     "sourceMap": true,
     "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/common/components/*"],
+      "@styles/*": ["src/common/styles/*"],
+      "@images/*": ["src/common/images/*"],
+      "@types/*": ["src/common/types/*"],
+      "@utils/*": ["src/common/utils/*"],
+      "@lib/*": ["src/lib/*"],
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

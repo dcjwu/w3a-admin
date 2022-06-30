@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { PrismaClient, User } from "@prisma/client"
-import NextAuth from "next-auth"
+import NextAuth, { Session } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 const bcrypt = require("bcrypt") // eslint-disable-line @typescript-eslint/no-var-requires
@@ -35,7 +35,7 @@ export default NextAuth({
       // async redirect({ url, baseUrl }) {
       //    return baseUrl
       // },
-      async session({ session }) {
+      async session({ session }): Promise<Session> {
          return session
       },
    },
