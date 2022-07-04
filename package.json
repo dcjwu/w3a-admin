@@ -14,7 +14,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -22,19 +23,16 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.6",
     "@next-auth/prisma-adapter": "^1.0.3",
+    "@next/bundle-analyzer": "^12.2.0",
     "@prisma/client": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cross-env": "^7.0.3",
-    "next": "^12.2.0",
+    "next": "12.2.0",
     "next-auth": "^4.7.0",
-    "next-plugin-preact": "^3.0.7",
-    "preact": "^10.8.2",
-    "preact-render-to-string": "^5.2.0",
-    "react": "npm:@preact/compat",
-    "react-dom": "npm:@preact/compat",
-    "react-ssr-prepass": "npm:preact-ssr-prepass",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "sass": "^1.53.0"
   },
   "devDependencies": {
