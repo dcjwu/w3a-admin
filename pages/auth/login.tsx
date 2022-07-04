@@ -1,8 +1,9 @@
 import React from "react"
 
 import Box from "@mui/material/Box"
+import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
-import { ThemeProviderProps } from "@mui/system" // eslint-disable-line import/named
+import { ThemeProvider } from "@mui/material/styles"
 import { NextPage } from "next"
 import { signIn } from "next-auth/react"
 import dynamic from "next/dynamic"
@@ -12,10 +13,8 @@ import { theme } from "@lib/admin/theme"
 
 const Avatar = dynamic(() => import("@mui/material/Avatar"))
 const Button = dynamic(() => import("@mui/material/Button"))
-const Container = dynamic(() => import("@mui/material/Container"))
 const LockOutlinedIcon = dynamic(() => import("@mui/icons-material/LockOutlined"))
 const TextField = dynamic(() => import("@mui/material/TextField"))
-const ThemeProvider = dynamic<ThemeProviderProps>(() => import("@mui/material/styles").then(module => module.ThemeProvider))
 const ThumbDownOffAltIcon = dynamic(() => import("@mui/icons-material/ThumbDownOffAlt"))
 
 const Login: NextPage = (): JSX.Element => {
@@ -49,18 +48,6 @@ const Login: NextPage = (): JSX.Element => {
                   justifyContent: "center",
                   gap: "5px",
                }}>
-                  <Avatar sx={{
-                     m: 1,
-                     bgcolor: "error.main"
-                  }}>
-                     <ThumbDownOffAltIcon/>
-                  </Avatar>
-                  <Avatar sx={{
-                     m: 1,
-                     bgcolor: "error.main"
-                  }}>
-                     <ThumbDownOffAltIcon/>
-                  </Avatar>
                   <Avatar sx={{
                      m: 1,
                      bgcolor: "error.main"

@@ -1,20 +1,21 @@
 import React from "react"
 
 import Box from "@mui/material/Box"
-import { ThemeProviderProps } from "@mui/system" // eslint-disable-line import/named
+import Container from "@mui/material/Container"
+import { ThemeProvider } from "@mui/material/styles"
 import { NextPage } from "next"
 import { signOut, useSession } from "next-auth/react"
 import dynamic from "next/dynamic"
+import { useRouter } from "next/router"
 
 import { theme } from "@lib/admin/theme"
 
 const Button = dynamic(() => import("@mui/material/Button"))
-const Container = dynamic(() => import("@mui/material/Container"))
 const Paragraph = dynamic(() => import("@mui/material/Typography"))
-const ThemeProvider = dynamic<ThemeProviderProps>(() => import("@mui/material/styles").then(module => module.ThemeProvider))
 
 const Logout: NextPage = (): JSX.Element => {
 
+   const router = useRouter()
    const { data: session } = useSession()
 
    return (
@@ -27,17 +28,26 @@ const Logout: NextPage = (): JSX.Element => {
                alignItems: "center",
                justifyContent: "center"
             }}>
-               <Paragraph paragraph align="center" color="text.main"
+               <Paragraph align="center" color="text.main"
                           variant="subtitle1">
                   Are you sure, Mr. {session?.user?.name}?
                </Paragraph>
                <Button fullWidth
                        color="secondary"
+                       sx={{ margin: "15px 0" }}
                        type="button"
                        variant="contained"
                        onClick={(): Promise<void> => signOut()}
                >
                   Logout
+               </Button>
+               <Button fullWidth
+                       color="primary"
+                       type="button"
+                       variant="contained"
+                       onClick={(): Promise<boolean> => router.push("/admin")}
+               >
+                  Not sure
                </Button>
             </Box>
          </Container>
