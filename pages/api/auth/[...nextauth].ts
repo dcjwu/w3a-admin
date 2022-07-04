@@ -30,11 +30,11 @@ export default NextAuth({
          }
       })
    ],
-   pages: { signIn: "/auth/login", error: "auth/login" },
+   pages: { signIn: "/auth/login", error: "auth/login", signOut: "/auth/logout" },
    session: { strategy: "jwt" },
    callbacks: {
       async redirect(data) {
-         return data.baseUrl
+         return `${data.baseUrl}/admin`
       },
       async session({ session }): Promise<Session> {
          return session

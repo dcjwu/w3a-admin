@@ -1,20 +1,19 @@
 import type { NextPage } from "next"
-import { useSession } from "next-auth/react"
+import Link from "next/link"
 
 const Home: NextPage = () => {
 
-   const {
-      data,
-      status
-   } = useSession()
-
    return (
-      <>
-         {status === "authenticated"
-            ? <h1>Auth :),&nbsp;{data?.user?.name}</h1>
-            : <h1>Not auth :(</h1>}
-      </>
-
+      <div>
+         <h1>Web3App Public website</h1>
+         <div>
+            <Link href="/auth/login">
+               <a>
+                  <button>Login</button>
+               </a>
+            </Link>
+         </div>
+      </div>
    )
 }
 
