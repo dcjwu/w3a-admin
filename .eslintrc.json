@@ -34,6 +34,15 @@
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/explicit-function-return-type": 2,
+    "import/no-anonymous-default-export": ["error", {
+      "allowArray": false,
+      "allowArrowFunction": true,
+      "allowAnonymousClass": false,
+      "allowAnonymousFunction": false,
+      "allowCallExpression": true, // The true value here is for backward compatibility
+      "allowLiteral": false,
+      "allowObject": false
+    }],
     "indent": [
       "error",
       3,
