@@ -1,5 +1,6 @@
 import React from "react"
 
+import { Typography } from "@mui/material"
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -35,19 +36,26 @@ const Login: NextPage = (): JSX.Element => {
          <Container maxWidth="xs">
             <CssBaseline/>
             <Box sx={{
-               marginTop: 8,
+               marginTop: 15,
                display: "flex",
                flexDirection: "column",
                alignItems: "center",
             }}
             >
                {query.error && <Box sx={{
+                  position: "absolute",
+                  top: 10,
+                  left: "50%",
+                  transform: "translateX(-50%)",
                   display: "flex",
                   alignItems: "center",
                   width: "100%",
                   justifyContent: "center",
                   gap: "5px",
                }}>
+                  <Typography color="error" variant="h5">
+                     ERROR
+                  </Typography>
                   <Avatar sx={{
                      m: 1,
                      bgcolor: "error.main"
