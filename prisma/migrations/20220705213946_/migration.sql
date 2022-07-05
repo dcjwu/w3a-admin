@@ -29,7 +29,7 @@ CREATE TABLE "sessions" (
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "name" TEXT,
+    "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "image" TEXT,
@@ -44,6 +44,20 @@ CREATE TABLE "verificationTokens" (
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "messages" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "topic" TEXT NOT NULL,
+    "text" TEXT NOT NULL,
+    "ipAddress" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "messages_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
