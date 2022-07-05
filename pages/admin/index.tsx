@@ -1,5 +1,6 @@
 import React from "react"
 
+import { Switch } from "@mui/material"
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
@@ -13,31 +14,94 @@ import { theme } from "@lib/admin/theme"
 const Button = dynamic(() => import("@mui/material/Button"))
 
 const AdminPage: NextPage = (): JSX.Element => {
-   
+
+   const [isDarkTheme, setIsDarkTheme] = React.useState(false)
+
+   const handleThemeChange = (): void => {
+      setIsDarkTheme(prevState => !prevState)
+   }
+
    return (
       <ThemeProvider theme={theme}>
          <Box sx={{
             width: "100%",
             padding: "16px 0",
-            backgroundColor: "secondary.main"
+            backgroundColor: "primary.main"
          }}>
             <CssBaseline/>
             <Container maxWidth="xl">
                <Box sx={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "flex-end"
+                  justifyContent: "space-between"
                }}>
-                  <Link href="auth/logout">
-                     <a>
-                        <Button color="primary"
-                                type="button"
-                                variant="contained"
-                        >
-                           Logout
-                        </Button>
-                     </a>
-                  </Link>
+                  <Box sx={{
+                     display: "flex",
+                     alignItems: "center",
+                     gap: "20px"
+                  }}>
+                     <Link href="admin/database">
+                        <a style={{ textDecoration: "none" }}>
+                           <Button color="secondary"
+                                   type="button"
+                                   variant="contained"
+                           >
+                              Database
+                           </Button>
+                        </a>
+                     </Link>
+                     <Link href="admin/messages">
+                        <a style={{ textDecoration: "none" }}>
+                           <Button color="secondary"
+                                   type="button"
+                                   variant="contained"
+                           >
+                              Messages
+                           </Button>
+                        </a>
+                     </Link>
+                     <Link href="admin/analytics">
+                        <a style={{ textDecoration: "none" }}>
+                           <Button color="secondary"
+                                   type="button"
+                                   variant="contained"
+                           >
+                              Analytics
+                           </Button>
+                        </a>
+                     </Link>
+                     <Link href="admin/logs">
+                        <a style={{ textDecoration: "none" }}>
+                           <Button color="secondary"
+                                   type="button"
+                                   variant="contained"
+                           >
+                              Logs
+                           </Button>
+                        </a>
+                     </Link>
+                  </Box>
+                  <Box sx={{
+                     display: "flex",
+                     alignItems: "center",
+                     gap: "20px"
+                  }}>
+                     <Switch checked={isDarkTheme}
+                             color="default"
+                             inputProps={{ "aria-label": "controlled" }}
+                             onChange={handleThemeChange}
+                     />
+                     <Link href="auth/logout">
+                        <a style={{ textDecoration: "none" }}>
+                           <Button color="info"
+                                   type="button"
+                                   variant="contained"
+                           >
+                              Logout
+                           </Button>
+                        </a>
+                     </Link>
+                  </Box>
                </Box>
             </Container>
          </Box>
