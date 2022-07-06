@@ -24,7 +24,7 @@
       "@types/*": ["src/common/types/*"],
       "@utils/*": ["src/common/utils/*"],
       "@lib/*": ["src/lib/*"],
-      "@api/*": ["pages/api/*"]
+      "@api/*": ["pages/api/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
