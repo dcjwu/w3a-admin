@@ -3,12 +3,13 @@ import React from "react"
 import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import { ThemeProvider } from "@mui/material/styles"
-import { NextPage } from "next"
 import { signOut, useSession } from "next-auth/react"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 
 import { theme } from "@lib/admin/theme"
+
+import type { NextPage } from "next"
 
 const Button = dynamic(() => import("@mui/material/Button"))
 const Paragraph = dynamic(() => import("@mui/material/Typography"))

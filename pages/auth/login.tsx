@@ -5,12 +5,13 @@ import Box from "@mui/material/Box"
 import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
-import { NextPage } from "next"
 import { signIn } from "next-auth/react"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 
 import { theme } from "@lib/admin/theme"
+
+import type { NextPage } from "next"
 
 const Avatar = dynamic(() => import("@mui/material/Avatar"))
 const Button = dynamic(() => import("@mui/material/Button"))
