@@ -80,4 +80,15 @@ model Message {
    @@map("messages")
 }
 
+model Service {
+    id                      String      @id @default(uuid())
+    name                    String
+    description             String
+
+    createdAt               DateTime    @default(now())
+    UpdatedAt               DateTime    @updatedAt
+
+   @@map("services")
+}
+
 
