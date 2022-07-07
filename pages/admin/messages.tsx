@@ -1,14 +1,35 @@
-import Link from "next/link"
+import axios from "axios"
 
-import type { NextPage } from "next"
+import AdminView from "@components/admin/AdminView"
 
-const Messages: NextPage = (): JSX.Element => {
+import type { MessagesPageType } from "@customTypes/admin/pages"
+import type { GetServerSideProps, NextPage } from "next"
+
+const MessagesPage: NextPage<MessagesPageType> = ({
+   data,
+   serverErrorMessage
+}): JSX.Element => {
+
+   console.log(data)
 
    return (
-      <div>
-         
-      </div>
+      <AdminView serverError={serverErrorMessage}>
+         Messages Page
+      </AdminView>
    )
 }
 
-export default Messages
+export default MessagesPage
+
+export const getServerSideProps: GetServerSideProps = async context => {
+   const { cookie } = context.req.headers
+
+   try {
+      const messages = await axios.get(`${process.env.URL}/api/messages`,
+         { headers: { Cookie: cookie || "" } })
+      const { data } = messages
+      return { props: { data } }
+   } catch (err) {
+      return { props: { serverErrorMessage: err.response.data.message } }
+   }
+}
