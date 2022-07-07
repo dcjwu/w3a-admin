@@ -1,13 +1,10 @@
 import Joi from "joi"
-import { NextApiRequest, NextApiResponse } from "next"
-import { getToken } from "next-auth/jwt"
 import { createRouter } from "next-connect"
 
-
-import { validationMiddleware } from "@lib/admin/middlewares"
+import { authMiddleware, validationMiddleware } from "@lib/admin/middlewares"
 import { prisma } from "@lib/prisma"
 
-const secret = process.env.NEXTAUTH_SECRET
+import type { NextApiRequest, NextApiResponse } from "next"
 
 const schema = Joi.object({
    name: Joi.string().required(),
@@ -19,22 +16,6 @@ const schema = Joi.object({
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
 router
-   .get(async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-      try {
-         const token = await getToken({
-            req,
-            secret
-         })
-         if (!token) return res.status(401).json({ message: "Unauthorized" })
-
-         const messages = await prisma.message.findMany({ orderBy: { createdAt: "desc" } })
-
-         return res.status(200).json({ messages })
-      } catch (err) {
-         console.log(err)
-         return res.status(400).json({ message: err })
-      }
-   })
    .post(validationMiddleware({ body: schema }), async (req: NextApiRequest, res: NextApiResponse) => {
       try {
          const incomingMessage = req.body
@@ -55,6 +36,20 @@ router
          return res.status(400).json({ message: err })
       }
    })
+
+   .use(authMiddleware)
+
+   .get(async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+      try {
+         const messages = await prisma.message.findMany({ orderBy: { createdAt: "desc" } })
+
+         return res.status(200).json(messages)
+      } catch (err) {
+         console.log(err)
+         return res.status(400).json({ message: err })
+      }
+   })
+
 
 export default router.handler({
    onError: (err: unknown, req: NextApiRequest, res: NextApiResponse) => {
