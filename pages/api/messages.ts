@@ -27,7 +27,7 @@ router
                topic: incomingMessage.topic,
                text: incomingMessage.text,
                ipAddress: req.socket.remoteAddress
-            }
+            },
          })
 
          return res.status(200).json({ message: "Message sent" })
@@ -41,7 +41,17 @@ router
 
    .get(async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const messages = await prisma.message.findMany({ orderBy: { createdAt: "desc" } })
+         const messages = await prisma.message.findMany({
+            orderBy: { createdAt: "desc" },
+            select: {
+               name: true,
+               email: true,
+               topic: true,
+               text: true,
+               ipAddress: true,
+               createdAt: true
+            }
+         })
 
          return res.status(200).json(messages)
       } catch (err) {
