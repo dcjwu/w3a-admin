@@ -17,11 +17,12 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
+    "useUnknownInCatchVariables": false,
     "paths": {
       "@components/*": ["src/common/components/*"],
       "@styles/*": ["src/common/styles/*"],
       "@images/*": ["src/common/images/*"],
-      "@types/*": ["src/common/types/*"],
+      "@customTypes/*": ["src/common/types/*"],
       "@utils/*": ["src/common/utils/*"],
       "@lib/*": ["src/lib/*"],
       "@api/*": ["pages/api/*"],
