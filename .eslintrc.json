@@ -85,7 +85,7 @@
     "import/order": [
       "error",
       {
-        "groups": ["builtin", "external", "internal"],
+        "groups": ["builtin", "external", "internal", "type"],
         "pathGroups": [
           {
             "pattern": "react",
