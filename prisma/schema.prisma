@@ -52,7 +52,7 @@ model User {
   sessions                  Session[]
 
   createdAt                 DateTime    @default(now())
-  UpdatedAt                 DateTime    @updatedAt
+  updatedAt                 DateTime    @updatedAt
 
   @@map("users")
 }
@@ -75,7 +75,7 @@ model Message {
    ipAddress                String?
 
    createdAt                DateTime    @default(now())
-   UpdatedAt                DateTime    @updatedAt
+   updatedAt                DateTime    @updatedAt
 
    @@map("messages")
 }
@@ -86,7 +86,7 @@ model Service {
     description             String
 
     createdAt               DateTime    @default(now())
-    UpdatedAt               DateTime    @updatedAt
+    updatedAt               DateTime    @updatedAt
 
    @@map("services")
 }
