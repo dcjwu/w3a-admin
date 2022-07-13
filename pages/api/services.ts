@@ -12,16 +12,13 @@ const PostServiceDto = Joi.object({
    description: Joi.string().required()
 })
 
-const PatchServiceDto = Joi.object({
+const PutServiceDto = Joi.object({
    id: Joi.string().uuid().required(),
-   fieldName: Joi.string().required(),
-   newValue: Joi.string().required()
+   name: Joi.string().required(),
+   description: Joi.string().required()
 })
 
-enum ServiceFieldName {
-   Name = "name",
-   Description = "description"
-}
+// const DeleteServiceDto = Joi.object({ id: Joi.string().uuid().required() })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
@@ -58,30 +55,25 @@ router
       }
    })
    
-   .patch(validationMiddleware({ body: PatchServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+   .put(validationMiddleware({ body: PutServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const service = req.body
+         const { id, name, description } = req.body
+         
+         const service = await prisma.service.findUnique({ where: { id: id } })
 
-         if (Object.values(ServiceFieldName).includes(service.fieldName)) {
-
-            if (service.fieldName === ServiceFieldName.Name) {
-               await prisma.service.update({
-                  where: { id: service.id },
-                  data: { name: service.newValue }
-               })
-            }
-
-            if (service.fieldName === ServiceFieldName.Description) {
-               await prisma.service.update({
-                  where: { id: service.id },
-                  data: { description: service.newValue }
-               })
-            }
-
-            return res.status(200).json({ message: `${service.fieldName} updated successfully` })
+         if (!service) {
+            return res.status(404).json({ message: "Service not found" })
 
          } else {
-            return res.status(422).json({ message: `${service.fieldName} is not recognized` })
+            await prisma.service.update({
+               where: { id: id },
+               data: {
+                  name: name,
+                  description: description
+               }
+            })
+
+            return res.status(200).json({ message: "Service updated successfully" })
          }
 
       } catch (err) {
@@ -89,6 +81,11 @@ router
          return res.status(400).json({ message: err.message })
       }
    })
+
+// .delete(validationMiddleware({ body: DeleteServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+//    const id = req.body
+//    const service = await prisma
+// })
 
 export default router.handler({
    onError: (err: unknown, req: NextApiRequest, res: NextApiResponse) => {
