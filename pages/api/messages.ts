@@ -6,7 +6,7 @@ import { prisma } from "@lib/prisma"
 
 import type { NextApiRequest, NextApiResponse } from "next"
 
-const schema = Joi.object({
+const PostMessageDto = Joi.object({
    name: Joi.string().required(),
    email: Joi.string().email().required(),
    topic: Joi.string().required(),
@@ -16,7 +16,7 @@ const schema = Joi.object({
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
 router
-   .post(validationMiddleware({ body: schema }), async (req: NextApiRequest, res: NextApiResponse) => {
+   .post(validationMiddleware({ body: PostMessageDto }), async (req: NextApiRequest, res: NextApiResponse) => {
       try {
          const incomingMessage = req.body
 
@@ -30,7 +30,7 @@ router
             },
          })
 
-         return res.status(200).json({ message: "Message sent" })
+         return res.status(201).json({ message: "Message sent successfully" })
       } catch (err) {
          console.error(err.message)
          return res.status(400).json({ message: err.message })
@@ -67,6 +67,6 @@ export default router.handler({
       res.status(500).end("Internal server error")
    },
    onNoMatch: (req, res) => {
-      res.status(404).end("Not found")
+      res.status(405).end("Method not allowed")
    },
 })
