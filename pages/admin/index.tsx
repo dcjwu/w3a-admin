@@ -12,7 +12,7 @@ const AdminPage: NextPage<AdminPageType> = ({
    serverErrorMessage
 }): JSX.Element => {
 
-   console.log(data)
+   console.table(data)
 
    return (
       <AdminView serverError={serverErrorMessage}>
