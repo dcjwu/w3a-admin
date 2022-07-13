@@ -17,16 +17,21 @@ export default NextAuth({
             password: { label: "Password", type: "password" }
          },
          async authorize(credentials): Promise<User | null> {
-            if (!credentials) return null
+            try {
+               if (!credentials) return null
 
-            const user = await prisma.user.findUnique({ where: { email: credentials.email } })
+               const user = await prisma.user.findUnique({ where: { email: credentials.email } })
 
-            if (!user) return null
+               if (!user) return null
 
-            const isPasswordCorrect = await bcrypt.compareSync(credentials.password, user.password)
+               const isPasswordCorrect = await bcrypt.compareSync(credentials.password, user.password)
 
-            if (isPasswordCorrect) return user
-            else return null
+               if (isPasswordCorrect) return user
+               else return null
+            } catch (err) {
+               console.error(err.message)
+               return null
+            }
          }
       })
    ],
