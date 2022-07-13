@@ -1,6 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { User } from "@prisma/client"
-import NextAuth, { Session } from "next-auth"
+import NextAuth, { Session, User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 import { prisma } from "@lib/prisma"
@@ -42,7 +41,21 @@ export default NextAuth({
          return `${data.baseUrl}/admin`
       },
       async session({ session }): Promise<Session> {
-         return session
+         try {
+            if (session.user && session.user.email) {
+               const currentUser = await prisma.user.findUnique({ where: { email: session.user.email } })
+               if (!currentUser) return session
+
+               session.user.id = currentUser.id
+               session.user.imageUrl = currentUser.imageUrl
+               return session
+
+            } else return session
+
+         } catch (err) {
+            console.error(err.message)
+            return session
+         }
       },
    },
 })

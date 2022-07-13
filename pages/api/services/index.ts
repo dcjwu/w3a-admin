@@ -12,14 +12,6 @@ const PostServiceDto = Joi.object({
    description: Joi.string().required()
 })
 
-const PutServiceDto = Joi.object({
-   id: Joi.string().uuid().required(),
-   name: Joi.string().required(),
-   description: Joi.string().required()
-})
-
-const DeleteServiceDto = Joi.object({ id: Joi.string().uuid().required() })
-
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
 router
@@ -27,7 +19,15 @@ router
 
    .get(async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const services = await prisma.service.findMany({ orderBy: { createdAt: "desc" } })
+         const services = await prisma.service.findMany({
+            select: {
+               id: true,
+               name: true,
+               description: true,
+               createdAt: true
+            },
+            orderBy: { createdAt: "desc" }
+         })
 
          return res.status(200).json(services)
 
@@ -39,64 +39,16 @@ router
    
    .post(validationMiddleware({ body: PostServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const service = req.body
+         const { name, description } = req.body
 
          await prisma.service.create({
             data: {
-               name: service.name,
-               description: service.description
+               name: name,
+               description: description
             },
          })
 
-         return res.status(201).json({ message: "Resource created" })
-
-      } catch (err) {
-         console.error(err.message)
-         return res.status(400).json({ message: err.message })
-      }
-   })
-   
-   .put(validationMiddleware({ body: PutServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-      try {
-         const { id, name, description } = req.body
-         
-         const service = await prisma.service.findUnique({ where: { id: id } })
-
-         if (!service) {
-            return res.status(404).json({ message: "Resource not found" })
-
-         } else {
-            await prisma.service.update({
-               where: { id: id },
-               data: {
-                  name: name,
-                  description: description
-               }
-            })
-
-            return res.status(200).json({ message: "Resource updated successfully" })
-         }
-
-      } catch (err) {
-         console.error(err.message)
-         return res.status(400).json({ message: err.message })
-      }
-   })
-
-   .delete(validationMiddleware({ body: DeleteServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-      try {
-         const { id } = req.body
-
-         const service = await prisma.service.findUnique({ where: { id: id } })
-
-         if (!service) {
-            return res.status(404).json({ message: "Resource not found" })
-
-         } else {
-            await prisma.service.delete({ where: { id: id } })
-            
-            return res.status(200).json({ message: "Resource deleted successfully" })
-         }
+         return res.status(201).json({ message: "Service created" })
 
       } catch (err) {
          console.error(err.message)

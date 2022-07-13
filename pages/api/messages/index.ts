@@ -18,14 +18,14 @@ const router = createRouter<NextApiRequest, NextApiResponse>()
 router
    .post(validationMiddleware({ body: PostMessageDto }), async (req: NextApiRequest, res: NextApiResponse) => {
       try {
-         const incomingMessage = req.body
+         const { name, email, topic, text } = req.body
 
          await prisma.message.create({
             data: {
-               name: incomingMessage.name,
-               email: incomingMessage.email,
-               topic: incomingMessage.topic,
-               text: incomingMessage.text,
+               name: name,
+               email: email,
+               topic: topic,
+               text: text,
                ipAddress: req.socket.remoteAddress
             },
          })
@@ -43,15 +43,16 @@ router
    .get(async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
          const messages = await prisma.message.findMany({
-            orderBy: { createdAt: "desc" },
             select: {
+               id: true,
                name: true,
                email: true,
                topic: true,
                text: true,
                ipAddress: true,
                createdAt: true
-            }
+            },
+            orderBy: { createdAt: "desc" },
          })
 
          return res.status(200).json(messages)
