@@ -18,7 +18,7 @@ const PutServiceDto = Joi.object({
    description: Joi.string().required()
 })
 
-// const DeleteServiceDto = Joi.object({ id: Joi.string().uuid().required() })
+const DeleteServiceDto = Joi.object({ id: Joi.string().uuid().required() })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
@@ -30,6 +30,7 @@ router
          const services = await prisma.service.findMany({ orderBy: { createdAt: "desc" } })
 
          return res.status(200).json(services)
+
       } catch (err) {
          console.error(err.message)
          return res.status(400).json({ message: err.message })
@@ -47,7 +48,7 @@ router
             },
          })
 
-         return res.status(201).json({ message: "Service created" })
+         return res.status(201).json({ message: "Resource created" })
 
       } catch (err) {
          console.error(err.message)
@@ -62,7 +63,7 @@ router
          const service = await prisma.service.findUnique({ where: { id: id } })
 
          if (!service) {
-            return res.status(404).json({ message: "Service not found" })
+            return res.status(404).json({ message: "Resource not found" })
 
          } else {
             await prisma.service.update({
@@ -73,7 +74,7 @@ router
                }
             })
 
-            return res.status(200).json({ message: "Service updated successfully" })
+            return res.status(200).json({ message: "Resource updated successfully" })
          }
 
       } catch (err) {
@@ -82,10 +83,26 @@ router
       }
    })
 
-// .delete(validationMiddleware({ body: DeleteServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
-//    const id = req.body
-//    const service = await prisma
-// })
+   .delete(validationMiddleware({ body: DeleteServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+      try {
+         const { id } = req.body
+
+         const service = await prisma.service.findUnique({ where: { id: id } })
+
+         if (!service) {
+            return res.status(404).json({ message: "Resource not found" })
+
+         } else {
+            await prisma.service.delete({ where: { id: id } })
+            
+            return res.status(200).json({ message: "Resource deleted successfully" })
+         }
+
+      } catch (err) {
+         console.error(err.message)
+         return res.status(400).json({ message: err.message })
+      }
+   })
 
 export default router.handler({
    onError: (err: unknown, req: NextApiRequest, res: NextApiResponse) => {

@@ -31,6 +31,7 @@ router
          })
 
          return res.status(201).json({ message: "Message sent successfully" })
+
       } catch (err) {
          console.error(err.message)
          return res.status(400).json({ message: err.message })
@@ -54,6 +55,7 @@ router
          })
 
          return res.status(200).json(messages)
+
       } catch (err) {
          console.error(err.message)
          return res.status(400).json({ message: err.message })
