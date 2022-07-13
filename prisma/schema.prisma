@@ -46,7 +46,7 @@ model User {
   email                     String      @unique
   password                  String
 
-  image                     String?
+  imageUrl                  String?
 
   accounts                  Account[]
   sessions                  Session[]
@@ -89,6 +89,54 @@ model Service {
     updatedAt               DateTime    @updatedAt
 
    @@map("services")
+}
+
+model Partner {
+    id                      String      @id @default(uuid())
+    imageUrl                String
+    link                    String?
+
+    createdAt               DateTime    @default(now())
+    updatedAt               DateTime    @updatedAt
+
+    @@map("partners")
+}
+
+model Stack {
+    id                      String      @id @default(uuid())
+    name                    String
+    imageUrl                String
+    link                    String?
+
+    createdAt               DateTime    @default(now())
+    updatedAt               DateTime    @updatedAt
+
+    @@map("stack")
+}
+
+model Portfolio {
+    id                      String      @id @default(uuid())
+    projectName             String
+    description             String
+    imageUrl                String
+
+    createdAt               DateTime    @default(now())
+    updatedAt               DateTime    @updatedAt
+
+    @@map("portfolio")
+}
+
+model TeamMember {
+    id                      String      @id @default(uuid())
+    fullName                String
+    title                   String
+    imageUrl                String
+    socialMediaLinks        String[]
+
+    createdAt               DateTime    @default(now())
+    updatedAt               DateTime    @updatedAt
+
+    @@map("teamMembers")
 }
 
 
