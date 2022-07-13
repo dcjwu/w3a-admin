@@ -1,4 +1,4 @@
-import { ServerErrorMessageType } from "@customTypes/admin/common/serverErrorMessage.type"
+import type { ServerErrorMessageType } from "@customTypes/admin/common/serverErrorMessage.type"
 
 interface IMessage {
    createdAt: Date,

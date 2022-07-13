@@ -82,6 +82,16 @@ const AdminView: React.FC<AdminViewType> = ({ children, serverError }):JSX.Eleme
                              inputProps={{ "aria-label": "controlled" }}
                              onChange={handleThemeChange}
                      />
+                     <Link href="/admin/me">
+                        <a style={{ textDecoration: "none" }}>
+                           <Button color="secondary"
+                                   type="button"
+                                   variant="contained"
+                           >
+                              Profile
+                           </Button>
+                        </a>
+                     </Link>
                      <Link href="/auth/logout">
                         <a style={{ textDecoration: "none" }}>
                            <Button color="info"
