@@ -51,13 +51,13 @@ const AdminView: React.FC<AdminViewType> = ({ children, serverError }):JSX.Eleme
                            </Button>
                         </a>
                      </Link>
-                     <Link href="/admin/messages">
+                     <Link href="/admin/tickets">
                         <a style={{ textDecoration: "none" }}>
                            <Button color="secondary"
                                    type="button"
                                    variant="contained"
                            >
-                              Messages
+                              Tickets
                            </Button>
                         </a>
                      </Link>
