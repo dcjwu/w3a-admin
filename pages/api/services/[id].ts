@@ -9,7 +9,7 @@ import type { NextApiRequest, NextApiResponse } from "next"
 
 const ServiceIdDto = Joi.object({ id: Joi.string().uuid().required() })
 
-const PutServiceDto = Joi.object({
+const PatchServiceDto = Joi.object({
    name: Joi.string(),
    description: Joi.string()
 })
@@ -19,7 +19,7 @@ const router = createRouter<NextApiRequest, NextApiResponse>()
 router
    .use(authMiddleware)
 
-   .put(validationMiddleware({ query: ServiceIdDto, body: PutServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+   .patch(validationMiddleware({ query: ServiceIdDto, body: PatchServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
          const { id } = req.query
          const { name, description } = req.body
