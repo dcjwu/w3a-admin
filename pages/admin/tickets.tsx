@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import AdminView from "@components/admin/AdminView"
+import AdminLayout from "@layouts/admin/AdminLayout"
 
 import type { MessagesPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
@@ -13,9 +13,9 @@ const MessagesPage: NextPage<MessagesPageType> = ({
    console.table(data)
 
    return (
-      <AdminView serverError={serverErrorMessage}>
+      <AdminLayout serverError={serverErrorMessage}>
          Messages Page
-      </AdminView>
+      </AdminLayout>
    )
 }
 

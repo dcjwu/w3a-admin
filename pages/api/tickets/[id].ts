@@ -1,9 +1,10 @@
 import Joi from "joi"
-import { NextApiRequest, NextApiResponse } from "next"
 import { createRouter } from "next-connect"
 
 import { authMiddleware, validationMiddleware } from "@lib/admin/middlewares"
 import { prisma } from "@lib/prisma"
+
+import type { NextApiRequest, NextApiResponse } from "next"
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
 

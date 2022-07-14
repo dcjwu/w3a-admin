@@ -1,11 +1,11 @@
 import React from "react"
 
 import axios from "axios"
-import { GetServerSideProps, NextPage } from "next"
 
-import AdminView from "@components/admin/AdminView"
+import AdminLayout from "@layouts/admin/AdminLayout"
 
 import type { AdminPageType } from "@customTypes/admin/pages"
+import type { GetServerSideProps, NextPage } from "next"
 
 const AdminPage: NextPage<AdminPageType> = ({
    data,
@@ -15,9 +15,9 @@ const AdminPage: NextPage<AdminPageType> = ({
    console.table(data)
 
    return (
-      <AdminView serverError={serverErrorMessage}>
+      <AdminLayout serverError={serverErrorMessage}>
          Admin Panel
-      </AdminView>
+      </AdminLayout>
    )
 }
 

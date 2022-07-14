@@ -10,11 +10,11 @@ import Link from "next/link"
 
 import { theme } from "@lib/admin/theme"
 
-import type { AdminViewType } from "@customTypes/admin/components"
+import type { AdminLayoutType } from "@customTypes/admin/components"
 
 const Button = dynamic(() => import("@mui/material/Button"))
 
-const AdminView: React.FC<AdminViewType> = ({ children, serverError }):JSX.Element => {
+const AdminLayout: React.FC<AdminLayoutType> = ({ children, serverError }):JSX.Element => {
 
    const [isDarkTheme, setIsDarkTheme] = React.useState(false)
 
@@ -119,4 +119,4 @@ const AdminView: React.FC<AdminViewType> = ({ children, serverError }):JSX.Eleme
    )
 }
 
-export default AdminView
+export default AdminLayout

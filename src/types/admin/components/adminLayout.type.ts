@@ -2,7 +2,7 @@ import React from "react"
 
 import type { ServerErrorMessageType } from "@customTypes/admin/common"
 
-export type AdminViewType = {
+export type AdminLayoutType = {
    children: React.ReactNode,
    serverError: ServerErrorMessageType
 }
