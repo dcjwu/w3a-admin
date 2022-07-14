@@ -20,13 +20,13 @@ export default NextAuth({
                if (!credentials) return null
 
                const user = await prisma.user.findUnique({ where: { email: credentials.email } })
-
                if (!user) return null
 
                const isPasswordCorrect = await bcrypt.compareSync(credentials.password, user.password)
-
                if (isPasswordCorrect) return user
+
                else return null
+
             } catch (err) {
                console.error(err.message)
                return null
