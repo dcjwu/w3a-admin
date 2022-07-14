@@ -126,6 +126,7 @@ model Portfolio {
     projectName             String
     description             String
     imageUrl                String
+    keyWords                String[]
 
     createdAt               DateTime    @default(now())
     updatedAt               DateTime    @updatedAt
