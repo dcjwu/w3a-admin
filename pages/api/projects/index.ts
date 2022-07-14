@@ -7,11 +7,11 @@ import { prisma } from "@lib/prisma"
 
 import type { NextApiRequest, NextApiResponse } from "next"
 
-const PostPortfolioDto = Joi.object({
-   projectName: Joi.string().required(),
+const PostProjectDto = Joi.object({
+   name: Joi.string().required(),
    description: Joi.string().required(),
    imageUrl: Joi.string().uri().required(), //TODO Add AWS S3 link
-   keywords: Joi.array().required()
+   keywords: Joi.array().items(Joi.string()).required()
 })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
@@ -21,10 +21,10 @@ router
 
    .get(async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const portfolio = await prisma.portfolio.findMany({
+         const project = await prisma.project.findMany({
             select: {
                id: true,
-               projectName: true,
+               name: true,
                description: true,
                imageUrl: true,
                keywords: true,
@@ -33,7 +33,7 @@ router
             orderBy: { createdAt: "desc" }
          })
 
-         return res.status(200).json(portfolio)
+         return res.status(200).json(project)
 
       } catch (err) {
          console.error(err.message)
@@ -41,20 +41,20 @@ router
       }
    })
 
-   .post(validationMiddleware({ body: PostPortfolioDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+   .post(validationMiddleware({ body: PostProjectDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const { projectName, description, imageUrl, keywords } = req.body
+         const { name, description, imageUrl, keywords } = req.body
 
-         await prisma.portfolio.create({
+         await prisma.project.create({
             data: {
-               projectName: projectName,
+               name: name,
                description: description,
                imageUrl: imageUrl,
                keywords: keywords
             },
          })
 
-         return res.status(201).json({ message: "Portfolio item created" })
+         return res.status(201).json({ message: "Project created" })
 
       } catch (err) {
          console.error(err.message)

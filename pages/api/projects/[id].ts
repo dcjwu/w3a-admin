@@ -7,10 +7,10 @@ import { prisma } from "@lib/prisma"
 
 import type { NextApiRequest, NextApiResponse } from "next"
 
-const PortfolioIdDto = Joi.object({ id: Joi.string().uuid().required() })
+const ProjectIdDto = Joi.object({ id: Joi.string().uuid().required() })
 
-const PatchPortfolioDto = Joi.object({
-   projectName: Joi.string(),
+const PatchProjectDto = Joi.object({
+   name: Joi.string(),
    description: Joi.string(),
    imageUrl: Joi.string().uri(),
    keywords: Joi.array()
@@ -21,20 +21,20 @@ const router = createRouter<NextApiRequest, NextApiResponse>()
 router
    .use(authMiddleware)
 
-   .patch(validationMiddleware({ query: PortfolioIdDto, body: PatchPortfolioDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+   .patch(validationMiddleware({ query: ProjectIdDto, body: PatchProjectDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
          const { id } = req.query
-         const { projectName, description, imageUrl, keywords } = req.body
+         const { name, description, imageUrl, keywords } = req.body
 
          if (typeof id === "string") {
-            const portfolio = await prisma.portfolio.findUnique({ where: { id: id } })
+            const project = await prisma.project.findUnique({ where: { id: id } })
 
-            if (!portfolio) return res.status(404).json({ message: "Portfolio item not found" })
+            if (!project) return res.status(404).json({ message: "Project not found" })
 
-            await prisma.portfolio.update({
+            await prisma.project.update({
                where: { id: id },
                data: {
-                  projectName: projectName,
+                  name: name,
                   description: description,
                   imageUrl: imageUrl,
                   keywords: keywords
@@ -42,7 +42,7 @@ router
             })
          }
 
-         return res.status(200).json({ message: "Portfolio item updated successfully" })
+         return res.status(200).json({ message: "Project updated successfully" })
 
       } catch (err) {
          console.error(err.message)
@@ -50,19 +50,19 @@ router
       }
    })
 
-   .delete(validationMiddleware({ query: PortfolioIdDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+   .delete(validationMiddleware({ query: ProjectIdDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
          const { id } = req.query
 
          if (typeof id === "string") {
-            const portfolio = await prisma.portfolio.findUnique({ where: { id: id } })
+            const project = await prisma.project.findUnique({ where: { id: id } })
 
-            if (!portfolio) return res.status(404).json({ message: "Portfolio item not found" })
+            if (!project) return res.status(404).json({ message: "Project not found" })
 
-            await prisma.portfolio.delete({ where: { id: id } })
+            await prisma.project.delete({ where: { id: id } })
          }
 
-         return res.status(200).json({ message: "Portfolio item deleted successfully" })
+         return res.status(200).json({ message: "Project deleted successfully" })
 
       } catch (err) {
          console.error(err.message)
