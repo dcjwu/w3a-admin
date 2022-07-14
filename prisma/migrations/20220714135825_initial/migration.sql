@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "TicketStatus" AS ENUM ('ACTIVE', 'CLOSED');
+
 -- CreateTable
 CREATE TABLE "accounts" (
     "id" TEXT NOT NULL,
@@ -47,17 +50,19 @@ CREATE TABLE "verificationTokens" (
 );
 
 -- CreateTable
-CREATE TABLE "messages" (
+CREATE TABLE "tickets" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "companyName" TEXT,
     "topic" TEXT NOT NULL,
     "text" TEXT NOT NULL,
+    "status" "TicketStatus" NOT NULL DEFAULT 'ACTIVE',
     "ipAddress" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "messages_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "tickets_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -74,6 +79,7 @@ CREATE TABLE "services" (
 -- CreateTable
 CREATE TABLE "partners" (
     "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "imageUrl" TEXT NOT NULL,
     "link" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -83,7 +89,7 @@ CREATE TABLE "partners" (
 );
 
 -- CreateTable
-CREATE TABLE "stack" (
+CREATE TABLE "technologies" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "imageUrl" TEXT NOT NULL,
@@ -91,32 +97,33 @@ CREATE TABLE "stack" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "stack_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "technologies_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "portfolio" (
+CREATE TABLE "projects" (
     "id" TEXT NOT NULL,
-    "projectName" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "imageUrl" TEXT NOT NULL,
+    "keywords" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "portfolio_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "projects_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "teamMembers" (
+CREATE TABLE "members" (
     "id" TEXT NOT NULL,
-    "fullName" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "imageUrl" TEXT NOT NULL,
     "socialMediaLinks" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "teamMembers_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "members_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

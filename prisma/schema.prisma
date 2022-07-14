@@ -110,7 +110,7 @@ model Partner {
     @@map("partners")
 }
 
-model Stack {
+model Technology {
     id                      String      @id @default(uuid())
     name                    String
     imageUrl                String
@@ -119,25 +119,25 @@ model Stack {
     createdAt               DateTime    @default(now())
     updatedAt               DateTime    @updatedAt
 
-    @@map("stack")
+    @@map("technologies")
 }
 
-model Portfolio {
+model Project {
     id                      String      @id @default(uuid())
-    projectName             String
+    name                    String
     description             String
     imageUrl                String
-    keyWords                String[]
+    keywords                String[]
 
     createdAt               DateTime    @default(now())
     updatedAt               DateTime    @updatedAt
 
-    @@map("portfolio")
+    @@map("projects")
 }
 
-model TeamMember {
+model Member {
     id                      String      @id @default(uuid())
-    fullName                String
+    name                    String
     title                   String
     imageUrl                String
     socialMediaLinks        String[]
@@ -145,7 +145,7 @@ model TeamMember {
     createdAt               DateTime    @default(now())
     updatedAt               DateTime    @updatedAt
 
-    @@map("teamMembers")
+    @@map("members")
 }
 
 
