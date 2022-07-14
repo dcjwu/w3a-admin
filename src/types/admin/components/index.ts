@@ -1,1 +1,1 @@
-export * from "./adminLayout.type"
+export * from "./loading.type"

@@ -14,7 +14,7 @@ const MessagesPage: NextPage<MessagesPageType> = ({
 
    return (
       <AdminLayout serverError={serverErrorMessage}>
-         Messages Page
+         Tickets Page
       </AdminLayout>
    )
 }

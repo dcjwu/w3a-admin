@@ -9,7 +9,7 @@ import { signIn } from "next-auth/react"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 
-import { theme } from "@lib/admin/theme"
+import { theme } from "@lib/admin/mui/theme"
 
 import type { NextPage } from "next"
 
