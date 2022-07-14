@@ -100,6 +100,7 @@ model Service {
 
 model Partner {
     id                      String      @id @default(uuid())
+    name                    String
     imageUrl                String
     link                    String?
 
