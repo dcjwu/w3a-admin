@@ -7,10 +7,11 @@ import { prisma } from "@lib/prisma"
 
 import type { NextApiRequest, NextApiResponse } from "next"
 
-const PostTeamDto = Joi.object({
+const PostMemberDto = Joi.object({
    name: Joi.string().required(),
+   title: Joi.string().required(),
    imageUrl: Joi.string().uri().required(), //TODO Add AWS S3 link
-   link: Joi.string().uri()
+   socialMediaLinks: Joi.array().items(Joi.string().uri()).required()
 })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
@@ -20,18 +21,19 @@ router
 
    .get(async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const partners = await prisma.partner.findMany({
+         const members = await prisma.member.findMany({
             select: {
                id: true,
                name: true,
+               title: true,
                imageUrl: true,
-               link: true,
+               socialMediaLinks: true,
                createdAt: true
             },
             orderBy: { createdAt: "desc" }
          })
 
-         return res.status(200).json(partners)
+         return res.status(200).json(members)
 
       } catch (err) {
          console.error(err.message)
@@ -39,19 +41,20 @@ router
       }
    })
 
-   .post(validationMiddleware({ body: PostServiceDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+   .post(validationMiddleware({ body: PostMemberDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const { name, imageUrl, link } = req.body
+         const { name, title, imageUrl, socialMediaLinks } = req.body
 
-         await prisma.partner.create({
+         await prisma.member.create({
             data: {
                name: name,
+               title: title,
                imageUrl: imageUrl,
-               link: link
+               socialMediaLinks: socialMediaLinks
             },
          })
 
-         return res.status(201).json({ message: "Partner created" })
+         return res.status(201).json({ message: "Member created" })
 
       } catch (err) {
          console.error(err.message)
