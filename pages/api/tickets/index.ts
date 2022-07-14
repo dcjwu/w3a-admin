@@ -9,6 +9,7 @@ import type { NextApiRequest, NextApiResponse } from "next"
 const PostMessageDto = Joi.object({
    name: Joi.string().required(),
    email: Joi.string().email().required(),
+   companyName: Joi.string(),
    topic: Joi.string().required(),
    text: Joi.string().required()
 })
@@ -18,12 +19,13 @@ const router = createRouter<NextApiRequest, NextApiResponse>()
 router
    .post(validationMiddleware({ body: PostMessageDto }), async (req: NextApiRequest, res: NextApiResponse) => {
       try {
-         const { name, email, topic, text } = req.body
+         const { name, email, companyName, topic, text } = req.body
 
-         await prisma.message.create({
+         await prisma.ticket.create({
             data: {
                name: name,
                email: email,
+               companyName: companyName,
                topic: topic,
                text: text,
                ipAddress: req.socket.remoteAddress
@@ -42,11 +44,13 @@ router
 
    .get(async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const messages = await prisma.message.findMany({
+         const messages = await prisma.ticket.findMany({
             select: {
                id: true,
                name: true,
                email: true,
+               companyName: true,
+               status: true,
                topic: true,
                text: true,
                ipAddress: true,

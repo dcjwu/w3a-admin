@@ -66,18 +66,25 @@ model VerificationToken {
   @@map("verificationTokens")
 }
 
-model Message {
+enum TicketStatus {
+    ACTIVE
+    CLOSED
+}
+
+model Ticket {
    id                       String      @id @default(uuid())
    name                     String
    email                    String
+   companyName              String?
    topic                    String
    text                     String
+   status                   TicketStatus @default(ACTIVE)
    ipAddress                String?
 
    createdAt                DateTime    @default(now())
    updatedAt                DateTime    @updatedAt
 
-   @@map("messages")
+   @@map("tickets")
 }
 
 model Service {
