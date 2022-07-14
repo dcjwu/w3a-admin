@@ -1,6 +1,6 @@
 import type { ServerErrorMessageType } from "@customTypes/admin/common"
 
-interface IMessage {
+interface ITicket {
    createdAt: Date,
    email: string,
    ipAddress: string,
@@ -9,7 +9,7 @@ interface IMessage {
    topic: string
 }
 
-export type MessagesPageType = {
-   data: IMessage,
+export type TicketsPageType = {
+   data: ITicket,
    serverErrorMessage: ServerErrorMessageType
 }

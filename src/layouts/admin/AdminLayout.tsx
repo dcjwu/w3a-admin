@@ -39,10 +39,10 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
 }): JSX.Element => {
 
    const router = useRouter()
-   const { data } = useSession()
+   const session = useSession()
    const theme = useTheme()
-
-   console.log(data)
+   
+   const { data, status } = session
 
    const [isOpen, setIsOpen] = React.useState(false)
    const [isLoading, setIsLoading] = React.useState(false)
@@ -84,7 +84,7 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                            <MenuIcon/>
                         </IconButton>
                         <Typography noWrap component="div" variant="h6">
-                           Hey, {data?.user.name} &#128526;
+                           {status !== "loading" && `Hey, ${data?.user.name}`}
                         </Typography>
                      </Toolbar>
                   </Topbar>
@@ -118,7 +118,7 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                                  .sort()
                                  .map(text => (
                                     <ListItem key={text} disablePadding>
-                                       <Link passHref href={`admin/${text.toLowerCase()}`}>
+                                       <Link passHref href={`/admin/${text.toLowerCase()}`}>
                                           <ListItemButton component="a">
                                              <ListItemIcon>
                                                 <FiberManualRecordIcon/>
@@ -133,7 +133,7 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                            <List>
                               {["Tickets", "Analytics"].map((text, index) => (
                                  <ListItem key={text} disablePadding>
-                                    <Link passHref href={`admin/${text.toLowerCase()}`}>
+                                    <Link passHref href={`/admin/${text.toLowerCase()}`}>
                                        <ListItemButton component="a">
                                           <ListItemIcon>
                                              {index % 2 === 0 ? <InboxIcon/> : <QueryStatsIcon/>}
@@ -153,8 +153,8 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                                     <ListItem key={text} disablePadding>
                                        <Link passHref href={
                                           index % 2 === 0
-                                             ? "admin/me"
-                                             : "api/auth/signout"
+                                             ? "/admin/me"
+                                             : "/api/auth/signout"
                                        }>
                                           <ListItemButton component="a">
                                              <ListItemIcon>

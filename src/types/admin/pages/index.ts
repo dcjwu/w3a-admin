@@ -1,2 +1,3 @@
-export * from "./messagesPage.type"
+export * from "./ticketsPage.type"
 export * from "./adminPage.type"
+export * from "./partnersPage.type"

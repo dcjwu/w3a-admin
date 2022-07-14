@@ -2,10 +2,10 @@ import axios from "axios"
 
 import AdminLayout from "@layouts/admin/AdminLayout"
 
-import type { MessagesPageType } from "@customTypes/admin/pages"
+import type { TicketsPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
 
-const MessagesPage: NextPage<MessagesPageType> = ({
+const TicketsPage: NextPage<TicketsPageType> = ({
    data,
    serverErrorMessage
 }): JSX.Element => {
@@ -19,7 +19,7 @@ const MessagesPage: NextPage<MessagesPageType> = ({
    )
 }
 
-export default MessagesPage
+export default TicketsPage
 
 export const getServerSideProps: GetServerSideProps = async context => {
    const { cookie } = context.req.headers
