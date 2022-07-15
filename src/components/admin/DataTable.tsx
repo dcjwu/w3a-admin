@@ -1,5 +1,7 @@
 import React from "react"
 
+import Button from "@mui/material/Button"
+import Link from "@mui/material/Link"
 import Paper from "@mui/material/Paper"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
@@ -7,12 +9,19 @@ import TableCell from "@mui/material/TableCell"
 import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
+import moment from "moment"
+
+import { capitalizeWord } from "@utils/capitalizeWord"
+import { isStringDate } from "@utils/isStringDate"
+import { isStringUrl } from "@utils/isStringUrl"
 
 import type { DataTableType } from "@customTypes/admin/components"
 
 export const DataTable: React.FC<DataTableType> = ({
    tableColumns,
-   tableRows
+   tableRows,
+   handleOpenDeleteDialog,
+   handleOpenEditDialog
 }): JSX.Element => {
    return (
       <Paper sx={{
@@ -28,24 +37,61 @@ export const DataTable: React.FC<DataTableType> = ({
                                    align="center"
                                    style={{ minWidth: 170 }}
                         >
-                           {column.charAt(0).toUpperCase() + column.slice(1)}
+                           {capitalizeWord(column)}
                         </TableCell>
                      ))}
+                     <TableCell align="center">
+                        Edit
+                     </TableCell>
+                     <TableCell align="center">
+                        Delete
+                     </TableCell>
                   </TableRow>
                </TableHead>
                <TableBody>
                   {tableRows
-                     .map((row) => {
+                     .map((row, indexRow) => {
                         return (
                            <TableRow key={row[0]} hover
                                      tabIndex={-1}>
-                              {row.map((column) => {
+                              {row.map((column, index) => {
                                  return (
                                     <TableCell key={column} align="center">
-                                       {column}
+                                       {isStringDate(column)
+                                          ? moment(column).format("DD/MM/YYYY HH:mm")
+                                          : isStringUrl(column)
+                                             ? <Link href={column} target="_black"
+                                                     underline="hover"
+                                                     variant="subtitle2">
+                                                {capitalizeWord(tableColumns[index])}
+                                             </Link>
+                                             : column}
                                     </TableCell>
                                  )
                               })}
+                              <TableCell align="center">
+                                 <Button color="warning" sx={{
+                                    mt: 3,
+                                    mb: 2
+                                 }}
+                                         type="button"
+                                         variant="outlined"
+                                         onClick={(): void => handleOpenEditDialog(indexRow)}
+                                 >
+                                    Edit
+                                 </Button>
+                              </TableCell>
+                              <TableCell align="center">
+                                 <Button color="error" sx={{
+                                    mt: 3,
+                                    mb: 2
+                                 }} type="button"
+                                         variant="outlined"
+                                         onClick={(): void => handleOpenDeleteDialog(row[0])}
+                                 >
+                                    Delete
+                                 </Button>
+                              </TableCell>
                            </TableRow>
                         )
                      })}
