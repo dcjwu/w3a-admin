@@ -1,17 +1,12 @@
 import React from "react"
 
 import Button from "@mui/material/Button"
-import Paper from "@mui/material/Paper"
-import Table from "@mui/material/Table"
-import TableBody from "@mui/material/TableBody"
-import TableCell from "@mui/material/TableCell"
-import TableContainer from "@mui/material/TableContainer"
-import TableHead from "@mui/material/TableHead"
-import TableRow from "@mui/material/TableRow"
 import TextField from "@mui/material/TextField"
 import axios from "axios"
 
 import { DialogForm } from "@components/admin"
+import { DataTable } from "@components/admin/DataTable"
+import { useDataTable } from "@hooks/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
 
 import type { PartnersPageType } from "@customTypes/admin/pages"
@@ -23,8 +18,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
 }): JSX.Element => {
 
    const [isModalOpen, setIsModalOpen] = React.useState(false)
-   const [tableColumns, setTableColumns] = React.useState<string[]>([])
-   const [tableRows, setTableRows] = React.useState<string[]>([])
+   const [tableColumns, tableRows] = useDataTable(data)
 
    const handleCloseDialog = (): void => {
       setIsModalOpen(false)
@@ -34,13 +28,6 @@ const PartnersPage: NextPage<PartnersPageType> = ({
       event.preventDefault()
       setIsModalOpen(false)
    }
-
-   React.useEffect(() => {
-      data.map(item => {
-         setTableColumns(Object.keys(item))
-         setTableRows(Object.values(item))
-      })
-   }, [])
 
    return (
       <AdminLayout serverError={serverErrorMessage}>
@@ -88,45 +75,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
          >
             Add new Partner
          </Button>
-         <Paper sx={{
-            width: "100%",
-            overflow: "hidden"
-         }}>
-            {/*TODO: Rewrite logic from https://mui.com/material-ui/react-table/*/}
-            <TableContainer sx={{ maxHeight: 440 }}>
-               <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                     <TableRow>
-                        {tableColumns.map((column) => (
-                           <TableCell key={column}
-                                      align="center"
-                                      style={{ minWidth: 170 }}
-                           >
-                              {column.charAt(0).toUpperCase() + column.slice(1)}
-                           </TableCell>
-                        ))}
-                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                     {data
-                        .map((row) => {
-                           return (
-                              <TableRow key={row.id} hover
-                                        tabIndex={-1}>
-                                 {tableRows.map((column) => {
-                                    return (
-                                       <TableCell key={column} align="center">
-                                          {column}
-                                       </TableCell>
-                                    )
-                                 })}
-                              </TableRow>
-                           )
-                        })}
-                  </TableBody>
-               </Table>
-            </TableContainer>
-         </Paper>
+         <DataTable tableColumns={tableColumns} tableRows={tableRows}/>
       </AdminLayout>
    )
 }

@@ -1,2 +1,3 @@
 export * from "./loading.type"
-export * from "./dialog.type"
+export * from "./dialogForm.type"
+export * from "./dataTable.type"
