@@ -1,0 +1,1 @@
+export const awsBucketUrl = "https://public-web3app.s3.eu-north-1.amazonaws.com"

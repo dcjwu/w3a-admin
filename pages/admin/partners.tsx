@@ -6,7 +6,7 @@ import axios from "axios"
 
 import { DialogForm } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
-import { DialogWindow } from "@components/admin/DialogWindow"
+import { DialogWindow } from "@components/admin/dialogs/DialogWindow"
 import { modalInitialState } from "@constants/modalInitialState"
 import { useDataTable } from "@hooks/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
@@ -23,6 +23,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    const [isModalOpen, setIsModalOpen] = React.useState(modalInitialState)
    const [partnerId, setPartnerId] = React.useState("")
    const [editableRow, setEditableRow] = React.useState<{ [k: string]: string; }>({})
+
    const [tableColumns, tableRows] = useDataTable(data)
 
    const handleToggleModal = (key: string, show: boolean): void => {
@@ -57,7 +58,6 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    }
 
    const handleDeleteEntity = (): void => {
-      console.log("DELETED")
       handleToggleModal("delete", false)
       //   router.replace(router.asPath);
    }
@@ -78,20 +78,18 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                           type="text"
                           variant="standard"
                />
-               <TextField autoFocus
-                          fullWidth
+               <TextField fullWidth
                           required
-                          id="link"
+                          id="partnersWebsite"
                           label="Partner's website URL"
                           margin="normal"
                           type="text"
                           variant="standard"
                />
-               <TextField autoFocus
-                          fullWidth
+               <TextField fullWidth
                           required
-                          id="imageUrl"
-                          label="Partner's logo URL"
+                          id="partnersLogo"
+                          label="Partner's Logo URL"
                           margin="normal"
                           type="text"
                           variant="standard"

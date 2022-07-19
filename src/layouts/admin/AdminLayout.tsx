@@ -1,5 +1,6 @@
 import React from "react"
 
+import UploadFileIcon from "@mui/icons-material/UploadFile"
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
 import Divider from "@mui/material/Divider"
@@ -41,8 +42,11 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
    const router = useRouter()
    const session = useSession()
    const theme = useTheme()
-   
-   const { data, status } = session
+
+   const {
+      data,
+      status
+   } = session
 
    const [isOpen, setIsOpen] = React.useState(false)
    const [isLoading, setIsLoading] = React.useState(false)
@@ -131,12 +135,16 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                            </List>
                            <Divider/>
                            <List>
-                              {["Tickets", "Analytics"].map((text, index) => (
+                              {["Tickets", "Analytics", "Upload"].map((text, index) => (
                                  <ListItem key={text} disablePadding>
                                     <Link passHref href={`/admin/${text.toLowerCase()}`}>
                                        <ListItemButton component="a">
                                           <ListItemIcon>
-                                             {index % 2 === 0 ? <InboxIcon/> : <QueryStatsIcon/>}
+                                             {text === "Upload"
+                                                ? <UploadFileIcon/>
+                                                : index % 2 === 0
+                                                   ?  <InboxIcon/>
+                                                   : <QueryStatsIcon/>}
                                           </ListItemIcon>
                                           <ListItemText primary={text}/>
                                        </ListItemButton>
