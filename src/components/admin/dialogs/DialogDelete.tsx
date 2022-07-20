@@ -12,7 +12,7 @@ import { theme } from "@lib/admin/mui/theme"
 
 import type { DialogWindowType } from "@customTypes/admin/components"
 
-export const DialogWindow: React.FC<DialogWindowType> = ({ isOpen, title, handleCloseDialog, handleDeleteEntity, children }): JSX.Element => {
+export const DialogDelete: React.FC<DialogWindowType> = ({ isOpen, title, handleCloseDialog, handleDeleteEntity, children }): JSX.Element => {
    return (
       <ThemeProvider theme={theme}>
          <Dialog aria-describedby="alert-dialog-description"

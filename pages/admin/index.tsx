@@ -4,10 +4,10 @@ import axios from "axios"
 
 import AdminLayout from "@layouts/admin/AdminLayout"
 
-import type { AdminPageType } from "@customTypes/admin/pages"
+import type { AdminPage } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
 
-const AdminPage: NextPage<AdminPageType> = ({
+const AdminPage: NextPage<AdminPage> = ({
    data,
    serverErrorMessage
 }): JSX.Element => {

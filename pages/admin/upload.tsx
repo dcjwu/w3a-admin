@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { Alert, AlertTitle, ListItem } from "@mui/material"
 import Box from "@mui/material/Box"
@@ -17,11 +17,12 @@ import { useRouter } from "next/router"
 import { v4 as uuidv4 } from "uuid"
 
 import { DialogForm } from "@components/admin"
+import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
 import DialogStatus from "@components/admin/dialogs/DialogStatus"
-import { awsBucketUrl } from "@constants/awsBucketUrl"
-import { linkCopiedInitialState } from "@constants/linkCopiedInitialState"
-import { modalInitialState } from "@constants/modalInitialState"
+import { awsBucketUrl } from "@constants/admin/awsBucketUrl"
 import { DialogStatusEnum } from "@customTypes/admin/components"
+import { useStatusDialog } from "@hooks/admin"
+import { useMainDialog } from "@hooks/admin/useMainDialog"
 import AdminLayout from "@layouts/admin/AdminLayout"
 
 import type { UploadPageType } from "@customTypes/admin/pages"
@@ -32,29 +33,16 @@ const UploadPage: NextPage<UploadPageType> = ({
    serverErrorMessage
 }): JSX.Element => {
 
-   //TODO: Refactor this thing
-   //TODO: Add delete file + modal to confirm
-
    const router = useRouter()
 
-   const [isModalOpen, setIsModalOpen] = React.useState(modalInitialState)
-   const [isLinkCopied, setIsLinkCopied] = React.useState(linkCopiedInitialState)
+   const [isMainModalOpen, toggleMainModal] = useMainDialog()
+   const [isStatusModalOpen, error, toggleLoading, toggleError, toggleAlert] = useStatusDialog()
    const [file, setFile] = React.useState<FileList | null>(null)
-   const [loading, setLoading] = React.useState(false)
-   const [error, setError] = React.useState("")
-   const [success, setSuccess] = React.useState(false)
+   const [imageKey, setImageKey] = React.useState("")
 
-   const handleToggleModal = (key: string, show: boolean): void => {
-      setIsModalOpen({
-         ...isModalOpen,
-         [key]: show
-      })
-      if (!show) {
-         handleFileRemove()
-         setLoading(false)
-         setSuccess(false)
-         setError("")
-      }
+   const handleOpenDeleteDialog = (key: string): void => {
+      toggleMainModal("delete", true)
+      setImageKey(key)
    }
 
    const handleFileUpload = (event: React.SyntheticEvent): void => {
@@ -70,7 +58,7 @@ const UploadPage: NextPage<UploadPageType> = ({
       event.preventDefault()
 
       if (file && file.length) {
-         setLoading(true)
+         toggleLoading(true)
          const { data } = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/files/upload`, {
             name: `${uuidv4()}.webp`,
             type: file[0].type
@@ -79,52 +67,71 @@ const UploadPage: NextPage<UploadPageType> = ({
          const url = data.url
          await axios.put(url, file[0], { headers: { "Content-type": file[0].type } })
             .then(res => {
-               setLoading(false)
+               toggleLoading(false)
                if (res.status === 200) {
-                  setSuccess(true)
                   router.replace(router.asPath)
+                  toggleMainModal("add", false)
                } else {
-                  setError(res.data)
+                  console.warn(res.data)
+                  toggleError("Something went wrong")
                }
             })
             .catch(err => {
                console.error(err)
-               setLoading(false)
-               setError(err.message)
+               toggleLoading(false)
+               toggleError(err.message)
             })
       }
+   }
+
+   const handleRemoveFile = async (): Promise<void> => {
+      await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/files/delete`, { key: imageKey }, { withCredentials: true })
+         .then(res => {
+            if (res.status === 200) {
+               router.replace(router.asPath)
+               toggleMainModal("delete", false)
+            } else {
+               console.warn(res.data)
+               toggleError("Something went wrong")
+            }
+         })
+         .catch(err => {
+            console.error(err)
+            toggleError(err.message)
+         })
    }
 
    const handleCopyLink = (event: React.SyntheticEvent): void => {
       const target = event.target as HTMLInputElement
       navigator.clipboard.writeText(target.value)
          .then(() => {
-            setIsLinkCopied({
-               ...isLinkCopied,
-               success: true
-            })
+            toggleAlert("alertSuccess")
             setTimeout(() => {
-               setIsLinkCopied({
-                  ...isLinkCopied,
-                  success: false
-               })
+               toggleAlert("alertSuccess", true)
             }, 2500)
          })
          .catch(() => {
-            setIsLinkCopied({
-               ...isLinkCopied,
-               error: true
-            })
+            toggleAlert("alertError")
          })
    }
+   
+   useEffect(() => {
+      handleFileRemove()
+   }, [isMainModalOpen.add])
 
    return (
       <AdminLayout serverError={serverErrorMessage}>
-         {isModalOpen.add &&
+         {isStatusModalOpen.loading &&
+            <DialogStatus handleCloseDialog={(): void => toggleLoading(false)} isOpen={isStatusModalOpen.loading}
+                          status={DialogStatusEnum.LOADING}/>}
+         {isStatusModalOpen.error &&
+            <DialogStatus error={error} handleCloseDialog={(): void => toggleError()}
+                          isOpen={isStatusModalOpen.error} status={DialogStatusEnum.ERROR}/>}
+         {isMainModalOpen.add &&
             <DialogForm description="Please, upload .webp file to AWS in order to use its link later."
-                        handleCloseDialog={(): void => handleToggleModal("add", false)}
+                        handleCloseDialog={(): void => toggleMainModal("add", false)}
                         handleSubmitForm={handleAddFile}
-                        isOpen={isModalOpen.add} title="Add New Image">
+                        isOpen={isMainModalOpen.add} title="Add New Image">
                {!file
                   ? <Button fullWidth component="label" sx={{
                      marginTop: "16px",
@@ -153,22 +160,20 @@ const UploadPage: NextPage<UploadPageType> = ({
                      </Button>
                   </Box>}
             </DialogForm>}
-         {loading &&
-            <DialogStatus handleCloseDialog={(): void => handleToggleModal("add", false)} isOpen={isModalOpen.add}
-                          status={DialogStatusEnum.LOADING}/>}
-         {success &&
-            <DialogStatus handleCloseDialog={(): void => handleToggleModal("add", false)} isOpen={isModalOpen.add}
-                          status={DialogStatusEnum.SUCCESS}/>}
-         {error &&
-            <DialogStatus error={error} handleCloseDialog={(): void => handleToggleModal("add", false)}
-                          isOpen={isModalOpen.add} status={DialogStatusEnum.ERROR}/>}
-         {isLinkCopied.success && <Alert severity="success">
+         {isMainModalOpen.delete &&
+            <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
+                          handleDeleteEntity={handleRemoveFile}
+                          isOpen={isMainModalOpen.delete}
+                          title="Are you sure you want to delete this image?">
+               {null}
+            </DialogDelete>}
+         {isStatusModalOpen.alertSuccess && <Alert severity="success">
             <AlertTitle>Success</AlertTitle>
-            <strong>Link copied successfully</strong>
+            <strong>Link copied!</strong>
          </Alert>}
-         {isLinkCopied.error && <Alert severity="error">
+         {isStatusModalOpen.alertError && <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
-            <strong>Link was not copied</strong>
+            <strong>Link was not copied!</strong>
          </Alert>}
          <Button color="info"
                  size="large"
@@ -178,7 +183,7 @@ const UploadPage: NextPage<UploadPageType> = ({
                  }}
                  type="button"
                  variant="contained"
-                 onClick={(): void => handleToggleModal("add", true)}
+                 onClick={(): void => toggleMainModal("add", true)}
          >
             Upload File
          </Button>
@@ -218,7 +223,8 @@ const UploadPage: NextPage<UploadPageType> = ({
                                         onClick={handleCopyLink}/>
                               </Button>
                               <Button fullWidth color="error" component="label"
-                                      variant="outlined">Delete</Button>
+                                      variant="outlined"
+                                      onClick={(): void => handleOpenDeleteDialog(card.Key)}>Delete</Button>
                            </CardActions>
                         </Card>
                      </Grid>

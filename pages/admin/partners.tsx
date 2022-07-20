@@ -6,9 +6,9 @@ import axios from "axios"
 
 import { DialogForm } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
-import { DialogWindow } from "@components/admin/dialogs/DialogWindow"
-import { modalInitialState } from "@constants/modalInitialState"
-import { useDataTable } from "@hooks/useDataTable"
+import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
+import { mainDialogInitialState } from "@constants/admin/mainDialogInitialState"
+import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
@@ -20,7 +20,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    serverErrorMessage
 }): JSX.Element => {
 
-   const [isModalOpen, setIsModalOpen] = React.useState(modalInitialState)
+   const [isModalOpen, setIsModalOpen] = React.useState(mainDialogInitialState)
    const [partnerId, setPartnerId] = React.useState("")
    const [editableRow, setEditableRow] = React.useState<{ [k: string]: string; }>({})
 
@@ -113,11 +113,11 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                ))}
             </DialogForm>}
          {isModalOpen.delete &&
-            <DialogWindow handleCloseDialog={(): void => handleToggleModal("delete", false)}
+            <DialogDelete handleCloseDialog={(): void => handleToggleModal("delete", false)}
                           handleDeleteEntity={handleDeleteEntity} isOpen={isModalOpen.delete}
                           title="Are you sure you want to delete Partner?">
                {partnerId}
-            </DialogWindow>}
+            </DialogDelete>}
          <Button color="info"
                  size="large"
                  sx={{

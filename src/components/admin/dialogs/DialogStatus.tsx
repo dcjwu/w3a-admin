@@ -50,7 +50,7 @@ const DialogStatus: React.FC<DialogStatusType> = ({
                         marginTop: "16px",
                         marginBottom: "8px"
                      }}>
-                        <Typography color="success.light" component="p" variant="h4">
+                        <Typography color="success.light" component="span" variant="subtitle1">
                            Upload Success!
                         </Typography>
                      </DialogContentText>
