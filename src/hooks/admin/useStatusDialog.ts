@@ -35,7 +35,7 @@ export const useStatusDialog = (): UseStatusType => {
       } else {
          toggleStatusModal(value, false)
       }
-   }
+   } //TODO: useCallback/useMemo usage?
 
    return [isModalOpen, error, toggleLoading, toggleError, toggleAlert]
 }

@@ -12,7 +12,7 @@ export const useMainDialog = (): UseMainDialogType => {
          ...isModalOpen,
          [key]: show
       })
-   }
+   } //TODO: useCallback/useMemo usage?
 
    return [isModalOpen, toggleMainModal]
 }
