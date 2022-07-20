@@ -1,2 +1,2 @@
 export * from "./useMainDialog.type"
-export * from "./useStatus.type"
+export * from "./useStatusDialog.type"

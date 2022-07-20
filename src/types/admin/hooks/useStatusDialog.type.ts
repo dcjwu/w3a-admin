@@ -1,6 +1,6 @@
 import type { StatusDialogInitialStateType } from "@customTypes/admin/constants"
 
-export type UseStatusType = [
+export type UseStatusDialogType = [
    StatusDialogInitialStateType,
    string,
    (value: boolean) => void,

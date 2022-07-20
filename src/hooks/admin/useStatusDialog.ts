@@ -2,9 +2,9 @@ import React from "react"
 
 import { statusDialogInitialState } from "@constants/admin/statusDialogInitialState"
 
-import type { UseStatusType } from "@customTypes/admin/hooks"
+import type { UseStatusDialogType } from "@customTypes/admin/hooks"
 
-export const useStatusDialog = (): UseStatusType => {
+export const useStatusDialog = (): UseStatusDialogType => {
    const [isModalOpen, setIsModalOpen] = React.useState(statusDialogInitialState)
    const [error, setError] = React.useState("")
 
