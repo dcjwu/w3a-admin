@@ -3,7 +3,7 @@ import React from "react"
 import Backdrop from "@mui/material/Backdrop"
 import CircularProgress from "@mui/material/CircularProgress"
 
-import { LoadingType } from "@customTypes/admin/components"
+import type { LoadingType } from "@customTypes/admin/components"
 
 export const Loading: React.FC<LoadingType> = ({ isOpen }): JSX.Element => {
    return (

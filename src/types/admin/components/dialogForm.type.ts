@@ -1,5 +1,5 @@
-import React, { FormEvent, MouseEventHandler } from "react"
-
+import type React from "react"
+import type { FormEvent, MouseEventHandler } from "react"
 
 export type DialogFormType = {
    isOpen: boolean,

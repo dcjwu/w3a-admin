@@ -9,8 +9,9 @@ import DialogContentText from "@mui/material/DialogContentText"
 import DialogTitle from "@mui/material/DialogTitle"
 import { ThemeProvider } from "@mui/material/styles"
 
-import { DialogFormType } from "@customTypes/admin/components"
 import { theme } from "@lib/admin/mui/theme"
+
+import type { DialogFormType } from "@customTypes/admin/components"
 
 export const DialogForm: React.FC<DialogFormType> = ({ isOpen, title, description, handleCloseDialog, handleSubmitForm, children }): JSX.Element => {
    return (

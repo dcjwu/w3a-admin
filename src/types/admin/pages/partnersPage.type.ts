@@ -1,4 +1,4 @@
-import { ServerErrorMessageType } from "@customTypes/admin/common"
+import type { ServerErrorMessageType } from "@customTypes/admin/common"
 
 interface IPartner {
    id: string,

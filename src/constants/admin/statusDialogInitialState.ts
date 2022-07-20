@@ -1,4 +1,4 @@
-import { StatusDialogInitialStateType } from "@customTypes/admin/constants"
+import type { StatusDialogInitialStateType } from "@customTypes/admin/constants"
 
 export const statusDialogInitialState: StatusDialogInitialStateType = {
    loading: false,

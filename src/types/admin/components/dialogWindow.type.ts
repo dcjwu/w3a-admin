@@ -1,4 +1,5 @@
-import React, { MouseEventHandler } from "react"
+import type React from "react"
+import type { MouseEventHandler } from "react"
 
 export type DialogWindowType = {
    isOpen: boolean,
