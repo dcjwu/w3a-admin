@@ -7,7 +7,7 @@ import axios from "axios"
 import { DialogForm } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
-import { mainDialogInitialState } from "@constants/admin/mainDialogInitialState"
+import { useMainDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
@@ -20,22 +20,15 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    serverErrorMessage
 }): JSX.Element => {
 
-   const [isModalOpen, setIsModalOpen] = React.useState(mainDialogInitialState)
+   const [isMainModalOpen, toggleMainModal] = useMainDialog()
    const [partnerId, setPartnerId] = React.useState("")
    const [editableRow, setEditableRow] = React.useState<{ [k: string]: string; }>({})
 
    const [tableColumns, tableRows] = useDataTable(data)
 
-   const handleToggleModal = (key: string, show: boolean): void => {
-      setIsModalOpen({
-         ...isModalOpen,
-         [key]: show
-      })
-   }
-
    const handleOpenDeleteDialog = (id: string): void => {
       setPartnerId(id)
-      handleToggleModal("delete", true)
+      toggleMainModal("delete", true)
    }
 
    const handleOpenEditDialog = (index: number): void => {
@@ -43,32 +36,32 @@ const PartnersPage: NextPage<PartnersPageType> = ({
          .fromEntries((tableColumns.map((_, i) => [tableColumns[i], tableRows[index][i]])))
 
       setEditableRow(editableFields)
-      handleToggleModal("edit", true)
+      toggleMainModal("edit", true)
    }
 
    const handleAddEntity = (event: React.SyntheticEvent): void => {
       event.preventDefault()
-      handleToggleModal("add", false)
+      toggleMainModal("add", false)
       //   router.replace(router.asPath);
    }
 
    const handleEditEntity = (event: React.SyntheticEvent): void => {
       event.preventDefault()
-      handleToggleModal("edit", false)
+      toggleMainModal("edit", false)
    }
 
    const handleDeleteEntity = (): void => {
-      handleToggleModal("delete", false)
+      toggleMainModal("delete", false)
       //   router.replace(router.asPath);
    }
 
    return (
       <AdminLayout serverError={serverErrorMessage}>
-         {isModalOpen.add &&
+         {isMainModalOpen.add &&
             <DialogForm description="Please, submit form in order to add a New Partner."
-                        handleCloseDialog={(): void => handleToggleModal("add", false)}
+                        handleCloseDialog={(): void => toggleMainModal("add", false)}
                         handleSubmitForm={handleAddEntity}
-                        isOpen={isModalOpen.add} title="Add New Partner">
+                        isOpen={isMainModalOpen.add} title="Add New Partner">
                <TextField autoFocus
                           fullWidth
                           required
@@ -95,11 +88,11 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                           variant="standard"
                />
             </DialogForm>}
-         {isModalOpen.edit &&
+         {isMainModalOpen.edit &&
             <DialogForm description="Please, submit form in order to edit necessary Partner."
-                        handleCloseDialog={(): void => handleToggleModal("edit", false)}
+                        handleCloseDialog={(): void => toggleMainModal("edit", false)}
                         handleSubmitForm={handleEditEntity}
-                        isOpen={isModalOpen.edit} title="Edit Partner">
+                        isOpen={isMainModalOpen.edit} title="Edit Partner">
                {tableColumns.map(item => (
                   <TextField key={item} autoFocus fullWidth
                              disabled={isEditInputDisabled(item)}
@@ -112,9 +105,9 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                   />
                ))}
             </DialogForm>}
-         {isModalOpen.delete &&
-            <DialogDelete handleCloseDialog={(): void => handleToggleModal("delete", false)}
-                          handleDeleteEntity={handleDeleteEntity} isOpen={isModalOpen.delete}
+         {isMainModalOpen.delete &&
+            <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
+                          handleDeleteEntity={handleDeleteEntity} isOpen={isMainModalOpen.delete}
                           title="Are you sure you want to delete Partner?">
                {partnerId}
             </DialogDelete>}
@@ -126,7 +119,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                  }}
                  type="button"
                  variant="contained"
-                 onClick={(): void => handleToggleModal("add", true)}
+                 onClick={(): void => toggleMainModal("add", true)}
          >
             Add new Partner
          </Button>

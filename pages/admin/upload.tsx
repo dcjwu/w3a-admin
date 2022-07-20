@@ -12,7 +12,6 @@ import List from "@mui/material/List"
 import Typography from "@mui/material/Typography"
 import axios from "axios"
 import moment from "moment"
-import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
 import { v4 as uuidv4 } from "uuid"
 
@@ -26,7 +25,7 @@ import { useMainDialog } from "@hooks/admin/useMainDialog"
 import AdminLayout from "@layouts/admin/AdminLayout"
 
 import type { UploadPageType } from "@customTypes/admin/pages"
-import type { NextPage } from "next"
+import type { GetServerSideProps , NextPage } from "next"
 
 const UploadPage: NextPage<UploadPageType> = ({
    data,
