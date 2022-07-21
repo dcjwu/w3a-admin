@@ -2,24 +2,25 @@ import React from "react"
 
 import { statusDialogInitialState } from "@constants/admin/statusDialogInitialState"
 
+import type { StatusDialogInitialStateType } from "@customTypes/admin/constants"
 import type { UseStatusDialogType } from "@customTypes/admin/hooks"
 
 export const useStatusDialog = (): UseStatusDialogType => {
-   const [isModalOpen, setIsModalOpen] = React.useState(statusDialogInitialState)
+   const [isModalOpen, setIsModalOpen] = React.useState<StatusDialogInitialStateType>(statusDialogInitialState)
    const [error, setError] = React.useState("")
 
-   const toggleStatusModal = (key: string, show: boolean): void => {
+   const toggleStatusModal = React.useCallback((key: string, show: boolean): void => {
       setIsModalOpen({
          ...isModalOpen,
          [key]: show
       })
-   }
+   }, [isModalOpen])
 
-   const toggleLoading = (value: boolean): void => {
+   const toggleLoading = React.useCallback((value: boolean): void => {
       toggleStatusModal("loading", value)
-   }
+   }, [toggleStatusModal])
 
-   const toggleError = (error?: string): void => {
+   const toggleError = React.useCallback((error?: string): void => {
       if (error) {
          setError(error)
          toggleStatusModal("error", true)
@@ -27,15 +28,15 @@ export const useStatusDialog = (): UseStatusDialogType => {
          setError("")
          toggleStatusModal("error", false)
       }
-   }
+   }, [toggleStatusModal])
 
-   const toggleAlert = (value: string, toClose?: boolean): void => {
+   const toggleAlert = React.useCallback((value: string, toClose?: boolean): void => {
       if (!toClose) {
          toggleStatusModal(value, true)
       } else {
          toggleStatusModal(value, false)
       }
-   } //TODO: useCallback/useMemo usage?
+   }, [toggleStatusModal])
 
    return [isModalOpen, error, toggleLoading, toggleError, toggleAlert]
 }

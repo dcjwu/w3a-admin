@@ -12,7 +12,7 @@ export const useDataTable = <T>(data: T[]): [string[], string[][]] => {
          rows.push(items)
          setTableRows(rows)
       })
-   }, [data]) //TODO: useCallback/useMemo usage?
+   }, [data])
 
    return [tableColumns, tableRows]
 }
