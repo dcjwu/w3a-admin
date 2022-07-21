@@ -7,7 +7,7 @@ import axios from "axios"
 import { DialogForm } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
-import { useMainDialog } from "@hooks/admin"
+import { useEditableRow, useMainDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
@@ -20,11 +20,11 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    serverErrorMessage
 }): JSX.Element => {
 
-   const [isMainModalOpen, toggleMainModal] = useMainDialog()
    const [partnerId, setPartnerId] = React.useState("")
-   const [editableRow, setEditableRow] = React.useState<{ [k: string]: string; }>({})
 
+   const [isMainModalOpen, toggleMainModal] = useMainDialog()
    const [tableColumns, tableRows] = useDataTable(data)
+   const [editableRow, setEditableRow] = useEditableRow()
 
    const handleOpenDeleteDialog = (id: string): void => {
       setPartnerId(id)
@@ -32,10 +32,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    }
 
    const handleOpenEditDialog = (index: number): void => {
-      const editableFields = Object
-         .fromEntries((tableColumns.map((_, i) => [tableColumns[i], tableRows[index][i]])))
-
-      setEditableRow(editableFields)
+      setEditableRow(tableColumns, tableRows, index)
       toggleMainModal("edit", true)
    }
 
@@ -48,6 +45,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    const handleEditEntity = (event: React.SyntheticEvent): void => {
       event.preventDefault()
       toggleMainModal("edit", false)
+      //   router.replace(router.asPath);
    }
 
    const handleDeleteEntity = (): void => {
