@@ -9,7 +9,7 @@ import type { NextApiRequest, NextApiResponse } from "next"
 
 const PostTechnologyDto = Joi.object({
    name: Joi.string().required(),
-   imageUrl: Joi.string().uri().required(), //TODO Add AWS S3 link
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).required(),
    link: Joi.string().uri()
 })
 

@@ -12,7 +12,7 @@ const MemberIdDto = Joi.object({ id: Joi.string().uuid().required() })
 const PatchMemberDto = Joi.object({
    name: Joi.string(),
    title: Joi.string(),
-   imageUrl: Joi.string().uri(), //TODO Add AWS S3 link
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).required(),
    socialMediaLinks: Joi.array().items(Joi.string().uri())
 })
 

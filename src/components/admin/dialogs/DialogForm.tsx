@@ -18,7 +18,6 @@ export const DialogForm: React.FC<DialogFormType> = ({ isOpen, isButtonDisabled,
       <ThemeProvider theme={theme}>
          <Dialog open={isOpen} onClose={handleCloseDialog}>
             <Box component="form" onSubmit={handleSubmitForm}>
-               {/* TODO: Add error from server state to submit button */}
                <DialogTitle>{title}</DialogTitle>
                <DialogContent>
                   <DialogContentText>

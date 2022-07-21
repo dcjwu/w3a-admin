@@ -10,7 +10,7 @@ import type { NextApiRequest, NextApiResponse } from "next"
 const PostMemberDto = Joi.object({
    name: Joi.string().required(),
    title: Joi.string().required(),
-   imageUrl: Joi.string().uri().required(), //TODO Add AWS S3 link
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).required(),
    socialMediaLinks: Joi.array().items(Joi.string().uri()).required()
 })
 

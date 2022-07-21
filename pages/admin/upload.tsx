@@ -139,7 +139,7 @@ const UploadPage: NextPage<UploadPageType> = ({
                   }}
                             variant="contained">
                      Upload
-                     <input hidden required accept="image/webp"
+                     <input hidden required accept="image/webp, image/svg+xml"
                             type="file" onChange={handleFileUpload}/>
                   </Button>
                   : <Box sx={{

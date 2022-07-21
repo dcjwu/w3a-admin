@@ -11,7 +11,7 @@ export const config = { api: { bodyParser: { sizeLimit: "1mb" } } }
 
 const PostFileUploadDto = Joi.object({
    name: Joi.string().required(),
-   type: Joi.string().required() //TODO: Add .webp validation to middleware
+   type: Joi.string().valid("image/svg+xml", "image/webp").required()
 })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
