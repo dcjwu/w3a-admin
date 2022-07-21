@@ -1,5 +1,6 @@
 export * from "./loading.type"
-export * from "./dialogForm.type"
+export * from "./dialogAdd.type"
 export * from "./dataTable.type"
 export * from "./dialogWindow.type"
 export * from "./dialogStatus.type"
+export * from "./dialogEdit.type"

@@ -4,13 +4,13 @@ import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 import axios from "axios"
 
-import { DialogForm } from "@components/admin"
+import { DialogAdd } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
+import { DialogEdit } from "@components/admin/dialogs/DialogEdit"
 import { useEditableRow, useMainDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
-import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
 import type { PartnersPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
@@ -56,10 +56,10 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    return (
       <AdminLayout serverError={serverErrorMessage}>
          {isMainModalOpen.add &&
-            <DialogForm description="Please, submit form in order to add a New Partner."
-                        handleCloseDialog={(): void => toggleMainModal("add", false)}
-                        handleSubmitForm={handleAddEntity}
-                        isButtonDisabled={true} isOpen={isMainModalOpen.add} title="Add New Partner">
+            <DialogAdd description="Please, submit form in order to add a New Partner."
+                       handleCloseDialog={(): void => toggleMainModal("add", false)}
+                       handleSubmitForm={handleAddEntity}
+                       isButtonDisabled={true} isOpen={isMainModalOpen.add} title="Add New Partner">
                <TextField autoFocus
                           fullWidth
                           required
@@ -85,25 +85,14 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                           type="text"
                           variant="standard"
                />
-            </DialogForm>}
+            </DialogAdd>}
          {isMainModalOpen.edit &&
-            <DialogForm description="Please, submit form in order to edit necessary Partner."
+            <DialogEdit columns={tableColumns}
+                        description="Please, submit form in order to edit necessary Partner."
+                        editableRow={editableRow}
                         handleCloseDialog={(): void => toggleMainModal("edit", false)}
-                        handleSubmitForm={handleEditEntity}
-                        isButtonDisabled={true}
-                        isOpen={isMainModalOpen.edit} title="Edit Partner">
-               {tableColumns.map(item => (
-                  <TextField key={item} autoFocus fullWidth
-                             disabled={isEditInputDisabled(item)}
-                             id={item}
-                             label={item}
-                             margin="normal"
-                             type="text"
-                             value={editableRow[item]}
-                             variant="filled"
-                  />
-               ))}
-            </DialogForm>}
+                        handleSubmitForm={handleEditEntity} isButtonDisabled={true} isOpen={isMainModalOpen.edit}
+                        title="Edit Partner"/>}
          {isMainModalOpen.delete &&
             <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
                           handleDeleteEntity={handleDeleteEntity} isOpen={isMainModalOpen.delete}

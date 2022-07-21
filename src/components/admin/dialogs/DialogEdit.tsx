@@ -8,12 +8,24 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogTitle from "@mui/material/DialogTitle"
 import { ThemeProvider } from "@mui/material/styles"
+import TextField from "@mui/material/TextField"
 
 import { theme } from "@lib/admin/mui/theme"
+import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
-import type { DialogFormType } from "@customTypes/admin/components"
+import type { DialogEditType } from "@customTypes/admin/components"
 
-export const DialogForm: React.FC<DialogFormType> = ({ isOpen, isButtonDisabled, title, description, handleCloseDialog, handleSubmitForm, children }): JSX.Element => {
+
+export const DialogEdit: React.FC<DialogEditType> = ({
+   isOpen,
+   isButtonDisabled,
+   title,
+   description,
+   columns,
+   editableRow,
+   handleCloseDialog,
+   handleSubmitForm
+}): JSX.Element => {
    return (
       <ThemeProvider theme={theme}>
          <Dialog open={isOpen} onClose={handleCloseDialog}>
@@ -23,7 +35,17 @@ export const DialogForm: React.FC<DialogFormType> = ({ isOpen, isButtonDisabled,
                   <DialogContentText>
                      {description}
                   </DialogContentText>
-                  {children}
+                  {columns.map(item => (
+                     <TextField key={item} autoFocus fullWidth
+                                disabled={isEditInputDisabled(item)}
+                                id={item}
+                                label={item}
+                                margin="normal"
+                                type="text"
+                                value={editableRow[item]}
+                                variant="filled"
+                     />
+                  ))}
                </DialogContent>
                <DialogActions>
                   <Button type="button" onClick={handleCloseDialog}>Cancel</Button>

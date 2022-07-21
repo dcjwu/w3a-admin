@@ -15,7 +15,7 @@ import moment from "moment"
 import { useRouter } from "next/router"
 import { v4 as uuidv4 } from "uuid"
 
-import { DialogForm } from "@components/admin"
+import { DialogAdd } from "@components/admin"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
 import DialogStatus from "@components/admin/dialogs/DialogStatus"
 import { awsBucketUrl } from "@constants/admin/awsBucketUrl"
@@ -127,11 +127,11 @@ const UploadPage: NextPage<UploadPageType> = ({
             <DialogStatus error={error} handleCloseDialog={(): void => toggleError()}
                           isOpen={isStatusModalOpen.error} status={DialogStatusEnum.ERROR}/>}
          {isMainModalOpen.add &&
-            <DialogForm description="Please, upload .webp file to AWS in order to use its link later."
-                        handleCloseDialog={(): void => toggleMainModal("add", false)}
-                        handleSubmitForm={handleAddFile}
-                        isButtonDisabled={!file}
-                        isOpen={isMainModalOpen.add} title="Add New Image">
+            <DialogAdd description="Please, upload .webp file to AWS in order to use its link later."
+                       handleCloseDialog={(): void => toggleMainModal("add", false)}
+                       handleSubmitForm={handleAddFile}
+                       isButtonDisabled={!file}
+                       isOpen={isMainModalOpen.add} title="Add New Image">
                {!file
                   ? <Button fullWidth component="label" sx={{
                      marginTop: "16px",
@@ -159,7 +159,7 @@ const UploadPage: NextPage<UploadPageType> = ({
                         Delete
                      </Button>
                   </Box>}
-            </DialogForm>}
+            </DialogAdd>}
          {isMainModalOpen.delete &&
             <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
                           handleDeleteEntity={handleRemoveFile}
