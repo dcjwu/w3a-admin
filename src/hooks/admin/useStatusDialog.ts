@@ -2,7 +2,7 @@ import React from "react"
 
 import { statusDialogInitialState } from "@constants/admin/statusDialogInitialState"
 
-import type { StatusDialogInitialStateType } from "@customTypes/admin/constants"
+import type { StatusDialogInitialStateType } from "@customTypes/admin/common"
 import type { UseStatusDialogType } from "@customTypes/admin/hooks"
 
 export const useStatusDialog = (): UseStatusDialogType => {

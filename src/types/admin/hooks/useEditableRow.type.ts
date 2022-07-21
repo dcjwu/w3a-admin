@@ -1,4 +1,6 @@
+import type { EditableRowType, TableColumnsType, TableRowsType } from "@customTypes/admin/common"
+
 export type UseEditableRowType = [
-   {[p: string]: string},
-   ((columns: string[], rows: string[][], index: number) => void)
+   EditableRowType,
+   ((columns: TableColumnsType, rows: TableRowsType, index: number) => void)
 ]

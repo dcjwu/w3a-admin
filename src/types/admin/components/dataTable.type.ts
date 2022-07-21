@@ -1,6 +1,8 @@
+import type { TableColumnsType, TableRowsType } from "@customTypes/admin/common"
+
 export type DataTableType = {
-   tableColumns: string[],
-   tableRows: string[][],
+   tableColumns: TableColumnsType,
+   tableRows: TableRowsType,
    handleOpenDeleteDialog: (id: string) => void,
    handleOpenEditDialog: (index: number) => void
 }

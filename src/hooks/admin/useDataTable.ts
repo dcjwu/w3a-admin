@@ -1,11 +1,13 @@
 import React from "react"
 
-export const useDataTable = <T>(data: T[]): [string[], string[][]] => {
-   const [tableColumns, setTableColumns] = React.useState<string[]>([])
-   const [tableRows, setTableRows] = React.useState<string[][]>([])
+import type { TableColumnsType, TableRowsType } from "@customTypes/admin/common"
+
+export const useDataTable = <T>(data: T[]): [TableColumnsType, TableRowsType] => {
+   const [tableColumns, setTableColumns] = React.useState<TableColumnsType>([])
+   const [tableRows, setTableRows] = React.useState<TableRowsType>([])
 
    React.useEffect(() => {
-      const rows: string[][] = []
+      const rows: TableRowsType = []
       data.map(item => {
          setTableColumns(Object.keys(item))
          const items = Object.values(item) as string[]

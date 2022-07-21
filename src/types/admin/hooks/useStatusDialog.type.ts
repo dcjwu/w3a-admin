@@ -1,4 +1,4 @@
-import type { StatusDialogInitialStateType } from "@customTypes/admin/constants"
+import type { StatusDialogInitialStateType } from "@customTypes/admin/common"
 
 export type UseStatusDialogType = [
    StatusDialogInitialStateType,

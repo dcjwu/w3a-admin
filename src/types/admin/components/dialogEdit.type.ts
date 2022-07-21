@@ -1,12 +1,14 @@
 import type { FormEvent, MouseEventHandler } from "react"
 
+import type { EditableRowType, TableColumnsType } from "@customTypes/admin/common"
+
 export type DialogEditType = {
    isOpen: boolean,
    isButtonDisabled: boolean,
    title: string,
    description: string,
-   columns: string[],
-   editableRow: { [p: string]: string },
+   columns: TableColumnsType,
+   editableRow: EditableRowType,
    handleCloseDialog: MouseEventHandler<HTMLButtonElement>
    handleSubmitForm: (event: FormEvent<HTMLFormElement>) => void
 }
