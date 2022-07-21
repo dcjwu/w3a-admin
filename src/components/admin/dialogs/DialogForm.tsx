@@ -13,7 +13,7 @@ import { theme } from "@lib/admin/mui/theme"
 
 import type { DialogFormType } from "@customTypes/admin/components"
 
-export const DialogForm: React.FC<DialogFormType> = ({ isOpen, title, description, handleCloseDialog, handleSubmitForm, children }): JSX.Element => {
+export const DialogForm: React.FC<DialogFormType> = ({ isOpen, isButtonDisabled, title, description, handleCloseDialog, handleSubmitForm, children }): JSX.Element => {
    return (
       <ThemeProvider theme={theme}>
          <Dialog open={isOpen} onClose={handleCloseDialog}>
@@ -28,8 +28,7 @@ export const DialogForm: React.FC<DialogFormType> = ({ isOpen, title, descriptio
                </DialogContent>
                <DialogActions>
                   <Button type="button" onClick={handleCloseDialog}>Cancel</Button>
-                  <Button type="submit">Submit</Button>
-                  {/* TODO: Add loading state to submit button */}
+                  <Button disabled={isButtonDisabled} type="submit">Submit</Button>
                </DialogActions>
             </Box>
          </Dialog>

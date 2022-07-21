@@ -3,6 +3,7 @@ import type { FormEvent, MouseEventHandler } from "react"
 
 export type DialogFormType = {
    isOpen: boolean,
+   isButtonDisabled: boolean,
    title: string,
    description: string,
    handleCloseDialog: MouseEventHandler<HTMLButtonElement>

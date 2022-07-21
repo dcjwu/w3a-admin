@@ -25,7 +25,7 @@ import { useMainDialog } from "@hooks/admin/useMainDialog"
 import AdminLayout from "@layouts/admin/AdminLayout"
 
 import type { UploadPageType } from "@customTypes/admin/pages"
-import type { GetServerSideProps , NextPage } from "next"
+import type { GetServerSideProps, NextPage } from "next"
 
 const UploadPage: NextPage<UploadPageType> = ({
    data,
@@ -113,7 +113,7 @@ const UploadPage: NextPage<UploadPageType> = ({
             toggleAlert("alertError")
          })
    }
-   
+
    useEffect(() => {
       handleFileRemove()
    }, [isMainModalOpen.add])
@@ -130,6 +130,7 @@ const UploadPage: NextPage<UploadPageType> = ({
             <DialogForm description="Please, upload .webp file to AWS in order to use its link later."
                         handleCloseDialog={(): void => toggleMainModal("add", false)}
                         handleSubmitForm={handleAddFile}
+                        isButtonDisabled={!file}
                         isOpen={isMainModalOpen.add} title="Add New Image">
                {!file
                   ? <Button fullWidth component="label" sx={{
