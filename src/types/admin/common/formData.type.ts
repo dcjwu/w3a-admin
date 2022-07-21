@@ -1,0 +1,1 @@
+export type FormDataType = {[k: string]: string}

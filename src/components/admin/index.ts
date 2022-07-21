@@ -1,5 +1,6 @@
 export * from "./mui/Main"
 export * from "./mui/Topbar"
 export * from "./mui/Sidebar"
+export * from "./mui/Input"
 export * from "./Loading"
 export * from "./dialogs/DialogAdd"

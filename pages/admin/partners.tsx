@@ -1,19 +1,26 @@
 import React from "react"
 
 import Button from "@mui/material/Button"
-import TextField from "@mui/material/TextField"
 import axios from "axios"
 
-import { DialogAdd } from "@components/admin"
+import { DialogAdd, Input } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
 import { DialogEdit } from "@components/admin/dialogs/DialogEdit"
+import { DialogForm } from "@components/admin/dialogs/DialogForm"
 import { useEditableRow, useMainDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
 
+import type { FormDataType } from "@customTypes/admin/common"
 import type { PartnersPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
+
+const initialValues = {
+   name: "",
+   link: "",
+   imageUrl: ""
+}
 
 const PartnersPage: NextPage<PartnersPageType> = ({
    data,
@@ -36,9 +43,10 @@ const PartnersPage: NextPage<PartnersPageType> = ({
       toggleMainModal("edit", true)
    }
 
-   const handleAddEntity = (event: React.SyntheticEvent): void => {
+   const handleAddEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
       event.preventDefault()
-      toggleMainModal("add", false)
+      console.table(formData)
+      // toggleMainModal("add", false)
       //   router.replace(router.asPath);
    }
 
@@ -57,41 +65,44 @@ const PartnersPage: NextPage<PartnersPageType> = ({
       <AdminLayout serverError={serverErrorMessage}>
          {isMainModalOpen.add &&
             <DialogAdd description="Please, submit form in order to add a New Partner."
-                       handleCloseDialog={(): void => toggleMainModal("add", false)}
-                       handleSubmitForm={handleAddEntity}
-                       isButtonDisabled={true} isOpen={isMainModalOpen.add} title="Add New Partner">
-               <TextField autoFocus
-                          fullWidth
-                          required
-                          id="name"
-                          label="Partner's name"
-                          margin="normal"
-                          type="text"
-                          variant="standard"
-               />
-               <TextField fullWidth
-                          required
-                          id="partnersWebsite"
-                          label="Partner's website URL"
-                          margin="normal"
-                          type="text"
-                          variant="standard"
-               />
-               <TextField fullWidth
-                          required
-                          id="partnersLogo"
-                          label="Partner's Logo URL"
-                          margin="normal"
-                          type="text"
-                          variant="standard"
-               />
+                       handleCloseDialog={(): void => toggleMainModal("add", false)} isOpen={isMainModalOpen.add}
+                       title="Add New Partner">
+               <DialogForm handleCloseDialog={(): void => toggleMainModal("add", false)}
+                           handleFormSubmit={handleAddEntity}
+                           initialState={initialValues} isButtonDisabled={false}>
+                  <Input autoFocus
+                         fullWidth
+                         required
+                         label="Partner's name"
+                         margin="normal"
+                         name="name"
+                         type="text"
+                         variant="standard"
+                  />
+                  <Input fullWidth
+                         required
+                         label="Partner's website URL"
+                         margin="normal"
+                         name="link"
+                         type="text"
+                         variant="standard"
+                  />
+                  <Input fullWidth
+                         required
+                         label="Partner's Logo URL"
+                         margin="normal"
+                         name="imageUrl"
+                         type="text"
+                         variant="standard"
+                  />
+               </DialogForm>
             </DialogAdd>}
          {isMainModalOpen.edit &&
             <DialogEdit columns={tableColumns}
                         description="Please, submit form in order to edit necessary Partner."
                         editableRow={editableRow}
                         handleCloseDialog={(): void => toggleMainModal("edit", false)}
-                        handleSubmitForm={handleEditEntity} isButtonDisabled={true} isOpen={isMainModalOpen.edit}
+                        handleSubmitForm={handleEditEntity} isButtonDisabled={false} isOpen={isMainModalOpen.edit}
                         title="Edit Partner"/>}
          {isMainModalOpen.delete &&
             <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
