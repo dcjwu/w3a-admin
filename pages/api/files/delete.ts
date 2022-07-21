@@ -7,7 +7,7 @@ import { s3 } from "@services/aws"
 
 import type { NextApiRequest, NextApiResponse } from "next"
 
-export const config = { api: { bodyParser: { sizeLimit: "1mb" } } }
+export const config = { api: { bodyParser: { sizeLimit: "1mb" }, externalResolver: true } }
 
 const PostFileDeleteDto = Joi.object({ key: Joi.string().required(), })
 

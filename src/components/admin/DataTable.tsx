@@ -60,8 +60,8 @@ export const DataTable: React.FC<DataTableType> = ({
                                        {isStringDate(column)
                                           ? moment(column).format("DD/MM/YYYY HH:mm")
                                           : isStringUrl(column)
-                                             ? <Link href={column} target="_black"
-                                                     underline="hover"
+                                             ? <Link color="info.main" href={column}
+                                                     target="_black" underline="hover"
                                                      variant="subtitle2">
                                                 {capitalizeWord(tableColumns[index])}
                                              </Link>

@@ -4,9 +4,9 @@ import { createRouter } from "next-connect"
 import { authMiddleware } from "@lib/admin/middlewares"
 import { s3 } from "@services/aws"
 
-const router = createRouter<NextApiRequest, NextApiResponse>()
+export const config = { api: { externalResolver: true } }
 
-//TODO: Fix stalled requests warning in this folder
+const router = createRouter<NextApiRequest, NextApiResponse>()
 
 router
    .use(authMiddleware)

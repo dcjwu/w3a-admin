@@ -61,7 +61,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
             <DialogForm description="Please, submit form in order to add a New Partner."
                         handleCloseDialog={(): void => toggleMainModal("add", false)}
                         handleSubmitForm={handleAddEntity}
-                        isOpen={isMainModalOpen.add} title="Add New Partner">
+                        isButtonDisabled={true} isOpen={isMainModalOpen.add} title="Add New Partner">
                <TextField autoFocus
                           fullWidth
                           required
@@ -92,6 +92,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
             <DialogForm description="Please, submit form in order to edit necessary Partner."
                         handleCloseDialog={(): void => toggleMainModal("edit", false)}
                         handleSubmitForm={handleEditEntity}
+                        isButtonDisabled={true}
                         isOpen={isMainModalOpen.edit} title="Edit Partner">
                {tableColumns.map(item => (
                   <TextField key={item} autoFocus fullWidth

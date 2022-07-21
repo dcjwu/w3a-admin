@@ -8,6 +8,8 @@ import type { NextApiRequest, NextApiResponse } from "next"
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
+export const config = { api: { externalResolver: true } }
+
 const TicketIdDto = Joi.object({ id: Joi.string().uuid().required() })
 
 const PatchTicketDto = Joi.object({ status: Joi.string().valid("CLOSED", "ACTIVE") })

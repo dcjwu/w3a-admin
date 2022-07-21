@@ -7,6 +7,8 @@ import { prisma } from "@lib/prisma"
 
 import type { NextApiRequest, NextApiResponse } from "next"
 
+export const config = { api: { externalResolver: true } }
+
 const PostTechnologyDto = Joi.object({
    name: Joi.string().required(),
    imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).required(),

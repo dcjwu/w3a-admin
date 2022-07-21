@@ -7,6 +7,8 @@ import { prisma } from "@lib/prisma"
 
 import type { NextApiRequest, NextApiResponse } from "next"
 
+export const config = { api: { externalResolver: true } }
+
 const ServiceIdDto = Joi.object({ id: Joi.string().uuid().required() })
 
 const PatchServiceDto = Joi.object({

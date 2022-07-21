@@ -6,6 +6,8 @@ import { prisma } from "@lib/prisma"
 
 import type { NextApiRequest, NextApiResponse } from "next"
 
+export const config = { api: { externalResolver: true } }
+
 const PostMessageDto = Joi.object({
    name: Joi.string().required(),
    email: Joi.string().email().required(),

@@ -5,6 +5,8 @@ import { validationMiddleware } from "@lib/admin/middlewares"
 import { authMiddleware } from "@lib/admin/middlewares/authentication"
 import { prisma } from "@lib/prisma"
 
+export const config = { api: { externalResolver: true } }
+
 import type { NextApiRequest, NextApiResponse } from "next"
 
 const MemberIdDto = Joi.object({ id: Joi.string().uuid().required() })
