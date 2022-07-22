@@ -11,6 +11,7 @@ export const config = { api: { externalResolver: true } }
 
 const PostTechnologyDto = Joi.object({
    name: Joi.string().required(),
+   category: Joi.string().valid("FRAMEWORKS", "DBMS", "BLOCKCHAINS", "LANGUAGES", "CLOUD_PLATFORMS").required(),
    imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).required(),
    link: Joi.string().uri()
 })
@@ -26,6 +27,7 @@ router
             select: {
                id: true,
                name: true,
+               category: true,
                imageUrl: true,
                link: true,
                createdAt: true
@@ -43,13 +45,19 @@ router
 
    .post(validationMiddleware({ body: PostTechnologyDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const { name, imageUrl, link } = req.body
+         const {
+            name,
+            imageUrl,
+            link,
+            category
+         } = req.body
 
          await prisma.technology.create({
             data: {
                name: name,
                imageUrl: imageUrl,
-               link: link
+               link: link,
+               category: category
             },
          })
 

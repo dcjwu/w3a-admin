@@ -14,7 +14,7 @@ const ProjectIdDto = Joi.object({ id: Joi.string().uuid().required() })
 const PatchProjectDto = Joi.object({
    name: Joi.string(),
    description: Joi.string(),
-   imageUrl: Joi.string().uri(),
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/),
    keywords: Joi.array()
 })
 

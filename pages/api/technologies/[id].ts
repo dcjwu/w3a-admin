@@ -13,7 +13,8 @@ const TechnologyIdDto = Joi.object({ id: Joi.string().uuid().required() })
 
 const PatchTechnologyDto = Joi.object({
    name: Joi.string(),
-   imageUrl: Joi.string().uri(),
+   category: Joi.string().valid("FRAMEWORKS", "DBMS", "BLOCKCHAINS", "LANGUAGES", "CLOUD_PLATFORMS"),
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/),
    link: Joi.string().uri()
 })
 
@@ -25,7 +26,7 @@ router
    .patch(validationMiddleware({ query: TechnologyIdDto, body: PatchTechnologyDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
          const { id } = req.query
-         const { name, imageUrl, link } = req.body
+         const { name, imageUrl, link, category } = req.body
 
          if (typeof id === "string") {
             const technology = await prisma.technology.findUnique({ where: { id: id } })
@@ -37,7 +38,8 @@ router
                data: {
                   name: name,
                   imageUrl: imageUrl,
-                  link: link
+                  link: link,
+                  category: category
                }
             })
          }

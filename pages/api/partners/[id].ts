@@ -13,7 +13,7 @@ const PartnerIdDto = Joi.object({ id: Joi.string().uuid().required() })
 
 const PatchPartnerDto = Joi.object({
    name: Joi.string(),
-   imageUrl: Joi.string().uri(),
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/),
    link: Joi.string().uri()
 })
 
