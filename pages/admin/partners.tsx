@@ -70,7 +70,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                               title="Add New Partner">
                <DialogForm handleCloseDialog={(): void => toggleMainModal("add", false)}
                            handleFormSubmit={handleAddEntity}
-                           initialState={initialValuesAddPartner} isButtonDisabled={false}>
+                           initialState={initialValuesAddPartner}>
                   <Input autoFocus
                          fullWidth
                          required
@@ -105,8 +105,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                               title="Edit Partner">
                <DialogForm handleCloseDialog={(): void => toggleMainModal("edit", false)}
                            handleFormSubmit={handleEditEntity}
-                           initialState={editableRow}
-                           isButtonDisabled={true}>
+                           initialState={editableRow}>
                   {tableColumns.map(item => (
                      <Input key={item} autoFocus fullWidth
                             disabled={isEditInputDisabled(item)}

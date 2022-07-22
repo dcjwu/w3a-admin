@@ -6,6 +6,8 @@ import Button from "@mui/material/Button"
 import DialogActions from "@mui/material/DialogActions"
 import DialogContent from "@mui/material/DialogContent"
 
+import { isObjectChanged } from "@utils/isObjectChanged"
+
 import type { DialogFormType } from "@customTypes/admin/components"
 import type { FormContextType } from "@customTypes/admin/context"
 
@@ -13,7 +15,6 @@ export const FormContext = React.createContext<FormContextType>({ formData: {} }
 
 export const DialogForm: React.FC<DialogFormType> = ({
    initialState,
-   isButtonDisabled,
    handleCloseDialog,
    handleFormSubmit,
    children
@@ -47,7 +48,7 @@ export const DialogForm: React.FC<DialogFormType> = ({
                </FormContext.Provider>
                <DialogActions>
                   <Button type="button" onClick={handleCloseDialog}>Cancel</Button>
-                  <Button disabled={isButtonDisabled} type="submit">
+                  <Button disabled={isObjectChanged(initialState, formData)} type="submit">
                      Submit</Button>
                </DialogActions>
             </Box>
