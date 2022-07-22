@@ -110,11 +110,20 @@ model Partner {
     @@map("partners")
 }
 
+enum TechnologyCategories {
+    FRAMEWORKS
+    DBMS
+    BLOCKCHAINS
+    LANGUAGES
+    CLOUD_PLATFORMS
+}
+
 model Technology {
     id                      String      @id @default(uuid())
     name                    String
     imageUrl                String
     link                    String?
+    category                TechnologyCategories?
 
     createdAt               DateTime    @default(now())
     updatedAt               DateTime    @updatedAt
