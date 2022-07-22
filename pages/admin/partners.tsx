@@ -1,13 +1,17 @@
 import React from "react"
 
+import { Typography } from "@mui/material"
 import Button from "@mui/material/Button"
 import axios from "axios"
+import { useRouter } from "next/router"
 
 import { DialogWithInputs, Input } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
 import { DialogForm } from "@components/admin/dialogs/DialogForm"
-import { useEditableRow, useMainDialog } from "@hooks/admin"
+import DialogStatus from "@components/admin/dialogs/DialogStatus"
+import { DialogStatusEnum } from "@customTypes/admin/components"
+import { useEditableRow, useMainDialog, useStatusDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
@@ -27,9 +31,12 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    serverErrorMessage
 }): JSX.Element => {
 
+   const router = useRouter()
+
    const [partnerId, setPartnerId] = React.useState("")
 
    const [isMainModalOpen, toggleMainModal] = useMainDialog()
+   const [isStatusModalOpen, error, toggleLoading, toggleError] = useStatusDialog()
    const [tableColumns, tableRows] = useDataTable(data)
    const [editableRow, setEditableRow] = useEditableRow()
 
@@ -45,25 +52,100 @@ const PartnersPage: NextPage<PartnersPageType> = ({
 
    const handleAddEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
       event.preventDefault()
-      console.table(formData)
-      // toggleMainModal("add", false)
-      //   router.replace(router.asPath);
+      toggleLoading(true)
+      await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/partners`, formData, { withCredentials: true })
+         .then(res => {
+            toggleLoading(false)
+            if (res.status === 201) {
+               router.replace(router.asPath)
+               toggleMainModal("add", false)
+            } else {
+               console.warn(res.data)
+               toggleError("Something went wrong")
+            }
+         })
+         .catch(err => {
+            toggleLoading(false)
+            const errorData = err.response.data
+            if (Array.isArray(errorData)) {
+               errorData.forEach((item: { message: string | undefined }) => {
+                  toggleError(item.message)
+               })
+            } else {
+               toggleError(errorData.message)
+            }
+         })
    }
 
    const handleEditEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
+      const {
+         name,
+         imageUrl,
+         link
+      } = formData
       event.preventDefault()
-      console.table(formData)
-      toggleMainModal("edit", false)
-      //   router.replace(router.asPath);
+      toggleLoading(true)
+      await axios.patch(`${process.env.NEXT_PUBLIC_URL}/api/partners/${formData.id}`, {
+         name,
+         imageUrl,
+         link
+      }, { withCredentials: true })
+         .then(res => {
+            toggleLoading(false)
+            if (res.status === 200) {
+               router.replace(router.asPath)
+               toggleMainModal("edit", false)
+            } else {
+               console.warn(res.data)
+               toggleError("Something went wrong")
+            }
+         })
+         .catch(err => {
+            toggleLoading(false)
+            const errorData = err.response.data
+            if (Array.isArray(errorData)) {
+               errorData.forEach((item: { message: string | undefined }) => {
+                  toggleError(item.message)
+               })
+            } else {
+               toggleError(errorData.message)
+            }
+         })
    }
 
-   const handleDeleteEntity = (): void => {
-      toggleMainModal("delete", false)
-      //   router.replace(router.asPath);
+   const handleDeleteEntity = async (): Promise<void> => {
+      await axios.delete(`${process.env.NEXT_PUBLIC_URL}/api/partners/${partnerId}`, { withCredentials: true })
+         .then(res => {
+            toggleLoading(false)
+            if (res.status === 200) {
+               router.replace(router.asPath)
+               toggleMainModal("delete", false)
+            } else {
+               console.warn(res.data)
+               toggleError("Something went wrong")
+            }
+         })
+         .catch(err => {
+            toggleLoading(false)
+            const errorData = err.response.data
+            if (Array.isArray(errorData)) {
+               errorData.forEach((item: { message: string | undefined }) => {
+                  toggleError(item.message)
+               })
+            } else {
+               toggleError(errorData.message)
+            }
+         })
    }
 
    return (
       <AdminLayout serverError={serverErrorMessage}>
+         {isStatusModalOpen.loading &&
+            <DialogStatus handleCloseDialog={(): void => toggleLoading(false)} isOpen={isStatusModalOpen.loading}
+                          status={DialogStatusEnum.LOADING}/>}
+         {isStatusModalOpen.error &&
+            <DialogStatus error={error} handleCloseDialog={(): void => toggleError()}
+                          isOpen={isStatusModalOpen.error} status={DialogStatusEnum.ERROR}/>}
          {isMainModalOpen.add &&
             <DialogWithInputs description="Please, submit form in order to add a New Partner."
                               handleCloseDialog={(): void => toggleMainModal("add", false)} isOpen={isMainModalOpen.add}
@@ -137,9 +219,11 @@ const PartnersPage: NextPage<PartnersPageType> = ({
          >
             Add new Partner
          </Button>
-         <DataTable handleOpenDeleteDialog={handleOpenDeleteDialog} handleOpenEditDialog={handleOpenEditDialog}
-                    tableColumns={tableColumns}
-                    tableRows={tableRows}/>
+         {data.length
+            ? <DataTable handleOpenDeleteDialog={handleOpenDeleteDialog} handleOpenEditDialog={handleOpenEditDialog}
+                         tableColumns={tableColumns}
+                         tableRows={tableRows}/>
+            : <Typography color="error" variant="subtitle2">No records found</Typography>}
       </AdminLayout>
    )
 }
