@@ -7,6 +7,8 @@ import Card from "@mui/material/Card"
 import CardActions from "@mui/material/CardActions"
 import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
 import Grid from "@mui/material/Grid"
 import List from "@mui/material/List"
 import Typography from "@mui/material/Typography"
@@ -15,7 +17,7 @@ import moment from "moment"
 import { useRouter } from "next/router"
 import { v4 as uuidv4 } from "uuid"
 
-import { DialogAdd } from "@components/admin"
+import { DialogWithInputs } from "@components/admin"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
 import DialogStatus from "@components/admin/dialogs/DialogStatus"
 import { awsBucketUrl } from "@constants/admin/awsBucketUrl"
@@ -127,39 +129,47 @@ const UploadPage: NextPage<UploadPageType> = ({
             <DialogStatus error={error} handleCloseDialog={(): void => toggleError()}
                           isOpen={isStatusModalOpen.error} status={DialogStatusEnum.ERROR}/>}
          {isMainModalOpen.add &&
-            <DialogAdd description="Please, upload .webp file to AWS in order to use its link later."
-                       handleCloseDialog={(): void => toggleMainModal("add", false)}
-                       handleSubmitForm={handleAddFile}
-                       isButtonDisabled={!file}
-                       isOpen={isMainModalOpen.add} title="Add New Image">
-               {!file
-                  ? <Button fullWidth component="label" sx={{
-                     marginTop: "16px",
-                     marginBottom: "8px"
-                  }}
-                            variant="contained">
-                     Upload
-                     <input hidden required accept="image/webp, image/svg+xml"
-                            type="file" onChange={handleFileUpload}/>
-                  </Button>
-                  : <Box sx={{
-                     marginTop: "16px",
-                     marginBottom: "8px"
-                  }}>
-                     <Typography sx={{
-                        margin: "16px",
-                        marginBottom: "8px",
-                        textAlign: "center"
-                     }} variant="subtitle2">
-                        [{file[0].name}, {(file[0].size / 1024).toFixed(2)}kb]
-                     </Typography>
-                     <Button fullWidth color="error" component="label"
-                             variant="contained"
-                             onClick={handleFileRemove}>
-                        Delete
-                     </Button>
-                  </Box>}
-            </DialogAdd>}
+            <DialogWithInputs description="Please, upload .webp file to AWS in order to use its link later."
+                              handleCloseDialog={(): void => toggleMainModal("add", false)}
+                              isOpen={isMainModalOpen.add} title="Add New Image">
+               <DialogContent sx={{ py: 0 }}>
+                  <Box component="form"
+                       onSubmit={handleAddFile}>
+                     {!file
+                        ? <Button fullWidth component="label" sx={{
+                           marginTop: "16px",
+                           marginBottom: "8px"
+                        }}
+                                  variant="contained">
+                           Upload
+                           <input hidden required accept="image/webp, image/svg+xml"
+                                  type="file" onChange={handleFileUpload}/>
+                        </Button>
+                        : <Box sx={{
+                           marginTop: "16px",
+                           marginBottom: "8px"
+                        }}>
+                           <Typography sx={{
+                              margin: "16px",
+                              marginBottom: "8px",
+                              textAlign: "center"
+                           }} variant="subtitle2">
+                              [{file[0].name}, {(file[0].size / 1024).toFixed(2)}kb]
+                           </Typography>
+                           <Button fullWidth color="error" component="label"
+                                   variant="contained"
+                                   onClick={handleFileRemove}>
+                              Delete
+                           </Button>
+                        </Box>}
+                     <DialogActions>
+                        <Button type="button" onClick={(): void => toggleMainModal("add", false)}>Cancel</Button>
+                        <Button disabled={!file} type="submit">
+                           Submit</Button>
+                     </DialogActions>
+                  </Box>
+               </DialogContent>
+            </DialogWithInputs>}
          {isMainModalOpen.delete &&
             <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
                           handleDeleteEntity={handleRemoveFile}

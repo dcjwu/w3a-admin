@@ -3,20 +3,20 @@ import React from "react"
 import Button from "@mui/material/Button"
 import axios from "axios"
 
-import { DialogAdd, Input } from "@components/admin"
+import { DialogWithInputs, Input } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
-import { DialogEdit } from "@components/admin/dialogs/DialogEdit"
 import { DialogForm } from "@components/admin/dialogs/DialogForm"
 import { useEditableRow, useMainDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
+import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
 import type { FormDataType } from "@customTypes/admin/common"
 import type { PartnersPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
 
-const initialValues = {
+const initialValuesAddPartner = {
    name: "",
    link: "",
    imageUrl: ""
@@ -50,8 +50,9 @@ const PartnersPage: NextPage<PartnersPageType> = ({
       //   router.replace(router.asPath);
    }
 
-   const handleEditEntity = (event: React.SyntheticEvent): void => {
+   const handleEditEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
       event.preventDefault()
+      console.table(formData)
       toggleMainModal("edit", false)
       //   router.replace(router.asPath);
    }
@@ -64,12 +65,12 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    return (
       <AdminLayout serverError={serverErrorMessage}>
          {isMainModalOpen.add &&
-            <DialogAdd description="Please, submit form in order to add a New Partner."
-                       handleCloseDialog={(): void => toggleMainModal("add", false)} isOpen={isMainModalOpen.add}
-                       title="Add New Partner">
+            <DialogWithInputs description="Please, submit form in order to add a New Partner."
+                              handleCloseDialog={(): void => toggleMainModal("add", false)} isOpen={isMainModalOpen.add}
+                              title="Add New Partner">
                <DialogForm handleCloseDialog={(): void => toggleMainModal("add", false)}
                            handleFormSubmit={handleAddEntity}
-                           initialState={initialValues} isButtonDisabled={false}>
+                           initialState={initialValuesAddPartner} isButtonDisabled={false}>
                   <Input autoFocus
                          fullWidth
                          required
@@ -96,14 +97,29 @@ const PartnersPage: NextPage<PartnersPageType> = ({
                          variant="standard"
                   />
                </DialogForm>
-            </DialogAdd>}
+            </DialogWithInputs>}
          {isMainModalOpen.edit &&
-            <DialogEdit columns={tableColumns}
-                        description="Please, submit form in order to edit necessary Partner."
-                        editableRow={editableRow}
-                        handleCloseDialog={(): void => toggleMainModal("edit", false)}
-                        handleSubmitForm={handleEditEntity} isButtonDisabled={false} isOpen={isMainModalOpen.edit}
-                        title="Edit Partner"/>}
+            <DialogWithInputs description="Please, submit form in order to edit necessary Partner."
+                              handleCloseDialog={(): void => toggleMainModal("edit", false)}
+                              isOpen={isMainModalOpen.edit}
+                              title="Edit Partner">
+               <DialogForm handleCloseDialog={(): void => toggleMainModal("edit", false)}
+                           handleFormSubmit={handleEditEntity}
+                           initialState={editableRow}
+                           isButtonDisabled={true}>
+                  {tableColumns.map(item => (
+                     <Input key={item} autoFocus fullWidth
+                            disabled={isEditInputDisabled(item)}
+                            id={item}
+                            label={item}
+                            margin="normal"
+                            name={item}
+                            type="text"
+                            variant="filled"
+                     />
+                  ))}
+               </DialogForm>
+            </DialogWithInputs>}
          {isMainModalOpen.delete &&
             <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
                           handleDeleteEntity={handleDeleteEntity} isOpen={isMainModalOpen.delete}

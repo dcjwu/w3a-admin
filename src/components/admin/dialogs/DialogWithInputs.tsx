@@ -8,9 +8,9 @@ import { ThemeProvider } from "@mui/material/styles"
 
 import { theme } from "@lib/admin/mui/theme"
 
-import type { DialogAddType } from "@customTypes/admin/components"
+import type { DialogWithInputsType } from "@customTypes/admin/components"
 
-export const DialogAdd: React.FC<DialogAddType> = ({ isOpen, title, description, handleCloseDialog, children }): JSX.Element => {
+export const DialogWithInputs: React.FC<DialogWithInputsType> = ({ isOpen, title, description, handleCloseDialog, children }): JSX.Element => {
    return (
       <ThemeProvider theme={theme}>
          <Dialog open={isOpen} onClose={handleCloseDialog}>
