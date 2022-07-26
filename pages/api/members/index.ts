@@ -30,7 +30,8 @@ router
                title: true,
                imageUrl: true,
                socialMediaLinks: true,
-               createdAt: true
+               createdAt: true,
+               updatedAt: true
             },
             orderBy: { createdAt: "desc" }
          })

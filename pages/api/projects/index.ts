@@ -30,7 +30,8 @@ router
                description: true,
                imageUrl: true,
                keywords: true,
-               createdAt: true
+               createdAt: true,
+               updatedAt: true
             },
             orderBy: { createdAt: "desc" }
          })

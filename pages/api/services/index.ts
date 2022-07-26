@@ -26,7 +26,8 @@ router
                id: true,
                name: true,
                description: true,
-               createdAt: true
+               createdAt: true,
+               updatedAt: true
             },
             orderBy: { createdAt: "desc" }
          })
