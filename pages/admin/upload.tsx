@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from "uuid"
 
 import { DialogWithInputs } from "@components/admin"
 import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
-import DialogStatus from "@components/admin/dialogs/DialogStatus"
+import { DialogStatus } from "@components/admin/dialogs/DialogStatus"
 import { awsBucketUrl } from "@constants/admin/awsBucketUrl"
 import { DialogStatusEnum } from "@customTypes/admin/components"
 import { useStatusDialog } from "@hooks/admin"

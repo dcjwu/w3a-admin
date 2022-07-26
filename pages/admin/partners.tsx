@@ -12,7 +12,7 @@ import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
 import type { FormDataType } from "@customTypes/admin/common"
 import type {
-   DialogStatusType ,
+   DialogStatusType,
    DataTableType,
    DialogFormType,
    DialogWindowType,
