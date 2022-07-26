@@ -79,7 +79,6 @@ const UploadPage: NextPage<UploadPageType> = ({
                }
             })
             .catch(err => {
-               console.error(err)
                toggleLoading(false)
                toggleError(err.message)
             })
@@ -98,7 +97,6 @@ const UploadPage: NextPage<UploadPageType> = ({
             }
          })
          .catch(err => {
-            console.error(err)
             toggleError(err.message)
          })
    }

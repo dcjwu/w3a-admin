@@ -3,7 +3,6 @@ import React from "react"
 import { Typography } from "@mui/material"
 import Button from "@mui/material/Button"
 import axios from "axios"
-import { useRouter } from "next/router"
 
 import { DialogWithInputs, Input } from "@components/admin"
 import { DataTable } from "@components/admin/DataTable"
@@ -11,7 +10,8 @@ import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
 import { DialogForm } from "@components/admin/dialogs/DialogForm"
 import DialogStatus from "@components/admin/dialogs/DialogStatus"
 import { DialogStatusEnum } from "@customTypes/admin/components"
-import { useEditableRow, useMainDialog, useStatusDialog } from "@hooks/admin"
+import { RequestMethod } from "@customTypes/admin/hooks"
+import { useAxios, useEditableRow, useMainDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
@@ -31,14 +31,12 @@ const PartnersPage: NextPage<PartnersPageType> = ({
    serverErrorMessage
 }): JSX.Element => {
 
-   const router = useRouter()
-
    const [partnerId, setPartnerId] = React.useState("")
 
-   const [isMainModalOpen, toggleMainModal] = useMainDialog()
-   const [isStatusModalOpen, error, toggleLoading, toggleError] = useStatusDialog()
    const [tableColumns, tableRows] = useDataTable(data)
    const [editableRow, setEditableRow] = useEditableRow()
+   const [isMainModalOpen, toggleMainModal] = useMainDialog()
+   const [isStatusModalOpen, error, toggleLoading, toggleError, handleRequest] = useAxios()
 
    const handleOpenDeleteDialog = (id: string): void => {
       setPartnerId(id)
@@ -52,90 +50,21 @@ const PartnersPage: NextPage<PartnersPageType> = ({
 
    const handleAddEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
       event.preventDefault()
-      toggleLoading(true)
-      await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/partners`, formData, { withCredentials: true })
-         .then(res => {
-            toggleLoading(false)
-            if (res.status === 201) {
-               router.replace(router.asPath)
-               toggleMainModal("add", false)
-            } else {
-               console.warn(res.data)
-               toggleError("Something went wrong")
-            }
-         })
-         .catch(err => {
-            toggleLoading(false)
-            const errorData = err.response.data
-            if (Array.isArray(errorData)) {
-               errorData.forEach((item: { message: string | undefined }) => {
-                  toggleError(item.message)
-               })
-            } else {
-               toggleError(errorData.message)
-            }
-         })
+      await handleRequest(RequestMethod.POST, "partners", toggleMainModal, formData)
    }
 
    const handleEditEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
       const {
          name,
          imageUrl,
-         link
+         link 
       } = formData
       event.preventDefault()
-      toggleLoading(true)
-      await axios.patch(`${process.env.NEXT_PUBLIC_URL}/api/partners/${formData.id}`, {
-         name,
-         imageUrl,
-         link
-      }, { withCredentials: true })
-         .then(res => {
-            toggleLoading(false)
-            if (res.status === 200) {
-               router.replace(router.asPath)
-               toggleMainModal("edit", false)
-            } else {
-               console.warn(res.data)
-               toggleError("Something went wrong")
-            }
-         })
-         .catch(err => {
-            toggleLoading(false)
-            const errorData = err.response.data
-            if (Array.isArray(errorData)) {
-               errorData.forEach((item: { message: string | undefined }) => {
-                  toggleError(item.message)
-               })
-            } else {
-               toggleError(errorData.message)
-            }
-         })
+      await handleRequest(RequestMethod.PATCH, `partners/${formData.id}`, toggleMainModal, { name, imageUrl, link })
    }
 
    const handleDeleteEntity = async (): Promise<void> => {
-      await axios.delete(`${process.env.NEXT_PUBLIC_URL}/api/partners/${partnerId}`, { withCredentials: true })
-         .then(res => {
-            toggleLoading(false)
-            if (res.status === 200) {
-               router.replace(router.asPath)
-               toggleMainModal("delete", false)
-            } else {
-               console.warn(res.data)
-               toggleError("Something went wrong")
-            }
-         })
-         .catch(err => {
-            toggleLoading(false)
-            const errorData = err.response.data
-            if (Array.isArray(errorData)) {
-               errorData.forEach((item: { message: string | undefined }) => {
-                  toggleError(item.message)
-               })
-            } else {
-               toggleError(errorData.message)
-            }
-         })
+      await handleRequest(RequestMethod.DELETE, `partners/${partnerId}`, toggleMainModal)
    }
 
    return (

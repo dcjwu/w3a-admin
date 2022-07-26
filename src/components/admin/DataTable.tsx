@@ -56,7 +56,7 @@ export const DataTable: React.FC<DataTableType> = ({
                                      tabIndex={-1}>
                               {row.map((column, index) => {
                                  return (
-                                    <TableCell key={column} align="center">
+                                    <TableCell key={column + index} align="center">
                                        {isStringDate(column)
                                           ? moment(column).format("DD/MM/YYYY HH:mm")
                                           : isStringUrl(column)
