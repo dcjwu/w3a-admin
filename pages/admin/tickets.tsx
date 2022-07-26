@@ -1,9 +1,11 @@
 import axios from "axios"
+import dynamic from "next/dynamic"
 
-import AdminLayout from "@layouts/admin/AdminLayout"
-
+import type { AdminLayoutType } from "@customTypes/admin/layouts"
 import type { TicketsPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
+
+const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"))
 
 const TicketsPage: NextPage<TicketsPageType> = ({
    data,
