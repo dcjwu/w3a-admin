@@ -60,8 +60,9 @@ const UploadPage: NextPage<UploadPageType> = ({
 
       if (file && file.length) {
          toggleLoading(true)
+         const extension = file[0].name.split(".").pop()
          const { data } = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/files/upload`, {
-            name: `${uuidv4()}.webp`,
+            name: `${uuidv4()}.${extension}`,
             type: file[0].type
          }, { withCredentials: true })
 
