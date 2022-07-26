@@ -5,9 +5,9 @@ import dynamic from "next/dynamic"
 
 import { DialogStatusEnum } from "@customTypes/admin/components"
 import { RequestMethodEnum } from "@customTypes/admin/hooks"
+import { AdminLayoutType } from "@customTypes/admin/layouts"
 import { useAxios, useEditableRow, useMainDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
-import AdminLayout from "@layouts/admin/AdminLayout"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
 import type { FormDataType } from "@customTypes/admin/common"
@@ -25,6 +25,7 @@ import type { GetServerSideProps, NextPage } from "next"
 const Button = dynamic(import("@mui/material/Button"))
 const Typography = dynamic(import("@mui/material/Typography"))
 
+const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"))
 const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
 const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
 const DataTable = dynamic<DataTableType>(() => import("@components/admin/DataTable").then(module => module.DataTable))

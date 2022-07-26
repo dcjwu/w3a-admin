@@ -1,33 +1,40 @@
 import React, { useEffect } from "react"
 
-import { Alert, AlertTitle, ListItem } from "@mui/material"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
-import Card from "@mui/material/Card"
-import CardActions from "@mui/material/CardActions"
-import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
-import DialogActions from "@mui/material/DialogActions"
-import DialogContent from "@mui/material/DialogContent"
 import Grid from "@mui/material/Grid"
 import List from "@mui/material/List"
-import Typography from "@mui/material/Typography"
 import axios from "axios"
 import moment from "moment"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { v4 as uuidv4 } from "uuid"
 
-import { DialogWithInputs } from "@components/admin"
-import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
-import { DialogStatus } from "@components/admin/dialogs/DialogStatus"
 import { awsBucketUrl } from "@constants/admin/awsBucketUrl"
 import { DialogStatusEnum } from "@customTypes/admin/components"
 import { useStatusDialog } from "@hooks/admin"
 import { useMainDialog } from "@hooks/admin/useMainDialog"
-import AdminLayout from "@layouts/admin/AdminLayout"
 
+import type { DialogStatusType, DialogWindowType, DialogWithInputsType } from "@customTypes/admin/components"
+import type { AdminLayoutType } from "@customTypes/admin/layouts"
 import type { UploadPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
+
+const Alert = dynamic(import("@mui/material/Alert"))
+const AlertTitle = dynamic(import("@mui/material/AlertTitle"))
+const ListItem = dynamic(import("@mui/material/ListItem"))
+const Card = dynamic(import("@mui/material/Card"))
+const CardActions = dynamic(import("@mui/material/CardActions"))
+const CardContent = dynamic(import("@mui/material/CardContent"))
+const DialogActions = dynamic(import("@mui/material/DialogActions"))
+const DialogContent = dynamic(import("@mui/material/DialogContent"))
+const Typography = dynamic(import("@mui/material/Typography"))
+
+const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"))
+const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
+const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin/dialogs/DialogDelete").then(module => module.DialogDelete))
+const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
 
 const UploadPage: NextPage<UploadPageType> = ({
    data,
