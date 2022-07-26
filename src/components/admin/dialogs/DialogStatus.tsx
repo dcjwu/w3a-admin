@@ -16,7 +16,7 @@ import { theme } from "@lib/admin/mui/theme"
 import type { DialogStatusType } from "@customTypes/admin/components"
 
 
-const DialogStatus: React.FC<DialogStatusType> = ({
+export const DialogStatus: React.FC<DialogStatusType> = ({
    status,
    isOpen,
    handleCloseDialog,
@@ -71,5 +71,3 @@ const DialogStatus: React.FC<DialogStatusType> = ({
       </ThemeProvider>
    )
 }
-
-export default DialogStatus

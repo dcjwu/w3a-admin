@@ -1,24 +1,36 @@
 import React from "react"
 
-import { Typography } from "@mui/material"
-import Button from "@mui/material/Button"
 import axios from "axios"
+import dynamic from "next/dynamic"
 
-import { DialogWithInputs, Input } from "@components/admin"
-import { DataTable } from "@components/admin/DataTable"
-import { DialogDelete } from "@components/admin/dialogs/DialogDelete"
-import { DialogForm } from "@components/admin/dialogs/DialogForm"
-import DialogStatus from "@components/admin/dialogs/DialogStatus"
 import { DialogStatusEnum } from "@customTypes/admin/components"
-import { RequestMethod } from "@customTypes/admin/hooks"
+import { RequestMethodEnum } from "@customTypes/admin/hooks"
 import { useAxios, useEditableRow, useMainDialog } from "@hooks/admin"
 import { useDataTable } from "@hooks/admin/useDataTable"
 import AdminLayout from "@layouts/admin/AdminLayout"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
 import type { FormDataType } from "@customTypes/admin/common"
+import type {
+   DialogStatusType ,
+   DataTableType,
+   DialogFormType,
+   DialogWindowType,
+   DialogWithInputsType
+} from "@customTypes/admin/components"
 import type { PartnersPageType } from "@customTypes/admin/pages"
+import type { TextFieldProps } from "@mui/material/TextField"
 import type { GetServerSideProps, NextPage } from "next"
+
+const Button = dynamic(import("@mui/material/Button"))
+const Typography = dynamic(import("@mui/material/Typography"))
+
+const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
+const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
+const DataTable = dynamic<DataTableType>(() => import("@components/admin/DataTable").then(module => module.DataTable))
+const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin/dialogs/DialogDelete").then(module => module.DialogDelete))
+const DialogForm = dynamic<DialogFormType>(() => import("@components/admin/dialogs/DialogForm").then(module => module.DialogForm))
+const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
 
 const initialValuesAddPartner = {
    name: "",
@@ -50,7 +62,7 @@ const PartnersPage: NextPage<PartnersPageType> = ({
 
    const handleAddEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
       event.preventDefault()
-      await handleRequest(RequestMethod.POST, "partners", toggleMainModal, formData)
+      await handleRequest(RequestMethodEnum.POST, "partners", toggleMainModal, formData)
    }
 
    const handleEditEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
@@ -60,11 +72,11 @@ const PartnersPage: NextPage<PartnersPageType> = ({
          link 
       } = formData
       event.preventDefault()
-      await handleRequest(RequestMethod.PATCH, `partners/${formData.id}`, toggleMainModal, { name, imageUrl, link })
+      await handleRequest(RequestMethodEnum.PATCH, `partners/${formData.id}`, toggleMainModal, { name, imageUrl, link })
    }
 
    const handleDeleteEntity = async (): Promise<void> => {
-      await handleRequest(RequestMethod.DELETE, `partners/${partnerId}`, toggleMainModal)
+      await handleRequest(RequestMethodEnum.DELETE, `partners/${partnerId}`, toggleMainModal)
    }
 
    return (
