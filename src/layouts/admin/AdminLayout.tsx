@@ -1,13 +1,9 @@
 import React from "react"
 
-import UploadFileIcon from "@mui/icons-material/UploadFile"
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
 import Divider from "@mui/material/Divider"
 import Drawer from "@mui/material/Drawer"
-import IconButton from "@mui/material/IconButton"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
@@ -25,13 +21,17 @@ import { theme as customTheme } from "@lib/admin/mui/theme"
 
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
 
-const LogoutIcon = dynamic(() => import("@mui/icons-material/Logout"))
-const MenuIcon = dynamic(() => import("@mui/icons-material/Menu"))
-const InboxIcon = dynamic(() => import("@mui/icons-material/MoveToInbox"))
 const AccountBoxIcon = dynamic(() => import("@mui/icons-material/AccountBox"))
 const ChevronLeftIcon = dynamic(() => import("@mui/icons-material/ChevronLeft"))
 const ChevronRightIcon = dynamic(() => import("@mui/icons-material/ChevronRight"))
 const FiberManualRecordIcon = dynamic(() => import("@mui/icons-material/FiberManualRecord"))
+const IconButton = dynamic(() => import("@mui/material/IconButton"))
+const InboxIcon = dynamic(() => import("@mui/icons-material/MoveToInbox"))
+const List = dynamic(() => import("@mui/material/List"))
+const ListItem = dynamic(() => import("@mui/material/ListItem"))
+const LogoutIcon = dynamic(() => import("@mui/icons-material/Logout"))
+const MenuIcon = dynamic(() => import("@mui/icons-material/Menu"))
+const UploadFileIcon = dynamic(() => import("@mui/icons-material/UploadFile"))
 const QueryStatsIcon = dynamic(() => import("@mui/icons-material/QueryStats"))
 
 const AdminLayout: React.FC<AdminLayoutType> = ({
