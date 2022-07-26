@@ -3,7 +3,6 @@ import React, { useEffect } from "react"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import CardMedia from "@mui/material/CardMedia"
-import Grid from "@mui/material/Grid"
 import List from "@mui/material/List"
 import axios from "axios"
 import moment from "moment"
@@ -11,6 +10,7 @@ import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { v4 as uuidv4 } from "uuid"
 
+import { Loading } from "@components/admin"
 import { awsBucketUrl } from "@constants/admin/awsBucketUrl"
 import { DialogStatusEnum } from "@customTypes/admin/components"
 import { useStatusDialog } from "@hooks/admin"
@@ -29,9 +29,10 @@ const CardActions = dynamic(import("@mui/material/CardActions"))
 const CardContent = dynamic(import("@mui/material/CardContent"))
 const DialogActions = dynamic(import("@mui/material/DialogActions"))
 const DialogContent = dynamic(import("@mui/material/DialogContent"))
+const Grid = dynamic(import("@mui/material/Grid"), { loading: () => <Loading isOpen={true} message="Images"/> })
 const Typography = dynamic(import("@mui/material/Typography"))
 
-const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"))
+const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
 const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
 const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin/dialogs/DialogDelete").then(module => module.DialogDelete))
 const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))

@@ -1,11 +1,13 @@
 import axios from "axios"
 import dynamic from "next/dynamic"
 
+import { Loading } from "@components/admin"
+
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
 import type { TicketsPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
 
-const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"))
+const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
 
 const TicketsPage: NextPage<TicketsPageType> = ({
    data,

@@ -1,3 +1,4 @@
 export type LoadingType = {
-   isOpen: boolean
+   isOpen: boolean,
+   message?: string
 }

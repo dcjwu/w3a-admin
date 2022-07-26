@@ -3,6 +3,7 @@ import React from "react"
 import axios from "axios"
 import dynamic from "next/dynamic"
 
+import { Loading } from "@components/admin"
 import { DialogStatusEnum } from "@customTypes/admin/components"
 import { RequestMethodEnum } from "@customTypes/admin/hooks"
 import { AdminLayoutType } from "@customTypes/admin/layouts"
@@ -12,9 +13,9 @@ import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
 import type { FormDataType } from "@customTypes/admin/common"
 import type {
-   DialogStatusType,
    DataTableType,
    DialogFormType,
+   DialogStatusType,
    DialogWindowType,
    DialogWithInputsType
 } from "@customTypes/admin/components"
@@ -25,10 +26,10 @@ import type { GetServerSideProps, NextPage } from "next"
 const Button = dynamic(import("@mui/material/Button"))
 const Typography = dynamic(import("@mui/material/Typography"))
 
-const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"))
+const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
 const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
 const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
-const DataTable = dynamic<DataTableType>(() => import("@components/admin/DataTable").then(module => module.DataTable))
+const DataTable = dynamic<DataTableType>(() => import("@components/admin/DataTable").then(module => module.DataTable), { loading: () => <Loading isOpen={true} message="Table"/> })
 const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin/dialogs/DialogDelete").then(module => module.DialogDelete))
 const DialogForm = dynamic<DialogFormType>(() => import("@components/admin/dialogs/DialogForm").then(module => module.DialogForm))
 const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
@@ -70,10 +71,14 @@ const PartnersPage: NextPage<PartnersPageType> = ({
       const {
          name,
          imageUrl,
-         link 
+         link
       } = formData
       event.preventDefault()
-      await handleRequest(RequestMethodEnum.PATCH, `partners/${formData.id}`, toggleMainModal, { name, imageUrl, link })
+      await handleRequest(RequestMethodEnum.PATCH, `partners/${formData.id}`, toggleMainModal, {
+         name,
+         imageUrl,
+         link
+      })
    }
 
    const handleDeleteEntity = async (): Promise<void> => {
