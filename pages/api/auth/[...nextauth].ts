@@ -38,7 +38,7 @@ export default NextAuth({
    session: { strategy: "jwt" },
    callbacks: {
       async redirect(data) {
-         return `${data.baseUrl}/admin`
+         return `${data.baseUrl}/admin/tickets`
       },
       async session({ session }): Promise<Session> {
          try {

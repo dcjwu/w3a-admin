@@ -6,6 +6,7 @@ interface IPartner {
    imageUrl: string,
    link: string,
    createdAt: Date
+   updatedAt: Date
 }
 
 export type PartnersPageType = {
