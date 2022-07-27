@@ -223,7 +223,7 @@ const UploadPage: NextPage<UploadPageType> = ({
                            <CardContent sx={{ flexGrow: 1 }}>
                               <List>
                                  <ListItem>
-                                    Size: {(card.Size / 1024).toFixed(2)}kb
+                                    Size: {(+card.Size / 1024).toFixed(2)}kb
                                  </ListItem>
                                  <ListItem>
                                     Added: {moment(card.LastModified).format("DD/MM/YYYY")}

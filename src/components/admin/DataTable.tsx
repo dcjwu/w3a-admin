@@ -29,7 +29,7 @@ export const DataTable: React.FC<DataTableType> = ({
          width: "100%",
          overflow: "hidden"
       }}>
-         <TableContainer>
+         <TableContainer sx={{ maxHeight: "80vh" }}>
             <Table stickyHeader aria-label="sticky table">
                <TableHead>
                   <TableRow>

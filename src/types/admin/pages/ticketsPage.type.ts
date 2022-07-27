@@ -1,15 +1,6 @@
-import type { ServerErrorMessageType } from "@customTypes/admin/common"
-
-interface ITicket {
-   createdAt: Date,
-   email: string,
-   ipAddress: string,
-   name: string,
-   text: string,
-   topic: string
-}
+import type { PageDataType, ServerErrorMessageType } from "@customTypes/admin/common"
 
 export type TicketsPageType = {
-   data: ITicket,
+   data: PageDataType,
    serverErrorMessage: ServerErrorMessageType
 }

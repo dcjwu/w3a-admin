@@ -1,15 +1,6 @@
-import type { ServerErrorMessageType } from "@customTypes/admin/common"
-
-interface IPartner {
-   id: string,
-   name: string,
-   imageUrl: string,
-   link: string,
-   createdAt: Date
-   updatedAt: Date
-}
+import type { PageDataType, ServerErrorMessageType } from "@customTypes/admin/common"
 
 export type PartnersPageType = {
-   data: IPartner[],
+   data: PageDataType,
    serverErrorMessage: ServerErrorMessageType
 }

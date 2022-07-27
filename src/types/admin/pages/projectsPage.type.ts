@@ -1,16 +1,6 @@
-import type { ServerErrorMessageType } from "@customTypes/admin/common"
-
-interface IProject {
-   id: string
-   name: string,
-   description: string,
-   imageUrl: string,
-   keywords: string[],
-   updatedAt: Date,
-   createdAt: Date,
-}
+import type { PageDataType, ServerErrorMessageType } from "@customTypes/admin/common"
 
 export type ProjectsPageType = {
-   data: IProject[],
+   data: PageDataType,
    serverErrorMessage: ServerErrorMessageType
 }

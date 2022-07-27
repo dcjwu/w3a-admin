@@ -1,0 +1,1 @@
+export type PageDataType = {[k: string]: string}[]

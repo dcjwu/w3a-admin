@@ -1,20 +1,6 @@
-import type { ServerErrorMessageType } from "@customTypes/admin/common"
-
-interface IOwner {
-   id: string
-}
-
-interface IFiles {
-   ChecksumAlgorithm: Array<string>,
-   ETag: string,
-   Key: string,
-   LastModified: string,
-   Size: number,
-   StorageClass: string
-   Owner: IOwner
-}
+import type { PageDataType, ServerErrorMessageType } from "@customTypes/admin/common"
 
 export type UploadPageType = {
-   data: IFiles[],
+   data: PageDataType,
    serverErrorMessage: ServerErrorMessageType
 }
