@@ -6,6 +6,7 @@ import { Loading } from "@components/admin/Loading"
 import { DialogStatusEnum } from "@customTypes/admin/components"
 import { RequestMethodEnum } from "@customTypes/admin/hooks"
 import { useAxios, useDataTable, useEditableRow, useMainDialog } from "@hooks/admin"
+import { filterRequiredFields } from "@utils/filterRequiredFields"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
 import type { FormDataType } from "@customTypes/admin/common"
@@ -37,6 +38,7 @@ export const AdminPage: React.FC<AdminPageType> = ({
    initialValues,
    endpoint,
    name,
+   editableFields,
    children
 }): JSX.Element => {
 
@@ -64,7 +66,8 @@ export const AdminPage: React.FC<AdminPageType> = ({
 
    const handleEditEntity = async (event: React.SyntheticEvent, formData: FormDataType): Promise<void> => {
       event.preventDefault()
-      await handleRequest(RequestMethodEnum.PATCH, `${endpoint}/${formData.id}`, toggleMainModal, { ...formData })
+      const requiredFields = filterRequiredFields(editableFields, formData)
+      await handleRequest(RequestMethodEnum.PATCH, `${endpoint}/${formData.id}`, toggleMainModal, { ...requiredFields })
    }
 
    const handleDeleteEntity = async (): Promise<void> => {

@@ -8,5 +8,6 @@ export type AdminPageType = {
    initialValues: {[k: string]: string},
    endpoint: string,
    name: string,
+   editableFields: string[],
    children: React.ReactNode
 }

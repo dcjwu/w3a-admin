@@ -26,8 +26,8 @@ const PartnersPage: NextPage<PartnersPageType> = ({
 }): JSX.Element => {
 
    return (
-      <AdminPage data={data} endpoint="partners" initialValues={initialValuesAddPartner}
-                 name="Partner" serverErrorMessage={serverErrorMessage}>
+      <AdminPage data={data} editableFields={Object.keys(initialValuesAddPartner)} endpoint="partners"
+                 initialValues={initialValuesAddPartner} name="Partner" serverErrorMessage={serverErrorMessage}>
          <Input autoFocus
                 fullWidth
                 required

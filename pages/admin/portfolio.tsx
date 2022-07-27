@@ -27,8 +27,8 @@ const ProjectsPage: NextPage<ProjectsPageType> = ({
 }): JSX.Element => {
 
    return (
-      <AdminPage data={data} endpoint="projects" initialValues={initialValuesAddProject}
-                 name="Project" serverErrorMessage={serverErrorMessage}>
+      <AdminPage data={data} editableFields={Object.keys(initialValuesAddProject)} endpoint="projects"
+                 initialValues={initialValuesAddProject} name="Project" serverErrorMessage={serverErrorMessage}>
          <Input autoFocus
                 fullWidth
                 required
