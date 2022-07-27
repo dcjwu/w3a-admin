@@ -6,59 +6,60 @@ import dynamic from "next/dynamic"
 
 import { Loading } from "@components/admin"
 import { AdminPageComponentType } from "@customTypes/admin/components"
-import { AdminPageType } from "@customTypes/admin/pages"
 
+import type { AdminPageType } from "@customTypes/admin/pages"
 import type { TextFieldProps } from "@mui/material/TextField"
 
 const AdminPage = dynamic<AdminPageComponentType>(() => import("@components/admin/AdminPage").then(module => module.AdminPage),
    { loading: () => <Loading isOpen={true} message="Main Component"/> })
 const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
 
-const initialValuesAddTeamMember = {
+const initialValuesAddTechnology = {
    name: "",
-   title: "",
+   category: "",
    imageUrl: "",
-   linkedinUrl: ""
+   link: ""
 }
 
-const TeamPage: NextPage<AdminPageType> = ({
+const StackPage: NextPage<AdminPageType> = ({
    data,
    serverErrorMessage
 }): JSX.Element => {
 
    return (
-      <AdminPage data={data} editableFields={Object.keys(initialValuesAddTeamMember)} endpoint="members"
-                 initialValues={initialValuesAddTeamMember} name="Team Member" serverErrorMessage={serverErrorMessage}>
+      <AdminPage data={data} editableFields={Object.keys(initialValuesAddTechnology)} endpoint="technologies"
+                 initialValues={initialValuesAddTechnology} name="Technology" serverErrorMessage={serverErrorMessage}>
          <Input autoFocus
                 fullWidth
                 required
-                label="Team member's name"
+                label="Technology name"
                 margin="normal"
                 name="name"
                 type="text"
                 variant="standard"
          />
+         {/*TODO: Add dropdown here?*/}
          <Input fullWidth
                 required
-                label="Team member's title"
+                label="Technology category"
                 margin="normal"
-                name="title"
+                name="category"
                 type="text"
                 variant="standard"
          />
          <Input fullWidth
-                required
-                label="Team member's image URL"
-                margin="normal"
-                name="imageUrl"
-                type="text"
-                variant="standard"
+            required
+            label="Technology image URL"
+            margin="normal"
+            name="imageUrl"
+            type="text"
+            variant="standard"
          />
          <Input fullWidth
                 required
-                label="Team member's LinkedIn URL"
+                label="Technology URL"
                 margin="normal"
-                name="linkedinUrl"
+                name="link"
                 type="text"
                 variant="standard"
          />
@@ -66,13 +67,13 @@ const TeamPage: NextPage<AdminPageType> = ({
    )
 }
 
-export default TeamPage
+export default StackPage
 
 export const getServerSideProps: GetServerSideProps = async context => {
    const { cookie } = context.req.headers
 
    try {
-      const services = await axios.get(`${process.env.URL}/api/members`,
+      const services = await axios.get(`${process.env.URL}/api/technologies`,
          { headers: { Cookie: cookie || "" } })
       const { data } = services
       return { props: { data } }

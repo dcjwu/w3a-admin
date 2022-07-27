@@ -14,65 +14,48 @@ const AdminPage = dynamic<AdminPageComponentType>(() => import("@components/admi
    { loading: () => <Loading isOpen={true} message="Main Component"/> })
 const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
 
-const initialValuesAddProject = {
+const initialValuesAddService = {
    name: "",
-   description: "",
-   imageUrl: "",
-   keywords: ""
+   description: ""
 }
 
-const ProjectsPage: NextPage<AdminPageType> = ({
+const ServicesPage: NextPage<AdminPageType> = ({
    data,
    serverErrorMessage
 }): JSX.Element => {
 
    return (
-      <AdminPage data={data} editableFields={Object.keys(initialValuesAddProject)} endpoint="projects"
-                 initialValues={initialValuesAddProject} name="Project" serverErrorMessage={serverErrorMessage}>
+      <AdminPage data={data} editableFields={Object.keys(initialValuesAddService)} endpoint="services"
+                 initialValues={initialValuesAddService} name="Service" serverErrorMessage={serverErrorMessage}>
          <Input autoFocus
                 fullWidth
                 required
-                label="Project name"
+                label="Service name"
                 margin="normal"
                 name="name"
                 type="text"
                 variant="standard"
          />
-         <Input fullWidth
-                required
-                label="Project description"
-                margin="normal"
-                name="description"
-                type="text"
-                variant="standard"
-         />
-         <Input fullWidth
-                required
-                label="Project image URL"
-                margin="normal"
-                name="imageUrl"
-                type="text"
-                variant="standard"
-         />
-         <Input fullWidth
-                required
-                label="Project keywords"
-                margin="normal"
-                name="keywords"
-                type="text"
-                variant="standard"
+         <Input
+            fullWidth
+            required
+            label="Service description"
+            margin="normal"
+            name="description"
+            type="text"
+            variant="standard"
          />
       </AdminPage>
    )
 }
 
-export default ProjectsPage
+export default ServicesPage
 
 export const getServerSideProps: GetServerSideProps = async context => {
    const { cookie } = context.req.headers
 
    try {
-      const services = await axios.get(`${process.env.URL}/api/projects`,
+      const services = await axios.get(`${process.env.URL}/api/services`,
          { headers: { Cookie: cookie || "" } })
       const { data } = services
       return { props: { data } }
