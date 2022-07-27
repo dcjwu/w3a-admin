@@ -136,7 +136,7 @@ model Project {
     name                    String
     description             String
     imageUrl                String
-    keywords                String[]
+    keywords                String      //example, goes, here
 
     createdAt               DateTime    @default(now())
     updatedAt               DateTime    @updatedAt
@@ -149,7 +149,7 @@ model Member {
     name                    String
     title                   String
     imageUrl                String
-    socialMediaLinks        String[]
+    linkedinUrl             String
 
     createdAt               DateTime    @default(now())
     updatedAt               DateTime    @updatedAt
