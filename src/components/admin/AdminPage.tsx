@@ -11,7 +11,7 @@ import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 
 import type { FormDataType } from "@customTypes/admin/common"
 import type {
-   AdminPageType,
+   AdminPageComponentType,
    DataTableType,
    DialogFormType,
    DialogStatusType,
@@ -32,7 +32,7 @@ const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin/d
 const DialogForm = dynamic<DialogFormType>(() => import("@components/admin/dialogs/DialogForm").then(module => module.DialogForm))
 const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
 
-export const AdminPage: React.FC<AdminPageType> = ({
+export const AdminPage: React.FC<AdminPageComponentType> = ({
    data,
    serverErrorMessage,
    initialValues,

@@ -18,7 +18,7 @@ import { useMainDialog } from "@hooks/admin/useMainDialog"
 
 import type { DialogStatusType, DialogWindowType, DialogWithInputsType } from "@customTypes/admin/components"
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
-import type { UploadPageType } from "@customTypes/admin/pages"
+import type { AdminPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
 
 const Alert = dynamic(import("@mui/material/Alert"))
@@ -37,7 +37,7 @@ const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components
 const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin/dialogs/DialogDelete").then(module => module.DialogDelete))
 const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
 
-const UploadPage: NextPage<UploadPageType> = ({
+const UploadPage: NextPage<AdminPageType> = ({
    data,
    serverErrorMessage
 }): JSX.Element => {
