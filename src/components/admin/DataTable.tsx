@@ -12,6 +12,7 @@ import TableRow from "@mui/material/TableRow"
 import moment from "moment"
 
 import { capitalizeWord } from "@utils/capitalizeWord"
+import { isInputArray } from "@utils/isInputArray"
 import { isStringDate } from "@utils/isStringDate"
 import { isStringUrl } from "@utils/isStringUrl"
 
@@ -65,7 +66,9 @@ export const DataTable: React.FC<DataTableType> = ({
                                                      variant="subtitle2">
                                                 {capitalizeWord(tableColumns[index])}
                                              </Link>
-                                             : column}
+                                             : isInputArray(column)
+                                                ? `[${column}]`
+                                                : column}
                                     </TableCell>
                                  )
                               })}

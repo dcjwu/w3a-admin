@@ -12,7 +12,7 @@ export const middleware = async (req: NextRequest): Promise<NextResponse> => {
 
    if (!token && req.url.includes("/auth/logout")) return NextResponse.redirect(`${origin}/`)
 
-   if (token && req.url.includes("/auth/login")) return NextResponse.redirect(`${origin}/admin`)
+   if (token && req.url.includes("/auth/login")) return NextResponse.redirect(`${origin}/admin/tickets`)
 
    return NextResponse.next()
 }

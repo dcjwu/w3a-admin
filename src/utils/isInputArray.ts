@@ -1,0 +1,1 @@
+export const isInputArray = <T>(value: T[] | T): boolean => Array.isArray(value)
