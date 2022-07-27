@@ -13,7 +13,7 @@ const PostMemberDto = Joi.object({
    name: Joi.string().required(),
    title: Joi.string().required(),
    imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).required(),
-   socialMediaLinks: Joi.array().items(Joi.string().uri()).required()
+   linkedinUrl: Joi.string().regex(/^https:\/\/linkedin\.com\/(.*)/).required()
 })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
@@ -29,7 +29,7 @@ router
                name: true,
                title: true,
                imageUrl: true,
-               socialMediaLinks: true,
+               linkedinUrl: true,
                createdAt: true,
                updatedAt: true
             },
@@ -46,14 +46,14 @@ router
 
    .post(validationMiddleware({ body: PostMemberDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const { name, title, imageUrl, socialMediaLinks } = req.body
+         const { name, title, imageUrl, linkedinUrl } = req.body
 
          await prisma.member.create({
             data: {
                name: name,
                title: title,
                imageUrl: imageUrl,
-               socialMediaLinks: socialMediaLinks
+               linkedinUrl: linkedinUrl
             },
          })
 

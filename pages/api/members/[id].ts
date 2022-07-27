@@ -14,8 +14,8 @@ const MemberIdDto = Joi.object({ id: Joi.string().uuid().required() })
 const PatchMemberDto = Joi.object({
    name: Joi.string(),
    title: Joi.string(),
-   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).required(),
-   socialMediaLinks: Joi.array().items(Joi.string().uri())
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/),
+   linkedinUrl: Joi.string().regex(/^https:\/\/linkedin\.com\/(.*)/)
 })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
@@ -26,7 +26,7 @@ router
    .patch(validationMiddleware({ query: MemberIdDto, body: PatchMemberDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
          const { id } = req.query
-         const { name, title, imageUrl, socialMediaLinks } = req.body
+         const { name, title, imageUrl, linkedinUrl } = req.body
 
          if (typeof id === "string") {
             const member = await prisma.member.findUnique({ where: { id: id } })
@@ -39,7 +39,7 @@ router
                   name: name,
                   title: title,
                   imageUrl: imageUrl,
-                  socialMediaLinks: socialMediaLinks
+                  linkedinUrl: linkedinUrl
                }
             })
          }

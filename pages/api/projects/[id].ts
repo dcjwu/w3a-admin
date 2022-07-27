@@ -15,7 +15,7 @@ const PatchProjectDto = Joi.object({
    name: Joi.string(),
    description: Joi.string(),
    imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/),
-   keywords: Joi.array()
+   keywords: Joi.string().regex(/^[0-9a-zA-Z]+(,\s*[0-9a-zA-Z]+)*$/)
 })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
