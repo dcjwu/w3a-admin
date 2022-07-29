@@ -10,6 +10,7 @@ import ListItemText from "@mui/material/ListItemText"
 import { ThemeProvider, useTheme } from "@mui/material/styles"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
+import moment from "moment/moment"
 import { useSession } from "next-auth/react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
@@ -89,6 +90,9 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                         </IconButton>
                         <Typography noWrap component="div" variant="h6">
                            {status !== "loading" && data?.user.name ? `Hey, ${data?.user.name}` : null}
+                           {status !== "loading" && data ?
+                              <Typography variant="subtitle2">Your session will expire in 15min of
+                                 inactivity, at {moment.utc(data.expires).local().format("HH:mm")}</Typography> : null}
                         </Typography>
                      </Toolbar>
                   </Topbar>
@@ -143,7 +147,7 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                                              {text === "Upload"
                                                 ? <UploadFileIcon/>
                                                 : index % 2 === 0
-                                                   ?  <InboxIcon/>
+                                                   ? <InboxIcon/>
                                                    : <QueryStatsIcon/>}
                                           </ListItemIcon>
                                           <ListItemText primary={text}/>

@@ -6,7 +6,6 @@ import CardMedia from "@mui/material/CardMedia"
 import axios from "axios"
 import moment from "moment"
 import { unstable_getServerSession } from "next-auth"
-import { useSession } from "next-auth/react"
 import dynamic from "next/dynamic"
 
 import { authOptions } from "@api/auth/[...nextauth]"
@@ -17,10 +16,7 @@ import { RequestMethodEnum } from "@customTypes/admin/hooks"
 import { useAxios, useMainDialog } from "@hooks/admin"
 
 import type { FormDataType } from "@customTypes/admin/common"
-import type {
-   DialogStatusType,
-   DialogWithInputsType
-} from "@customTypes/admin/components"
+import type { DialogStatusType, DialogWithInputsType } from "@customTypes/admin/components"
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
 import type { UserPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
@@ -46,7 +42,6 @@ const ProfilePage: NextPage<UserPageType> = ({
    serverErrorMessage
 }): JSX.Element => {
 
-   const { data: sessionData } = useSession()
    const [isMainModalOpen, toggleMainModal] = useMainDialog()
    const [isStatusModalOpen, error, toggleLoading, toggleError, handleRequest] = useAxios()
 
@@ -131,9 +126,6 @@ const ProfilePage: NextPage<UserPageType> = ({
                   />
                </DialogForm>
             </DialogWithInputs>}
-         {sessionData &&
-            <Typography sx={{ marginBottom: "16px" }} variant="subtitle2">Your session will expire in 15min of
-               inactivity, at {moment.utc(sessionData.expires).local().format("HH:mm")}</Typography>}
          {data && <Box>
             <Card sx={{ maxWidth: 345 }}>
                <CardMedia alt={data.name ?? "user"}
