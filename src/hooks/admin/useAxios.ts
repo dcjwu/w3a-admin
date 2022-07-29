@@ -46,8 +46,10 @@ export const useAxios = (): UseAxiosType => {
                   errorData.forEach((item: { message: string | undefined }) => {
                      toggleError(item.message)
                   })
-               } else {
+               } else if (errorData.message) {
                   toggleError(errorData.message)
+               } else {
+                  toggleError(errorData)
                }
             })
       }

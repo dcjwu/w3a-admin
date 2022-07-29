@@ -13,7 +13,8 @@ export const config = { api: { externalResolver: true } }
 const PostUserDto = Joi.object({
    name: Joi.string().required(),
    email: Joi.string().required().email(), //TODO: In future add web3app.agency domain
-   password: Joi.string().required()
+   password: Joi.string().required(),
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).allow("").optional(),
 })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
@@ -44,7 +45,7 @@ router
 
    .post(validationMiddleware({ body: PostUserDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
       try {
-         const { name, email, password } = req.body
+         const { name, email, password, imageUrl } = req.body
          
          const user = await prisma.user.findUnique({ where: { email: email } })
          if (user) return res.status(409).json({ message: "User already exists" })
@@ -54,7 +55,8 @@ router
             data: {
                email: email,
                name: name,
-               password: passwordHash
+               password: passwordHash,
+               imageUrl: imageUrl
             }
          })
 

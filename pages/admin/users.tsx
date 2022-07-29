@@ -14,23 +14,22 @@ const AdminPage = dynamic<AdminPageComponentType>(() => import("@components/admi
    { loading: () => <Loading isOpen={true} message="Main Component"/> })
 const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
 
-const initialValuesAddService = {
+const initialValuesAddUser = {
    name: "",
-   description: ""
+   email: "",
+   password: "",
+   imageUrl: ""
 }
 
-const ServicesPage: NextPage<AdminPageType> = ({
-   data,
-   serverErrorMessage
-}): JSX.Element => {
-
+const UsersPage: NextPage<AdminPageType> = ({ data, serverErrorMessage }): JSX.Element => {
+   
    return (
-      <AdminPage data={data} editableFields={Object.keys(initialValuesAddService)} endpoint="services"
-                 initialValues={initialValuesAddService} name="Service" serverErrorMessage={serverErrorMessage}>
+      <AdminPage data={data} editableFields={["name", "email", "imageUrl"]} endpoint="users"
+                 initialValues={initialValuesAddUser} name="User" serverErrorMessage={serverErrorMessage}>
          <Input autoFocus
                 fullWidth
                 required
-                label="Service name"
+                label="User's name"
                 margin="normal"
                 name="name"
                 type="text"
@@ -38,9 +37,24 @@ const ServicesPage: NextPage<AdminPageType> = ({
          />
          <Input fullWidth
                 required
-                label="Service description"
+                label="User's email"
                 margin="normal"
-                name="description"
+                name="email"
+                type="email"
+                variant="standard"
+         />
+         <Input fullWidth
+                label="User's image URL"
+                margin="normal"
+                name="imageUrl"
+                type="text"
+                variant="standard"
+         />
+         <Input fullWidth
+                required
+                label="User's password"
+                margin="normal"
+                name="password"
                 type="text"
                 variant="standard"
          />
@@ -48,13 +62,13 @@ const ServicesPage: NextPage<AdminPageType> = ({
    )
 }
 
-export default ServicesPage
+export default UsersPage
 
 export const getServerSideProps: GetServerSideProps = async context => {
    const { cookie } = context.req.headers
 
    try {
-      const services = await axios.get(`${process.env.URL}/api/services`,
+      const services = await axios.get(`${process.env.URL}/api/users`,
          { headers: { Cookie: cookie || "" } })
       const { data } = services
       return { props: { data } }

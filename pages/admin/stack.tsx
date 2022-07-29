@@ -4,8 +4,8 @@ import axios from "axios"
 import { GetServerSideProps, NextPage } from "next"
 import dynamic from "next/dynamic"
 
-import { Dropdown, Loading } from "@components/admin"
-import { AdminPageComponentType } from "@customTypes/admin/components"
+import { Loading } from "@components/admin"
+import { AdminPageComponentType, DropdownType } from "@customTypes/admin/components"
 
 import type { AdminPageType } from "@customTypes/admin/pages"
 import type { TextFieldProps } from "@mui/material/TextField"
@@ -13,6 +13,7 @@ import type { TextFieldProps } from "@mui/material/TextField"
 const AdminPage = dynamic<AdminPageComponentType>(() => import("@components/admin/AdminPage").then(module => module.AdminPage),
    { loading: () => <Loading isOpen={true} message="Main Component"/> })
 const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
+const Dropdown = dynamic<DropdownType>(() => import("@components/admin").then(module => module.Dropdown))
 
 const initialValuesAddTechnology = {
    name: "",

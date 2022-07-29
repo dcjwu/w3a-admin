@@ -74,6 +74,26 @@ router
       }
    })
 
+   .delete(validationMiddleware({ query: UserIdDto }), async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+      try {
+         const { id } = req.query
+
+         if (typeof id === "string") {
+            const user = await prisma.user.findUnique({ where: { id: id } })
+
+            if (!user) return res.status(404).json({ message: "User not found" })
+
+            await prisma.user.delete({ where: { id: id } })
+         }
+
+         return res.status(200).json({ message: "User deleted successfully" })
+
+      } catch (err) {
+         console.error(err.message)
+         return res.status(400).json({ message: err.message })
+      }
+   })
+
 export default router.handler({
    onError: (err: unknown, req: NextApiRequest, res: NextApiResponse) => {
       console.error(err)
