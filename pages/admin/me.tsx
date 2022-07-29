@@ -2,11 +2,7 @@ import React from "react"
 
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
-import Card from "@mui/material/Card"
-import CardActions from "@mui/material/CardActions"
-import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
-import Typography from "@mui/material/Typography"
 import axios from "axios"
 import moment from "moment"
 import { unstable_getServerSession } from "next-auth"
@@ -14,20 +10,30 @@ import { useSession } from "next-auth/react"
 import dynamic from "next/dynamic"
 
 import { authOptions } from "@api/auth/[...nextauth]"
-import { DialogWithInputs, Input, Loading } from "@components/admin"
-import { DialogForm } from "@components/admin/dialogs/DialogForm"
-import { DialogStatus } from "@components/admin/dialogs/DialogStatus"
+import { Input, Loading } from "@components/admin"
 import { fallBackImageUrl } from "@constants/admin"
-import { DialogStatusEnum } from "@customTypes/admin/components"
+import { DialogFormType, DialogStatusEnum } from "@customTypes/admin/components"
 import { RequestMethodEnum } from "@customTypes/admin/hooks"
 import { useAxios, useMainDialog } from "@hooks/admin"
 
 import type { FormDataType } from "@customTypes/admin/common"
+import type {
+   DialogStatusType,
+   DialogWithInputsType
+} from "@customTypes/admin/components"
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
 import type { UserPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
 
+const Card = dynamic(import("@mui/material/Card"))
+const CardActions = dynamic(import("@mui/material/CardActions"))
+const CardContent = dynamic(import("@mui/material/CardContent"))
+const Typography = dynamic(import("@mui/material/Typography"))
+
 const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
+const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
+const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin").then(module => module.DialogStatus))
+const DialogForm = dynamic<DialogFormType>(() => import("@components/admin").then(module => module.DialogForm))
 
 const initialValuesChangePassword = {
    oldPassword: "",

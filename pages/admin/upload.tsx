@@ -34,8 +34,8 @@ const Typography = dynamic(import("@mui/material/Typography"))
 
 const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
 const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
-const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin/dialogs/DialogDelete").then(module => module.DialogDelete))
-const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
+const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin").then(module => module.DialogDelete))
+const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin").then(module => module.DialogStatus))
 
 const UploadPage: NextPage<AdminPageType> = ({
    data,
