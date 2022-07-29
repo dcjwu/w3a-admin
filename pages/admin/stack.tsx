@@ -68,9 +68,9 @@ export const getServerSideProps: GetServerSideProps = async context => {
    const { cookie } = context.req.headers
 
    try {
-      const services = await axios.get(`${process.env.URL}/api/technologies`,
+      const technologies = await axios.get(`${process.env.URL}/api/technologies`,
          { headers: { Cookie: cookie || "" } })
-      const { data } = services
+      const { data } = technologies
       return { props: { data } }
    } catch (err) {
       return { props: { serverErrorMessage: err.response.data.message } }

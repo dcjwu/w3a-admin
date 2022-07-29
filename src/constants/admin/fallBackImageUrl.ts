@@ -1,0 +1,1 @@
+export const fallBackImageUrl = "https://public-web3app.s3.eu-north-1.amazonaws.com/6dcc69ac-18ad-4839-930e-fd483be66e4b.svg"

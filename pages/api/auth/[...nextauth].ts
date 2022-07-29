@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import NextAuth, { Session, User } from "next-auth"
+import NextAuth, { NextAuthOptions, Session, User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 import { prisma } from "@lib/prisma"
@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt") // eslint-disable-line @typescript-eslint/no-va
 
 const timeAlive = 15 * 60 // Session will be idle after 15min of inactivity
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
    adapter: PrismaAdapter(prisma),
    providers: [
       CredentialsProvider({
@@ -63,4 +63,6 @@ export default NextAuth({
          }
       },
    },
-})
+}
+
+export default NextAuth(authOptions)

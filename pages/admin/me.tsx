@@ -1,19 +1,31 @@
 import React from "react"
 
+import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
+import Card from "@mui/material/Card"
+import CardActions from "@mui/material/CardActions"
+import CardContent from "@mui/material/CardContent"
+import CardMedia from "@mui/material/CardMedia"
+import Typography from "@mui/material/Typography"
+import axios from "axios"
+import moment from "moment"
+import { unstable_getServerSession } from "next-auth"
 import { useSession } from "next-auth/react"
 import dynamic from "next/dynamic"
 
+import { authOptions } from "@api/auth/[...nextauth]"
 import { DialogWithInputs, Input, Loading } from "@components/admin"
 import { DialogForm } from "@components/admin/dialogs/DialogForm"
 import { DialogStatus } from "@components/admin/dialogs/DialogStatus"
+import { fallBackImageUrl } from "@constants/admin"
 import { DialogStatusEnum } from "@customTypes/admin/components"
 import { RequestMethodEnum } from "@customTypes/admin/hooks"
 import { useAxios, useMainDialog } from "@hooks/admin"
 
 import type { FormDataType } from "@customTypes/admin/common"
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
-import type { NextPage } from "next"
+import type { UserPageType } from "@customTypes/admin/pages"
+import type { GetServerSideProps, NextPage } from "next"
 
 const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
 
@@ -23,9 +35,12 @@ const initialValuesChangePassword = {
    repeatNewPassword: ""
 }
 
-const ProfilePage: NextPage = (): JSX.Element => {
+const ProfilePage: NextPage<UserPageType> = ({
+   data,
+   serverErrorMessage
+}): JSX.Element => {
 
-   const { data } = useSession()
+   const { data: sessionData } = useSession()
    const [isMainModalOpen, toggleMainModal] = useMainDialog()
    const [isStatusModalOpen, error, toggleLoading, toggleError, handleRequest] = useAxios()
 
@@ -51,9 +66,12 @@ const ProfilePage: NextPage = (): JSX.Element => {
       const validation = validatePassword(formData)
       if (validation) {
          if (data) {
-            const { oldPassword, newPassword } = formData
+            const {
+               oldPassword,
+               newPassword
+            } = formData
             await handleRequest(RequestMethodEnum.PATCH, "users/password", toggleMainModal, {
-               id: data.user.id,
+               id: data.id,
                oldPassword: oldPassword,
                newPassword: newPassword
             })
@@ -65,7 +83,7 @@ const ProfilePage: NextPage = (): JSX.Element => {
    }
 
    return (
-      <AdminLayout>
+      <AdminLayout serverError={serverErrorMessage}>
          {isStatusModalOpen.loading &&
             <DialogStatus handleCloseDialog={(): void => toggleLoading(false)} isOpen={isStatusModalOpen.loading}
                           status={DialogStatusEnum.LOADING}/>}
@@ -107,20 +125,66 @@ const ProfilePage: NextPage = (): JSX.Element => {
                   />
                </DialogForm>
             </DialogWithInputs>}
-         <Button color="info"
-                 size="large"
-                 sx={{
-                    mt: 3,
-                    mb: 2
-                 }}
-                 type="button"
-                 variant="contained"
-                 onClick={(): void => toggleMainModal("edit", true)}
-         >
-            Change password
-         </Button>
+         {sessionData &&
+            <Typography sx={{ marginBottom: "16px" }} variant="subtitle2">Your session will expire in 15min of
+               inactivity, at {moment.utc(sessionData.expires).local().format("HH:mm")}</Typography>}
+         {data && <Box>
+            <Card sx={{ maxWidth: 345 }}>
+               <CardMedia alt={data.name ?? "user"}
+                          component="img"
+                          image={!data.imageUrl ? fallBackImageUrl : data.imageUrl}
+               />
+               <CardContent>
+                  <Typography><strong>ID:</strong> {data.id}</Typography>
+                  <Typography><strong>Name:</strong> {data.name}</Typography>
+                  <Typography><strong>Email:</strong> {data.email}</Typography>
+                  <Typography><strong>Created at:</strong>
+                     &nbsp;{moment.utc(data.createdAt).local().format("DD/MM/YYYY HH:mm")}</Typography>
+                  <Typography><strong>Updated at:</strong>
+                     &nbsp;{moment.utc(data.updatedAt).local().format("DD/MM/YYYY HH:mm")}</Typography>
+               </CardContent>
+               <CardActions>
+                  <Button fullWidth
+                          color="info"
+                          size="medium"
+                          sx={{
+                             mt: 3,
+                             mb: 2
+                          }}
+                          type="button"
+                          variant="outlined"
+                          onClick={(): void => toggleMainModal("edit", true)}
+                  >
+                     Change password
+                  </Button>
+               </CardActions>
+            </Card>
+         </Box>}
       </AdminLayout>
    )
 }
 
 export default ProfilePage
+
+export const getServerSideProps: GetServerSideProps = async ({
+   req,
+   res
+}) => {
+   const session = await unstable_getServerSession(req, res, authOptions)
+
+   const { cookie } = req.headers
+
+   if (session) {
+      try {
+         const services = await axios.get(`${process.env.URL}/api/users/${session.user.id}`,
+            { headers: { Cookie: cookie || "" } })
+         const { data } = services
+         return { props: { data } }
+      } catch (err) {
+         return { props: { serverErrorMessage: err.response.data.message } }
+      }
+
+   } else {
+      return { props: { serverErrorMessage: "Session error" } }
+   }
+}

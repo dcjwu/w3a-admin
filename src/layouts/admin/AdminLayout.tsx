@@ -88,7 +88,7 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                            <MenuIcon/>
                         </IconButton>
                         <Typography noWrap component="div" variant="h6">
-                           {status !== "loading" && `Hey, ${data?.user.name}`}
+                           {status !== "loading" && data?.user.name ? `Hey, ${data?.user.name}` : null}
                         </Typography>
                      </Toolbar>
                   </Topbar>

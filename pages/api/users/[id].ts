@@ -13,7 +13,7 @@ const UserIdDto = Joi.object({ id: Joi.string().required() })
 const PatchUserByIdDto = Joi.object({
    name: Joi.string(),
    email: Joi.string().email(), //TODO: In future add web3app.agency domain
-   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/)
+   imageUrl: Joi.string().regex(/^https:\/\/public-web3app\.s3\.eu-north-1\.amazonaws\.com\/(.*)/).allow("").optional(),
 })
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
