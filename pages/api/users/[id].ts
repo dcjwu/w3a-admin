@@ -78,6 +78,9 @@ router
       try {
          const { id } = req.query
 
+         const allUsers = await prisma.user.findMany()
+         if (allUsers.length === 1) return res.status(409).json({ message: "User cannot be deleted" })
+
          if (typeof id === "string") {
             const user = await prisma.user.findUnique({ where: { id: id } })
 
