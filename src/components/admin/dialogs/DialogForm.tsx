@@ -10,6 +10,7 @@ import { isObjectChanged } from "@utils/isObjectChanged"
 
 import type { DialogFormType } from "@customTypes/admin/components"
 import type { FormContextType } from "@customTypes/admin/context"
+import type { SelectChangeEvent } from "@mui/material/Select"
 
 export const FormContext = React.createContext<FormContextType>({ formData: {} })
 
@@ -35,6 +36,14 @@ export const DialogForm: React.FC<DialogFormType> = ({
       })
    }
 
+   const handleDropdownChange = (event: SelectChangeEvent): void => {
+      const { name, value } = event.target
+      setFormData({
+         ...formData,
+         [name]: value
+      })
+   }
+
    return (
       <React.Fragment>
          <DialogContent sx={{ py: 0 }}>
@@ -42,7 +51,8 @@ export const DialogForm: React.FC<DialogFormType> = ({
                  onSubmit={(event: FormEvent<HTMLDivElement>): void => handleFormSubmit(event, formData)}>
                <FormContext.Provider value={{
                   formData,
-                  handleFormChange
+                  handleFormChange,
+                  handleDropdownChange
                }}>
                   {children}
                </FormContext.Provider>

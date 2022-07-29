@@ -4,7 +4,7 @@ import axios from "axios"
 import { GetServerSideProps, NextPage } from "next"
 import dynamic from "next/dynamic"
 
-import { Loading } from "@components/admin"
+import { Dropdown, Loading } from "@components/admin"
 import { AdminPageComponentType } from "@customTypes/admin/components"
 
 import type { AdminPageType } from "@customTypes/admin/pages"
@@ -21,6 +21,8 @@ const initialValuesAddTechnology = {
    link: ""
 }
 
+const dropdownValuesCategory = ["FRAMEWORKS", "DBMS", "BLOCKCHAINS", "LANGUAGES", "CLOUD_PLATFORMS"]
+
 const StackPage: NextPage<AdminPageType> = ({
    data,
    serverErrorMessage
@@ -29,21 +31,13 @@ const StackPage: NextPage<AdminPageType> = ({
    return (
       <AdminPage data={data} editableFields={Object.keys(initialValuesAddTechnology)} endpoint="technologies"
                  initialValues={initialValuesAddTechnology} name="Technology" serverErrorMessage={serverErrorMessage}>
+         <Dropdown dropdownItems={dropdownValuesCategory} label="Technology category" name="category"/>
          <Input autoFocus
                 fullWidth
                 required
                 label="Technology name"
                 margin="normal"
                 name="name"
-                type="text"
-                variant="standard"
-         />
-         {/*TODO: Add dropdown here?*/}
-         <Input fullWidth
-                required
-                label="Technology category"
-                margin="normal"
-                name="category"
                 type="text"
                 variant="standard"
          />
