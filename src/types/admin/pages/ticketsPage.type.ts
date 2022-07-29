@@ -21,3 +21,8 @@ export type TicketsPageType = {
    data: ITicketsData[],
    serverErrorMessage: ServerErrorMessageType
 }
+
+export type TicketsByIdPageType = {
+   data: ITicketsData,
+   serverErrorMessage: ServerErrorMessageType
+}

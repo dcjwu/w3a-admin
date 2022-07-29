@@ -1,10 +1,12 @@
 import React from "react"
 
+import { Link as MuiLink } from "@mui/material"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import axios from "axios"
 import moment from "moment/moment"
 import dynamic from "next/dynamic"
+import Link from "next/link"
 
 import { Loading } from "@components/admin"
 import { TicketStatusEnum } from "@customTypes/admin/pages"
@@ -55,9 +57,13 @@ const TicketsPage: NextPage<TicketsPageType> = ({
                   </Typography>
                </CardContent>
                <CardActions>
-                  <Button color={isTicketActive(item.status) ? "success" : "error"} size="large"
+                  <Button color={isTicketActive(item.status) ? "success" : "error"} size="large" sx={{ marginRight: "8px" }}
                           variant="contained">{isTicketActive(item.status) ? "ACTIVE" : "CLOSED"}</Button>
-                  <Button size="large">View more</Button>
+                  <Link href={`tickets/${item.id}`}>
+                     <MuiLink underline="none">
+                        <Button size="large">View</Button>
+                     </MuiLink>
+                  </Link>
                </CardActions>
             </Card>
          ))}

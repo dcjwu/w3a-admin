@@ -16,6 +16,36 @@ const PatchTicketDto = Joi.object({ status: Joi.string().valid("CLOSED", "ACTIVE
 
 router
    .use(authMiddleware)
+   
+   .get(validationMiddleware({ query: TicketIdDto }), async (req: NextApiRequest, res: NextApiResponse) => {
+      try {
+         const { id } = req.query
+
+         if (typeof id === "string") {
+            const ticket = await prisma.ticket.findUnique({
+               where: { id: id },
+               select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  companyName: true,
+                  status: true,
+                  topic: true,
+                  text: true,
+                  ipAddress: true,
+                  createdAt: true
+               },
+            })
+            if (!ticket) return res.status(404).json({ message: "Ticket not found" })
+
+            return res.status(200).json(ticket)
+         }
+         
+      } catch (err) {
+         console.error(err.message)
+         return res.status(400).json({ message: err.message })
+      }
+   })
 
    .patch(validationMiddleware({ query: TicketIdDto, body: PatchTicketDto }), async (req: NextApiRequest, res: NextApiResponse) => {
       try {
