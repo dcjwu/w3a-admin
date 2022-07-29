@@ -30,7 +30,8 @@ router
                name: true,
                email: true,
                imageUrl: true,
-               createdAt: true
+               createdAt: true,
+               updatedAt: true
             },
             orderBy: { createdAt: "desc" }
          })
