@@ -92,7 +92,7 @@ export const DataTable: React.FC<DataTableType> = ({
                                          variant="outlined"
                                          onClick={(): void => handleOpenDeleteDialog(row[0])}
                                  >
-                                    Delete
+                                    Delete,
                                  </Button>
                               </TableCell>
                            </TableRow>

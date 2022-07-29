@@ -4,5 +4,5 @@ export type DataTableType = {
    tableColumns: TableColumnsType,
    tableRows: TableRowsType,
    handleOpenDeleteDialog: (id: string) => void,
-   handleOpenEditDialog: (index: number) => void
+   handleOpenEditDialog: (index: number) => void,
 }

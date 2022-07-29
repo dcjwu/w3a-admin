@@ -1,6 +1,6 @@
 import { ServerErrorMessageType } from "@customTypes/admin/common"
 
-interface UserData {
+interface IUserData {
    id: string,
    email: string,
    imageUrl?: string,
@@ -10,6 +10,6 @@ interface UserData {
 }
 
 export type UserPageType = {
-   data: UserData,
+   data: IUserData,
    serverErrorMessage: ServerErrorMessageType
 }

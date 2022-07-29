@@ -1,24 +1,66 @@
+import React from "react"
+
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
 import axios from "axios"
+import moment from "moment/moment"
 import dynamic from "next/dynamic"
 
 import { Loading } from "@components/admin"
+import { TicketStatusEnum } from "@customTypes/admin/pages"
 
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
-import type { AdminPageType } from "@customTypes/admin/pages"
+import type { TicketsPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
+
+const Card = dynamic(import("@mui/material/Card"))
+const CardActions = dynamic(import("@mui/material/CardActions"))
+const CardContent = dynamic(import("@mui/material/CardContent"))
 
 const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
 
-const TicketsPage: NextPage<AdminPageType> = ({
+const TicketsPage: NextPage<TicketsPageType> = ({
    data,
    serverErrorMessage
 }): JSX.Element => {
 
-   console.table(data)
+   const isTicketActive = (status: TicketStatusEnum): boolean => {
+      return status === TicketStatusEnum.ACTIVE
+   }
+
+   //TODO: Add dropdown to change status on button click
+   //TODO: Add another button as [id] page per ticket to display all data with button to change status and reply
+   // (auto set status to replied?)
+   //TODO: Add search and filter
 
    return (
       <AdminLayout serverError={serverErrorMessage}>
-         Tickets Page
+         {data.map(item => (
+            <Card key={item.id} sx={{
+               minWidth: 275,
+               marginBottom: "16px"
+            }}>
+               <CardContent>
+                  <Typography gutterBottom color="text.secondary" sx={{ fontSize: 14 }}>
+                     Date: {moment.utc(item.createdAt).local().format("DD/MM/YYYY HH:mm")}
+                  </Typography>
+                  <Typography gutterBottom color="text.secondary" sx={{ fontSize: 14 }}>
+                     IP Address: {item.ipAddress}
+                  </Typography>
+                  <Typography component="div" variant="h5">
+                     {item.topic}
+                  </Typography>
+                  <Typography color="text.secondary" sx={{ mb: 1.5 }}>
+                     {item.email}
+                  </Typography>
+               </CardContent>
+               <CardActions>
+                  <Button color={isTicketActive(item.status) ? "success" : "error"} size="large"
+                          variant="contained">{isTicketActive(item.status) ? "ACTIVE" : "CLOSED"}</Button>
+                  <Button size="large">View more</Button>
+               </CardActions>
+            </Card>
+         ))}
       </AdminLayout>
    )
 }
