@@ -6,6 +6,8 @@ import { prisma } from "@lib/prisma"
 
 const bcrypt = require("bcrypt") // eslint-disable-line @typescript-eslint/no-var-requires
 
+const timeAlive = 60 * 60 //1h
+
 export default NextAuth({
    adapter: PrismaAdapter(prisma),
    providers: [
@@ -35,7 +37,10 @@ export default NextAuth({
       })
    ],
    pages: { signIn: "/auth/login", error: "auth/login", signOut: "/auth/logout" },
-   session: { strategy: "jwt" },
+   session: {
+      strategy: "jwt",
+      maxAge: timeAlive
+   },
    callbacks: {
       async redirect(data) {
          return `${data.baseUrl}/admin/tickets`
