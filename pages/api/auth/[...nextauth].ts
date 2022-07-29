@@ -6,7 +6,7 @@ import { prisma } from "@lib/prisma"
 
 const bcrypt = require("bcrypt") // eslint-disable-line @typescript-eslint/no-var-requires
 
-const timeAlive = 60 * 60 //1h
+const timeAlive = 15 * 60 // Session will be idle after 15min of inactivity
 
 export default NextAuth({
    adapter: PrismaAdapter(prisma),
