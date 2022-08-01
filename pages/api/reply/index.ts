@@ -35,6 +35,8 @@ router
 
          if (ticket.reply) return res.status(409).json({ message: "One reply per ticket is allowed" })
 
+         //TODO: Add AWS ticket reply logic
+
          await prisma.ticket.update({
             where: { id: ticketId },
             data: {
