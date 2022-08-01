@@ -3,7 +3,7 @@ import { TicketStatusEnum } from "@customTypes/admin/pages"
 import type { ButtonPropsColorOverrides } from "@mui/material/Button"
 import type { OverridableStringUnion } from "@mui/types"
 
-export const getTicketStatusColor = (status: TicketStatusEnum):
+export const getTicketStatusButtonColor = (status: TicketStatusEnum):
    OverridableStringUnion<
       "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning",
       ButtonPropsColorOverrides> => {

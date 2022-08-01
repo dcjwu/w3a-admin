@@ -16,9 +16,9 @@ export const DialogWithInputs: React.FC<DialogWithInputsType> = ({ isOpen, title
          <Dialog open={isOpen} onClose={handleCloseDialog}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
-               <DialogContentText>
+               {description && <DialogContentText>
                   {description}
-               </DialogContentText>
+               </DialogContentText>}
             </DialogContent>
             {children}
          </Dialog>

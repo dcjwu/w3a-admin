@@ -16,7 +16,7 @@ import { DialogStatusEnum } from "@customTypes/admin/components"
 import { useStatusDialog } from "@hooks/admin"
 import { useMainDialog } from "@hooks/admin/useMainDialog"
 
-import type { DialogStatusType, DialogWindowType, DialogWithInputsType } from "@customTypes/admin/components"
+import type { DialogStatusType, DialogConfirmType, DialogWithInputsType } from "@customTypes/admin/components"
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
 import type { AdminPageType } from "@customTypes/admin/pages"
 import type { GetServerSideProps, NextPage } from "next"
@@ -34,7 +34,7 @@ const Typography = dynamic(import("@mui/material/Typography"))
 
 const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
 const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
-const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin").then(module => module.DialogDelete))
+const DialogConfirm = dynamic<DialogConfirmType>(() => import("@components/admin").then(module => module.DialogConfirm))
 const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin").then(module => module.DialogStatus))
 
 const UploadPage: NextPage<AdminPageType> = ({
@@ -50,7 +50,7 @@ const UploadPage: NextPage<AdminPageType> = ({
    const [imageKey, setImageKey] = React.useState("")
 
    const handleOpenDeleteDialog = (key: string): void => {
-      toggleMainModal("delete", true)
+      toggleMainModal("confirm", true)
       setImageKey(key)
    }
 
@@ -98,7 +98,7 @@ const UploadPage: NextPage<AdminPageType> = ({
          .then(res => {
             if (res.status === 200) {
                router.replace(router.asPath)
-               toggleMainModal("delete", false)
+               toggleMainModal("confirm", false)
             } else {
                console.warn(res.data)
                toggleError("Something went wrong")
@@ -177,13 +177,13 @@ const UploadPage: NextPage<AdminPageType> = ({
                   </Box>
                </DialogContent>
             </DialogWithInputs>}
-         {isMainModalOpen.delete &&
-            <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
+         {isMainModalOpen.confirm &&
+            <DialogConfirm handleCloseDialog={(): void => toggleMainModal("confirm", false)}
                           handleDeleteEntity={handleRemoveFile}
-                          isOpen={isMainModalOpen.delete}
+                          isOpen={isMainModalOpen.confirm}
                           title="Are you sure you want to delete this image?">
                {null}
-            </DialogDelete>}
+            </DialogConfirm>}
          {isStatusModalOpen.alertSuccess && <Alert severity="success">
             <AlertTitle>Success</AlertTitle>
             <strong>Link copied!</strong>

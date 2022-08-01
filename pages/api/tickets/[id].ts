@@ -12,7 +12,7 @@ export const config = { api: { externalResolver: true } }
 
 const TicketIdDto = Joi.object({ id: Joi.string().uuid().required() })
 
-const PatchTicketDto = Joi.object({ status: Joi.string().valid("CLOSED", "ACTIVE") })
+const PatchTicketDto = Joi.object({ status: Joi.string().valid("CLOSED", "NEW") })
 
 router
    .use(authMiddleware)
@@ -24,17 +24,7 @@ router
          if (typeof id === "string") {
             const ticket = await prisma.ticket.findUnique({
                where: { id: id },
-               select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  companyName: true,
-                  status: true,
-                  topic: true,
-                  text: true,
-                  ipAddress: true,
-                  createdAt: true
-               },
+               include: { reply: true },
             })
             if (!ticket) return res.status(404).json({ message: "Ticket not found" })
 

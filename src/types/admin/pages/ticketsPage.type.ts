@@ -1,8 +1,9 @@
-import { ServerErrorMessageType } from "@customTypes/admin/common"
+import { FormDataType, ServerErrorMessageType } from "@customTypes/admin/common"
 
 export enum TicketStatusEnum {
-   ACTIVE = "ACTIVE",
-   CLOSED = "CLOSED"
+   NEW = "NEW",
+   CLOSED = "CLOSED",
+   REPLIED = "REPLIED"
 }
 
 interface ITicketsData {
@@ -14,7 +15,8 @@ interface ITicketsData {
    text: string,
    topic: string,
    companyName: string,
-   createdAt: Date
+   createdAt: Date,
+   reply: null | FormDataType
 }
 
 export type TicketsPageType = {

@@ -10,21 +10,21 @@ import { ThemeProvider } from "@mui/material/styles"
 
 import { theme } from "@lib/admin/mui/theme"
 
-import type { DialogWindowType } from "@customTypes/admin/components"
+import type { DialogConfirmType } from "@customTypes/admin/components"
 
-export const DialogDelete: React.FC<DialogWindowType> = ({ isOpen, title, handleCloseDialog, handleDeleteEntity, children }): JSX.Element => {
+export const DialogConfirm: React.FC<DialogConfirmType> = ({ isOpen, title, handleCloseDialog, handleDeleteEntity, children }): JSX.Element => {
    return (
       <ThemeProvider theme={theme}>
-         <Dialog aria-describedby="alert-dialog-description"
+         <Dialog aria-describedby="confirm-dialog-description"
          aria-labelledby="alert-dialog-title"
          open={isOpen}
          onClose={handleCloseDialog}
          >
-            <DialogTitle color="error" id="alert-dialog-title">
+            <DialogTitle color="error" id="confirm-dialog-title">
                {title}
             </DialogTitle>
             <DialogContent>
-               <DialogContentText id="alert-dialog-description">
+               <DialogContentText id="confirm-dialog-description">
                   {children}
                </DialogContentText>
             </DialogContent>

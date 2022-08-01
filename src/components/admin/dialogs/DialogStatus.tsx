@@ -25,8 +25,8 @@ export const DialogStatus: React.FC<DialogStatusType> = ({
 
    return (
       <ThemeProvider theme={theme}>
-         <Dialog aria-describedby="alert-dialog-description"
-                 aria-labelledby="alert-dialog-title"
+         <Dialog aria-describedby="status-dialog-description"
+                 aria-labelledby="status-dialog-title"
                  open={isOpen}
                  onClose={handleCloseDialog}
          >
@@ -37,7 +37,7 @@ export const DialogStatus: React.FC<DialogStatusType> = ({
                      marginTop: "16px",
                      marginBottom: "8px"
                   }}>
-                     <DialogContentText id="alert-dialog-description" sx={{
+                     <DialogContentText id="status-dialog-description" sx={{
                         marginTop: "16px",
                         marginBottom: "8px"
                      }}>
@@ -46,7 +46,7 @@ export const DialogStatus: React.FC<DialogStatusType> = ({
                      <LinearProgress color="secondary"/>
                   </Box>
                   : status === DialogStatusEnum.SUCCESS
-                     ? <DialogContentText id="alert-dialog-description" sx={{
+                     ? <DialogContentText id="status-dialog-description" sx={{
                         marginTop: "16px",
                         marginBottom: "8px"
                      }}>
@@ -55,7 +55,7 @@ export const DialogStatus: React.FC<DialogStatusType> = ({
                         </Typography>
                      </DialogContentText>
                      : status === DialogStatusEnum.ERROR
-                        ? <DialogContentText id="alert-dialog-description" sx={{
+                        ? <DialogContentText id="status-dialog-description" sx={{
                            marginTop: "16px",
                            marginBottom: "8px"
                         }}>

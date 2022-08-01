@@ -1,7 +1,7 @@
 import type React from "react"
 import type { MouseEventHandler } from "react"
 
-export type DialogWindowType = {
+export type DialogConfirmType = {
    isOpen: boolean,
    title: string,
    handleCloseDialog: MouseEventHandler<HTMLButtonElement>

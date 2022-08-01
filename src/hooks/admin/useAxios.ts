@@ -10,7 +10,7 @@ import type { DialogToggleType, UseAxiosType } from "@customTypes/admin/hooks"
 const methodMapping = new Map([
    [RequestMethodEnum.POST, ["201", "add"]],
    [RequestMethodEnum.PATCH, ["200", "edit"]],
-   [RequestMethodEnum.DELETE, ["200", "delete"]],
+   [RequestMethodEnum.DELETE, ["200", "confirm"]],
 ])
 
 export const useAxios = (): UseAxiosType => {

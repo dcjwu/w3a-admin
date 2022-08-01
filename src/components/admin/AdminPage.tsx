@@ -15,7 +15,7 @@ import type {
    DataTableType,
    DialogFormType,
    DialogStatusType,
-   DialogWindowType,
+   DialogConfirmType,
    DialogWithInputsType
 } from "@customTypes/admin/components"
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
@@ -28,7 +28,7 @@ const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"
 const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
 const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
 const DataTable = dynamic<DataTableType>(() => import("@components/admin/DataTable").then(module => module.DataTable), { loading: () => <Loading isOpen={true} message="Table"/> })
-const DialogDelete = dynamic<DialogWindowType>(() => import("@components/admin/dialogs/DialogDelete").then(module => module.DialogDelete))
+const DialogConfirm = dynamic<DialogConfirmType>(() => import("@components/admin/dialogs/DialogConfirm").then(module => module.DialogConfirm))
 const DialogForm = dynamic<DialogFormType>(() => import("@components/admin/dialogs/DialogForm").then(module => module.DialogForm))
 const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
 
@@ -51,7 +51,7 @@ export const AdminPage: React.FC<AdminPageComponentType> = ({
 
    const handleOpenDeleteDialog = (id: string): void => {
       setId(id)
-      toggleMainModal("delete", true)
+      toggleMainModal("confirm", true)
    }
 
    const handleOpenEditDialog = (index: number): void => {
@@ -113,12 +113,12 @@ export const AdminPage: React.FC<AdminPageComponentType> = ({
                   ))}
                </DialogForm>
             </DialogWithInputs>}
-         {isMainModalOpen.delete &&
-            <DialogDelete handleCloseDialog={(): void => toggleMainModal("delete", false)}
-                          handleDeleteEntity={handleDeleteEntity} isOpen={isMainModalOpen.delete}
+         {isMainModalOpen.confirm &&
+            <DialogConfirm handleCloseDialog={(): void => toggleMainModal("confirm", false)}
+                          handleDeleteEntity={handleDeleteEntity} isOpen={isMainModalOpen.confirm}
                           title={`Are you sure you want to delete ${name}?`}>
                {id}
-            </DialogDelete>}
+            </DialogConfirm>}
          <Button color="info"
                  size="large"
                  sx={{

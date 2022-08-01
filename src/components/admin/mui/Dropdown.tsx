@@ -13,6 +13,7 @@ export const Dropdown: React.FC<DropdownType> = ({
    name,
    label,
    dropdownItems,
+   disabledFields
 }): JSX.Element => {
 
    const formContext = React.useContext(FormContext)
@@ -31,7 +32,7 @@ export const Dropdown: React.FC<DropdownType> = ({
                  onChange={handleDropdownChange}
          >
             {dropdownItems.map(item => (
-               <MenuItem key={item} value={item}>{item}</MenuItem>
+               <MenuItem key={item} disabled={disabledFields?.includes(item)} value={item}>{item}</MenuItem>
             ))}
          </Select>
       </FormControl>
