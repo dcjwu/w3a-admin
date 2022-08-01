@@ -67,7 +67,8 @@ model VerificationToken {
 }
 
 enum TicketStatus {
-    ACTIVE
+    NEW
+    REPLIED
     CLOSED
 }
 
@@ -78,13 +79,30 @@ model Ticket {
    companyName              String?
    topic                    String
    text                     String
-   status                   TicketStatus @default(ACTIVE)
+   status                   TicketStatus @default(NEW)
    ipAddress                String?
+
+   reply                    TicketReply?
 
    createdAt                DateTime    @default(now())
    updatedAt                DateTime    @updatedAt
 
    @@map("tickets")
+}
+
+model TicketReply {
+   id                       String      @id @default(uuid())
+   recipientEmail           String
+   subject                  String
+   message                  String
+
+   ticket                   Ticket      @relation(fields: [ticketId], references: [id])
+   ticketId                 String      @unique
+
+   createdAt                DateTime    @default(now())
+   updatedAt                DateTime    @updatedAt
+
+   @@map("ticketReplies")
 }
 
 model Service {
