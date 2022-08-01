@@ -9,7 +9,7 @@ import moment from "moment/moment"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 
-import { Loading, StyledPaper } from "@components/admin"
+import { Loading } from "@components/admin"
 import { DialogInfo } from "@components/admin/dialogs/DialogInfo"
 import { DialogStatusEnum } from "@customTypes/admin/components"
 import { RequestMethodEnum } from "@customTypes/admin/hooks"
@@ -19,10 +19,12 @@ import type { FormDataType } from "@customTypes/admin/common"
 import type { DialogFormType, DialogStatusType, DialogWithInputsType } from "@customTypes/admin/components"
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
 import type { TicketsByIdPageType } from "@customTypes/admin/pages"
+import type { PaperProps } from "@mui/material"
 import type { TextFieldProps } from "@mui/material/TextField"
 import type { GetServerSideProps, NextPage } from "next"
 
 const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
+const StyledPaper = dynamic<PaperProps>(() => import("@components/admin").then(module => module.StyledPaper), { loading: () => <Loading isOpen={true} message="Tickets"/> })
 const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
 const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
 const DialogForm = dynamic<DialogFormType>(() => import("@components/admin/dialogs/DialogForm").then(module => module.DialogForm))
@@ -44,8 +46,6 @@ const TicketsPageById: NextPage<TicketsByIdPageType> = ({
    const [isStatusModalOpen, error, toggleLoading, toggleError, handleRequest] = useAxios()
 
    const [replyForm, setReplyForm] = React.useState(initialTicketReplyState)
-
-   // TODO: (Auto set status to replied when replied?)
 
    const handleToggleTicketStatus = async (status: string): Promise<void> => {
       await handleRequest(RequestMethodEnum.PATCH, `tickets/${data.id}`, toggleMainModal, { status: status })
