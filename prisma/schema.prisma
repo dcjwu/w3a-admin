@@ -175,4 +175,15 @@ model Member {
     @@map("members")
 }
 
+model Settings {
+    id                      String      @id @default(uuid())
+
+    webhookUrl              String?
+
+    createdAt               DateTime    @default(now())
+    updatedAt               DateTime    @updatedAt
+
+    @@map("settings")
+}
+
 
