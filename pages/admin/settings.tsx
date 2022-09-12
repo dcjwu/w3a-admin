@@ -1,14 +1,17 @@
 import React from "react"
 
 import Box from "@mui/material/Box/"
-import Button from "@mui/material/Button"
 import Grid from "@mui/material/Grid"
 import axios from "axios"
 import moment from "moment"
 import dynamic from "next/dynamic"
 
-import { DialogForm, DialogStatus, DialogWithInputs, Input, Item, Loading } from "@components/admin"
-import { DialogStatusEnum } from "@customTypes/admin/components"
+import { Item, Loading } from "@components/admin"
+import {
+   DialogFormType,
+   DialogStatusEnum, DialogStatusType,
+   DialogWithInputsType
+} from "@customTypes/admin/components"
 import { RequestMethodEnum } from "@customTypes/admin/hooks"
 import { useAxios, useMainDialog } from "@hooks/admin"
 import { isEditInputDisabled } from "@utils/isEditInputDisabled"
@@ -16,11 +19,17 @@ import { isEditInputDisabled } from "@utils/isEditInputDisabled"
 import type { FormDataType } from "@customTypes/admin/common"
 import type { AdminLayoutType } from "@customTypes/admin/layouts"
 import type { AdminPageType } from "@customTypes/admin/pages"
+import type { TextFieldProps } from "@mui/material/TextField"
 import type { GetServerSideProps, NextPage } from "next"
 
+const Button = dynamic(import("@mui/material/Button"))
 const Typography = dynamic(import("@mui/material/Typography"))
 
 const AdminLayout = dynamic<AdminLayoutType>(import("@layouts/admin/AdminLayout"), { loading: () => <Loading isOpen={true} message="Layout"/> })
+const DialogWithInputs = dynamic<DialogWithInputsType>(() => import("@components/admin").then(module => module.DialogWithInputs))
+const Input = dynamic<TextFieldProps>(() => import("@components/admin").then(module => module.Input))
+const DialogForm = dynamic<DialogFormType>(() => import("@components/admin/dialogs/DialogForm").then(module => module.DialogForm))
+const DialogStatus = dynamic<DialogStatusType>(() => import("@components/admin/dialogs/DialogStatus").then(module => module.DialogStatus))
 
 const Settings: NextPage<AdminPageType> = ({
    data,
