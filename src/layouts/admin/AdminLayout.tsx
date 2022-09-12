@@ -32,6 +32,7 @@ const List = dynamic(() => import("@mui/material/List"))
 const ListItem = dynamic(() => import("@mui/material/ListItem"))
 const LogoutIcon = dynamic(() => import("@mui/icons-material/Logout"))
 const MenuIcon = dynamic(() => import("@mui/icons-material/Menu"))
+const SettingsIcon = dynamic(() => import("@mui/icons-material/Settings"))
 const UploadFileIcon = dynamic(() => import("@mui/icons-material/UploadFile"))
 const QueryStatsIcon = dynamic(() => import("@mui/icons-material/QueryStats"))
 
@@ -139,16 +140,18 @@ const AdminLayout: React.FC<AdminLayoutType> = ({
                            </List>
                            <Divider/>
                            <List>
-                              {["Tickets", "Analytics", "Upload"].map((text, index) => (
+                              {["Tickets", "Analytics", "Upload", "Settings"].map((text, index) => (
                                  <ListItem key={text} disablePadding>
                                     <Link passHref href={`/admin/${text.toLowerCase()}`}>
                                        <ListItemButton component="a">
                                           <ListItemIcon>
                                              {text === "Upload"
                                                 ? <UploadFileIcon/>
-                                                : index % 2 === 0
-                                                   ? <InboxIcon/>
-                                                   : <QueryStatsIcon/>}
+                                                : text === "Settings"
+                                                   ? <SettingsIcon/>
+                                                   : index % 2 === 0
+                                                      ? <InboxIcon/>
+                                                      : <QueryStatsIcon/>}
                                           </ListItemIcon>
                                           <ListItemText primary={text}/>
                                        </ListItemButton>

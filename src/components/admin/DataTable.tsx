@@ -59,7 +59,7 @@ export const DataTable: React.FC<DataTableType> = ({
                                  return (
                                     <TableCell key={column + index} align="center">
                                        {isStringDate(column)
-                                          ? moment(column).format("DD/MM/YYYY HH:mm")
+                                          ? moment(column).local().format("DD/MM/YYYY HH:mm")
                                           : isStringUrl(column)
                                              ? <Link color="info.main" href={column}
                                                      target="_black" underline="hover"
@@ -92,7 +92,7 @@ export const DataTable: React.FC<DataTableType> = ({
                                          variant="outlined"
                                          onClick={(): void => handleOpenDeleteDialog(row[0])}
                                  >
-                                    Delete,
+                                    Delete
                                  </Button>
                               </TableCell>
                            </TableRow>

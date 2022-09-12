@@ -226,7 +226,7 @@ const UploadPage: NextPage<AdminPageType> = ({
                                     Size: {(+card.Size / 1024).toFixed(2)}kb
                                  </ListItem>
                                  <ListItem>
-                                    Added: {moment(card.LastModified).format("DD/MM/YYYY")}
+                                    Added: {moment(card.LastModified).local().format("DD/MM/YYYY")}
                                  </ListItem>
                               </List>
                            </CardContent>
