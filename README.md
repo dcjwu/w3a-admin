@@ -1,14 +1,12 @@
-Run the development server with PostgreSQL:
+#### Context:
+__June 2022 - August 2022.__ After gaining huge amount of experience on [Qulkey project](https://github.com/dcjwu/qualkey) I was trying to implement fullstack application from scratch. It was planned to be used as an admin dashboard for an agency I was working on that time.
 
-```bash
-make up
-```
+#### Technologies used:
+- Next.js
+- Prisma ORM
+- Docker
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Status:
+Project is abandoned.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### After cloning the project start it by executing this command: ```make up```
