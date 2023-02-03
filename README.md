@@ -1,4 +1,4 @@
-Database in Docker container and dev server:
+To run development server and database in Docker container:
 
 ```
 make up
